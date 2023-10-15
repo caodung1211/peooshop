@@ -5,35 +5,41 @@
             <ul class="item-menu-children">
                 <ng-container *ngFor="let menu of item.items; let i = index;">
                     <li class="sub-item-menu">
-                        <div class="menu-title d-flex">
+                        <a [routerLink]="menu.routerLink" [routerLinkActive]="['active']" class="pl-2 menu-title d-flex justify-content-between align-items-center">
                             <div>
                                 <i [ngClass]="menu.icon" class="layout-menuitem-icon"></i>
                                 <span class="layout-menuitem-text">{{menu.label}}</span>
                             </div>
                             <i class="pi pi-fw pi-angle-down layout-submenu-toggler" *ngIf="menu.items"></i>
-                        </div>
-                        <!-- <ul class="sub-children">
+                        </a>
+                        <ul>
                             <ng-container *ngFor="let sub_menu of menu.items; let i = index;">
-                                <li class="item-menu pl-4 d-flex">
-                                    <div>
-                                        <i [ngClass]="sub_menu.icon" class="layout-menuitem-icon"></i>
-                                        <span class="layout-menuitem-text">{{sub_menu.label}}</span>
+                                <li class="item-menu">
+                                    <div class="pl-4 d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <i [ngClass]="sub_menu.icon" class="layout-menuitem-icon"></i>
+                                            <span class="layout-menuitem-text">{{sub_menu.label}}</span>
+                                        </div>
+                                        <i class="pi pi-fw pi-angle-down layout-submenu-toggler" *ngIf="sub_menu.items"></i>
                                     </div>
-                                    <i class="pi pi-fw pi-angle-down layout-submenu-toggler" *ngIf="sub_menu.items"></i>
 
-                                    <ul class="sub-children">
+                                    <ul>
                                         <ng-container *ngFor="let sub_sub_menu of sub_menu.items; let i = index;">
-                                            <li class="item-menu pl-6">
-                                                <i [ngClass]="sub_sub_menu.icon" class="layout-menuitem-icon"></i>
-                                                <span class="layout-menuitem-text">{{sub_sub_menu.label}}</span>
-                                                <i class="pi pi-fw pi-angle-down layout-submenu-toggler" *ngIf="sub_sub_menu.items"></i>
+                                            <li
+                                                class="item-menu pl-6 d-flex justify-content-between align-items-center">
+                                                <div>
+                                                    <i [ngClass]="sub_sub_menu.icon" class="layout-menuitem-icon"></i>
+                                                    <span class="layout-menuitem-text">{{sub_sub_menu.label}}</span>
+                                                </div>
+                                                <i class="pi pi-fw pi-angle-down layout-submenu-toggler"
+                                                    *ngIf="sub_sub_menu.items"></i>
                                             </li>
                                         </ng-container>
                                     </ul>
 
                                 </li>
                             </ng-container>
-                        </ul> -->
+                        </ul>
                     </li>
                 </ng-container>
             </ul>

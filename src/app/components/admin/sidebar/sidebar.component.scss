@@ -1,40 +1,42 @@
-ul{
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  li {
     list-style: none;
-    margin: 0;
-    padding: 0;
-    li{
-        list-style: none;
-        &.item-menu{
-            .title {
-                font-size: .857rem;
-                text-transform: uppercase;
-                font-weight: 700;
-                color: #000;
-                margin: 0.75rem 0;
-            }
-            .menu-title {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-            }
-            ul.children {
-                position: relative;
-                color: #000;
-                cursor: pointer;
-                // padding: 0.75rem 1rem;
-                border-radius: 12px;
-                transition: background-color .2s,box-shadow .2s;
-
-            }
+    &.item-menu {
+      .title {
+        font-size: 0.857rem;
+        text-transform: uppercase;
+        font-weight: 700;
+        color: #000;
+        margin: 0.75rem 0;
+      }
+      .menu-title {
+        cursor: pointer;
+        border-radius: 7px;
+        transition: all 0.5s;
+        &.active,&:hover {
+          background: #88888870;
         }
+      }
+      ul.children {
+        position: relative;
+        color: #000;
+        cursor: pointer;
+        // padding: 0.75rem 1rem;
+        border-radius: 12px;
+        transition: background-color 0.2s, box-shadow 0.2s;
+      }
     }
+  }
 }
-.pl-2{
-    padding: 10px;
+.pl-2 {
+  padding: 10px;
 }
-.pl-4{
-    padding-left: 26px;
+.pl-4 {
+  padding: 10px 10px 10px 26px;
 }
-.pl-6{
-    padding-left: 18px;
+.pl-6 {
+  padding: 10px 10px 10px 40px;
 }

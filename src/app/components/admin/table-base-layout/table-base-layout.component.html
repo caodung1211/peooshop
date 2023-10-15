@@ -1,0 +1,23 @@
+<p-table #dt [value]="dataTable" [(selection)]="selectedItems" dataKey="id" [rowHover]="true" [rows]="10"
+    [showCurrentPageReport]="true" [rowsPerPageOptions]="rowsPerPageOptions" [paginator]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [filterDelay]="0"
+    [globalFilterFields]="globalFilterFields">
+    <ng-template pTemplate="header">
+        <tr>
+            <th style="width: 4rem">
+                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+            </th>
+
+            <th *ngFor="let column of columns; index as i">
+                {{column.header}}
+            </th>
+
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-data>
+
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+        <p>No data found.</p>
+    </ng-template>
+</p-table>

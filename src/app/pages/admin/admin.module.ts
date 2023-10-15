@@ -11,6 +11,8 @@ const routes: Routes = [
     component: AdminComponent,
     children:[
       { path: 'dashboard', loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule) },
+      { path: 'products', loadChildren: () => import('./products/products/products.module').then(m => m.ProductsModule) },
+      { path: 'categories', loadChildren: () => import('./products/categories/categories.module').then(m => m.CategoriesModule) },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: '**', loadChildren: () => import('../page404/page404.module').then(m => m.Page404Module) }
     ]
