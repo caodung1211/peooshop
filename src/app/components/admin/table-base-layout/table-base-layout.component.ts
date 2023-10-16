@@ -1,4 +1,4 @@
-import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 
 @Component({
   selector: 'app-table-base-layout',
@@ -6,8 +6,8 @@ import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
   styleUrls: ['./table-base-layout.component.scss']
 })
 export class TableBaseLayoutComponent implements OnInit, OnChanges{
-  dataTable!: any[];
-  columns!: any[];
+  @Input() dataTable!: any[];
+  @Input() columns!: any[];
 
   selectedItems!: any[];
 
@@ -19,19 +19,13 @@ export class TableBaseLayoutComponent implements OnInit, OnChanges{
 
   ngOnChanges(changes: SimpleChanges) {
     this.handleColumns()
+    console.log(this.dataTable)
   }
 
   ngOnInit() {
-    this.dataTable = [];
   }
 
   handleColumns(){
-    this.columns = [
-      { field: 'name', header: 'Ten', visible: true, typeFilter: 'text', showFilter: true },
-      { field: 'avatar', header: 'Anh dai dien', visible: true, typeFilter: '', showFilter: false },
-      { field: 'description', header: 'Mo ta', visible: true, typeFilter: 'text', showFilter: true },
-    ]
-
     // this.columns.map((x:any)=>{
     //   this.globalFilterFields.push(x.field)
     //   return x
