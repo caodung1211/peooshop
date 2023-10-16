@@ -25,7 +25,11 @@
                     {{data[column.field]}}
                 </ng-container>
                 <ng-container *ngIf="column.type === 'image' ">
-                    <img [src]="column.field" alt=""> 
+                    <img [src]="data[column.field]" alt=""> 
+                </ng-container>
+                <ng-container *ngIf="column.type === 'switch' ">
+                    <p-inputSwitch [(ngModel)]="data[column.field]"></p-inputSwitch>
+
                 </ng-container>
             </th>
 
