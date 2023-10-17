@@ -4,4 +4,11 @@ table {
 
 img{
   width: 100%;
+  max-width: 100px;
+}
+::ng-deep .mat-mdc-slide-toggle .mdc-switch.mdc-switch--selected:enabled .mdc-switch__handle::after {
+  background: #3876BF !important; 
+}
+::ng-deep .mat-mdc-slide-toggle .mdc-switch:enabled:hover:not(:focus):not(:active) .mdc-switch__track::after {
+  background: #b5b5b5 !important;
 }

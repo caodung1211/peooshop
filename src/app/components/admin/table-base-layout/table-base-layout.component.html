@@ -1,41 +1,49 @@
-<p-table #dt [value]="dataTable" [(selection)]="selectedItems" dataKey="id" [rowHover]="true" [rows]="10"
-    [showCurrentPageReport]="true" [rowsPerPageOptions]="rowsPerPageOptions" [paginator]="true"
-    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [filterDelay]="0"
-    [globalFilterFields]="globalFilterFields">
-    <ng-template pTemplate="header">
-        <tr>
-            <th style="width: 4rem">
-                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-            </th>
 
-            <th *ngFor="let column of columns; index as i">
-                {{column.header}}
-            </th>
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-data>
-        <tr>
-            <th style="width: 4rem">
-                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-            </th>
+    <ng-container matColumnDef="checkbox" *ngIf="config.checkbox">
+        <th mat-header-cell *matHeaderCellDef>
+            <mat-checkbox (change)="$event ? masterToggle() : null"
+                          [checked]="selection.hasValue() && isAllSelected()"
+                          [indeterminate]="selection.hasValue() && !isAllSelected()">
+            </mat-checkbox>
+          </th>
+          <td mat-cell *matCellDef="let row">
+            <mat-checkbox (click)="$event.stopPropagation()"
+                          (change)="$event ? selection.toggle(row) : null"
+                          [checked]="selection.isSelected(row)">
+            </mat-checkbox>
+          </td>
+    </ng-container>
 
-            <th *ngFor="let column of columns; index as i">
+    <ng-container *ngFor="let column of columns; index as i">
+        <ng-container [matColumnDef]="column.field">
+            <th mat-header-cell *matHeaderCellDef>
+                <div [ngClass]="{'text-center': column.center}">{{column.header}}</div>
+            </th>
+           
+            <!-- <td *ngIf="config.checkbox">
+                <mat-checkbox [(ngModel)]="dataSource[i][column.field]">
+                </mat-checkbox>
+            </td> -->
+            <td mat-cell *matCellDef="let element">
                 <ng-container *ngIf="column.type === 'text' ">
-                    {{data[column.field]}}
+                    {{element[column.field]}}
                 </ng-container>
+
                 <ng-container *ngIf="column.type === 'image' ">
-                    <img [src]="data[column.field]" alt=""> 
+                    <img [src]="element[column.field]" alt="">
                 </ng-container>
+
                 <ng-container *ngIf="column.type === 'switch' ">
-                    <p-inputSwitch [(ngModel)]="data[column.field]"></p-inputSwitch>
-
+                    <mat-slide-toggle [checked]="element[column.field]"></mat-slide-toggle>
                 </ng-container>
-            </th>
+            </td>
 
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="emptymessage">
-        <p>No data found.</p>
-    </ng-template>
-</p-table>
+
+        </ng-container>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>

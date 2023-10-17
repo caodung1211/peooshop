@@ -6,7 +6,6 @@ import { AppComponent } from './app.component';
 import { MainLayoutModule } from './layouts/main-layout/main-layout.module';
 import { AuthLayoutModule } from './layouts/auth-layout/auth-layout.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 @NgModule({
   declarations: [
     AppComponent
@@ -16,7 +15,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AppRoutingModule,
     MainLayoutModule,
     AuthLayoutModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
