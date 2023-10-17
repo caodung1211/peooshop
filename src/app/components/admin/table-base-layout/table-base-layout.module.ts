@@ -5,6 +5,8 @@ import {FormsModule} from '@angular/forms';
 import {MatTableModule} from '@angular/material/table';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatIconModule} from '@angular/material/icon';
+
 @NgModule({
   declarations: [
     TableBaseLayoutComponent
@@ -14,7 +16,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     FormsModule,
     MatTableModule,
     MatSlideToggleModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatIconModule
   ],
   exports: [TableBaseLayoutComponent]
 })

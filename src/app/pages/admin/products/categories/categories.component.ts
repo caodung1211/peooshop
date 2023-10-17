@@ -18,10 +18,13 @@ export class CategoriesComponent implements OnInit {
   dataTable:any = []
 
 config:IConfigTableBase = {
-  checkbox: true
+  checkbox: true,
+  stt: true,
+  actions: ['edit','view','delete']
 }
 
   ngOnInit() {
+    this.dataTable = dataTableCategories
   }
 
 }

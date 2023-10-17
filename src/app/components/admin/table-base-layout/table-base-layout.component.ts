@@ -29,8 +29,7 @@ export class TableBaseLayoutComponent implements OnInit, OnChanges, AfterViewIni
 
   ngOnChanges(changes: SimpleChanges) {
     this.handleColumns()
-    this.dataSource = new MatTableDataSource()
-    console.log(this.displayedColumns)
+    this.handleDataSource()
   }
 
   ngOnInit() {
@@ -52,11 +51,26 @@ export class TableBaseLayoutComponent implements OnInit, OnChanges, AfterViewIni
       })
     }
 
+    if(this.config.stt){
+      this.displayedColumns.push('stt')
+      // this.dataTable.map((x:any,index:number)=>{
+      //   x.stt = index + 1
+      //   return x
+      // })
+    }
 
     this.columns.map((x:any)=>{
       this.displayedColumns.push(x.field)
       return x
     })
+
+    if(this.config.actions){
+      this.displayedColumns.push('action')
+    }
+  }
+
+  handleDataSource(){
+    this.dataSource = new MatTableDataSource(this.dataTable)
   }
 
   isAllSelected() {
