@@ -3,17 +3,28 @@ import { CommonModule } from '@angular/common';
 import { CategoriesComponent } from './categories.component';
 import { RouterModule } from '@angular/router';
 import { TableBaseLayoutModule } from 'src/app/components/admin/table-base-layout/table-base-layout.module';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [
-    CategoriesComponent
-  ],
+  declarations: [CategoriesComponent],
   imports: [
     CommonModule,
     RouterModule.forChild([
-      { path: '', component: CategoriesComponent }
+      {
+        path: '',
+        component: CategoriesComponent,
+        data: {
+          breadcrumb: 'Danh mục sản phẩm',
+        },
+      },
     ]),
-    TableBaseLayoutModule
-  ]
+    TableBaseLayoutModule,
+    MatButtonModule,
+    MatDialogModule,
+    FormsModule,
+    ReactiveFormsModule,
+  ],
 })
-export class CategoriesModule { }
+export class CategoriesModule {}

@@ -1,0 +1,29 @@
+<form (ngSubmit)="onSubmit()" #Form="ngForm" class="p-4">
+    
+
+    <div class="row">
+        <div class="col-12">
+            <mat-form-field class="example-full-width">
+                <mat-label>Tên danh mục</mat-label>
+                <input type="text" matInput name="1" [(ngModel)]="dataCategory.name"
+                       placeholder="Tên danh mục">
+              </mat-form-field>
+        </div>
+
+        <div class="col-12">
+            <mat-form-field class="example-full-width">
+                <mat-label>Tên danh mục</mat-label>
+                <input type="text" matInput name="2" [(ngModel)]="dataCategory.name"
+                       placeholder="Tên danh mục">
+              </mat-form-field>
+        </div>
+
+        <div class="col-12">
+            <mat-form-field class="example-full-width">
+                <mat-label>Mô tả</mat-label>
+                <textarea  name="3" [(ngModel)]="dataCategory.description"
+                       placeholder="Tên danh mục"></textarea>
+              </mat-form-field>
+        </div>
+    </div>
+</form>

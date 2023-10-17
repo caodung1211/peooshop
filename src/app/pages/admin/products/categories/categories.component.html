@@ -1,1 +1,3 @@
-<app-table-base-layout [columns]="columns" [dataTable]="dataTable" [config]="config"></app-table-base-layout>
+<button mat-raised-button color="primary" (click)="addNew('0ms', '0ms')"><i class="material-icons">add</i>Thêm mới</button>
+
+<app-table-base-layout [columns]="columns" [dataTable]="dataTable" [config]="config" (actionTable)="handleActionTable($event)"></app-table-base-layout>

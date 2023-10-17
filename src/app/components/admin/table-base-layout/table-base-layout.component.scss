@@ -12,3 +12,7 @@ img{
 ::ng-deep .mat-mdc-slide-toggle .mdc-switch:enabled:hover:not(:focus):not(:active) .mdc-switch__track::after {
   background: #b5b5b5 !important;
 }
+
+th.mat-sort-header-sorted {
+  color: black;
+}
