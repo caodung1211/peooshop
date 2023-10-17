@@ -3,6 +3,7 @@ import { IConfigTableBase } from 'src/app/components/admin/table-base-layout/tab
 import dataTableCategories from './../../../../json/categories.json';  
 import { MatDialog } from '@angular/material/dialog';
 import { AddOrEditCategoryComponent } from './add-or-edit-category/add-or-edit-category.component';
+import { DialogConfirmCategoryComponent } from './dialog-confirm-category/dialog-confirm-category.component';
 
 @Component({
   selector: 'app-categories',
@@ -35,26 +36,37 @@ export class CategoriesComponent implements OnInit {
   handleActionTable(event:any){
     switch (event.type) {
       case 'edit':
-        this.addNew('0ms', '0ms',event.data)
+        this.addNew(event.data,event.type)
         break;
       case 'view':
-        
+        this.addNew(event.data,event.type)
         break;
       case 'delete':
-        
+        this.removeItems(event.data.id)
         break;
       default:
         break;
     }
   }
 
-  addNew(enterAnimationDuration: string, exitAnimationDuration: string, data?:any): void {
+  addNew(data:any,type:string): void {
     this.dialog.open(AddOrEditCategoryComponent, {
       width: '70%',
-      enterAnimationDuration,
-      exitAnimationDuration,
       data: {
+        type: type,
+        header: (type === 'add' ? 'Thêm mới' : (type === 'view' ? 'Xem chi tiết' : 'Chỉnh sửa')),
         data: data
+      }
+    });
+  }
+
+  removeItems(id:string): void {
+    this.dialog.open(DialogConfirmCategoryComponent, {
+      width: '400px',
+      data: {
+        title: "Xóa danh mục",
+        message: "Bạn có muốn xóa danh mục này?",
+        id: id
       }
     });
   }

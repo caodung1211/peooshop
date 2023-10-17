@@ -6,9 +6,10 @@ import { TableBaseLayoutModule } from 'src/app/components/admin/table-base-layou
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DialogConfirmCategoryComponent } from './dialog-confirm-category/dialog-confirm-category.component';
 
 @NgModule({
-  declarations: [CategoriesComponent],
+  declarations: [CategoriesComponent, DialogConfirmCategoryComponent],
   imports: [
     CommonModule,
     RouterModule.forChild([
