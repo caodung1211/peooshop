@@ -29,6 +29,8 @@ export class TableBaseLayoutComponent implements OnInit, OnChanges, AfterViewIni
   pageSizeOptions = [5, 10, 20, 50, 100]
   pageSize = 5
   
+  objectFilter:any = {}
+
   constructor(private _liveAnnouncer: LiveAnnouncer) {}
 
   ngOnChanges(changes: SimpleChanges) {
@@ -64,6 +66,7 @@ export class TableBaseLayoutComponent implements OnInit, OnChanges, AfterViewIni
     }
 
     this.columns.map((x:any)=>{
+      this.objectFilter[x.field] = ''
       this.displayedColumns.push(x.field)
       return x
     })
@@ -73,7 +76,27 @@ export class TableBaseLayoutComponent implements OnInit, OnChanges, AfterViewIni
     }
   }
 
+  filterTable(filter:any, event:any) {
+    let temp:any = []
+
+    this.displayedColumns.map(z=>{
+        temp = this.dataTable.filter(x=>{
+            if(typeof x[z] === 'string'){
+              return x[z].includes(this.objectFilter[z]) 
+            }
+          })
+console.log(temp)
+      return z
+    })
+    this.dataSource = new MatTableDataSource(temp);
+
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+
+  }
+
   handleDataSource(){
+    console.log(this.dataTable.length)
     this.dataSource = new MatTableDataSource(this.dataTable)
   }
 
@@ -109,5 +132,4 @@ export class TableBaseLayoutComponent implements OnInit, OnChanges, AfterViewIni
     }
     this.actionTable.emit(dataEmit)
   }
-
 }

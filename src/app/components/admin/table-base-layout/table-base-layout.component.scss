@@ -20,3 +20,25 @@ th.mat-sort-header-sorted {
 .mdc-data-table__cell {
   padding: 16px !important;
 }
+// ::ng-deep .mat-sort-header-arrow{
+//   position: absolute !important;
+//   right: -18px;
+// }
+.mdc-data-table__header-cell {
+  padding: 15px 10px;
+}
+::ng-deep .mat-sort-header-container {
+  justify-content: center;
+}
+
+input{
+  padding: 3px 7px;
+  border-radius: 6px;
+  border: 1px solid #000;
+  width: 100%;
+  &.hidden{
+    opacity: 0;
+    position: relative;
+    z-index: -111;
+  }
+}

@@ -20,8 +20,15 @@
     </ng-container>
 
     <ng-container matColumnDef="stt">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>
-        <div class="text-center">STT</div>
+      <th mat-header-cell *matHeaderCellDef>
+        <div class="d-grid">
+          <div class="header" mat-sort-header>
+            <div class="text-center">STT</div>
+          </div>
+          <div class="filter">
+            <input matInput type="text" name="1" placeholder="Tên danh mục">
+          </div>
+        </div>
       </th>
       <td mat-cell *matCellDef="let element; let i = index">
         <div class="text-center">{{ element.stt}}</div>
@@ -29,7 +36,18 @@
     </ng-container>
 
     <ng-container matColumnDef="action">
-      <th mat-header-cell *matHeaderCellDef class="text-center">Hành động</th>
+      <th mat-header-cell *matHeaderCellDef>
+        <div class="d-grid">
+          <div class="header" mat-sort-header>
+            <div class="text-center">
+              Hành động
+            </div>
+          </div>
+          <div class="filter">
+            <input matInput type="text" name="1" placeholder="Tên danh mục" style="opacity: 0;position: relative;z-index: -111;">
+          </div>
+        </div>
+      </th>
       <td mat-cell *matCellDef="let element; let i = index">
         <div class="d-flex justify-content-center align-items-center gap-2">
           <ng-container *ngFor="let action of config.actions">
@@ -55,9 +73,17 @@
 
     <ng-container *ngFor="let column of columns; index as i">
       <ng-container [matColumnDef]="column.field">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>
-          <div [ngClass]="{ 'text-center': column.center }">
-            {{ column.header }}
+        
+        <th mat-header-cell *matHeaderCellDef>
+          <div class="d-grid">
+            <div class="header" mat-sort-header>
+              <div [ngClass]="{ 'text-center': column.center }">
+                {{ column.header }}
+              </div>
+            </div>
+            <div class="filter">
+              <input matInput type="text" name="1" [(ngModel)]="objectFilter[column.field]" (ngModelChange)="filterTable(column.field,$event)" placeholder="Tên danh mục" [ngClass]="{'hidden': !column.showFilter}">
+            </div>
           </div>
         </th>
 
