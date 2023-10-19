@@ -1,6 +1,6 @@
 <div class="p-4">
     <h2 mat-dialog-title class="text-center mb-4">{{header}}</h2>
-    <form #Form="ngForm">
+    <form #userForm="ngForm">
 
         <div class="row">
 
@@ -13,29 +13,29 @@
                 <img [src]="dataCategory.avatar ? dataCategory.avatar : '../../../../../assets/images/no_image.png'" *ngIf="data.type === 'view'" class="img">
             </div>
 
-            <div class="col-12">
+            <div class="col-12 mb-4">
                 <mat-form-field class="example-full-width">
                     <mat-label>Tên danh mục</mat-label>
-                    <input matInput type="text" name="1" [readonly]="data.type === 'view'" [(ngModel)]="dataCategory.name" placeholder="Tên danh mục">
+                    <input matInput type="text" name="name" required #name="ngModel" [readonly]="data.type === 'view'" [(ngModel)]="dataCategory.name" placeholder="Tên danh mục" required>
                 </mat-form-field>
+                <app-errors-message [control]="name.control" [name]="'Tên danh mục'"></app-errors-message>
             </div>
-
-            <div class="col-12">
+            <div class="col-12 mb-4">
                 <mat-form-field class="example-full-width">
                     <mat-label>Mô tả</mat-label>
-                    <textarea matInput name="3" [readonly]="data.type === 'view'" [(ngModel)]="dataCategory.description"
-                        placeholder="Tên danh mục"></textarea>
+                    <textarea matInput name="description" [readonly]="data.type === 'view'" [(ngModel)]="dataCategory.description" required #description="ngModel" placeholder="Tên danh mục"></textarea>
                 </mat-form-field>
+                <app-errors-message [control]="description.control" [name]="'Mô tả'"></app-errors-message>
             </div>
 
             <div class="col-12 d-flex gap-3">
                 <mat-label>Trạng thái</mat-label>
                 <mat-slide-toggle [checked]="dataCategory.status" [disabled]="data.type === 'view'"></mat-slide-toggle>
             </div>
-
+            {{dataCategory | json}}
             <div class="col-12 d-flex gap-3 mt-4 justify-content-center" *ngIf="data.type !== 'view'">
                 <button mat-flat-button color="primary" (click)="cancel()">Hủy</button>
-                <button mat-raised-button color="primary" (click)="onSubmit()">Lưu</button>
+                <button mat-raised-button color="primary" [disabled]="!userForm.valid" (click)="onSubmit()">Lưu</button>
             </div>
 
         </div>

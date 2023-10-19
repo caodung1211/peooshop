@@ -4,6 +4,7 @@ import dataTableCategories from './../../../../json/categories.json';
 import { MatDialog } from '@angular/material/dialog';
 import { AddOrEditCategoryComponent } from './add-or-edit-category/add-or-edit-category.component';
 import { DialogConfirmCategoryComponent } from './dialog-confirm-category/dialog-confirm-category.component';
+import { CategoriesService } from './categories.service';
 
 @Component({
   selector: 'app-categories',
@@ -27,10 +28,16 @@ export class CategoriesComponent implements OnInit {
     actions: ['edit','view','delete']
   }
 
-  constructor(public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog,private CategoriesService:CategoriesService) {}
 
   ngOnInit() {
-    this.dataTable = dataTableCategories
+    this.loadData()
+  }
+
+  loadData(){
+    this.CategoriesService.getListCategory().subscribe(res=>{
+      this.dataTable = res
+    })
   }
 
   handleActionTable(event:any){

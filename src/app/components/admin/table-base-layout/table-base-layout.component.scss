@@ -42,3 +42,7 @@ input{
     z-index: -111;
   }
 }
+
+::ng-deep .mat-mdc-paginator-container{
+  justify-content: center !important;
+}

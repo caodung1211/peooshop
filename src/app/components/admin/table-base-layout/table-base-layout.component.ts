@@ -76,24 +76,11 @@ export class TableBaseLayoutComponent implements OnInit, OnChanges, AfterViewIni
     }
   }
 
-  filterTable(filter:any, event:any) {
-    let temp:any = []
-
-    this.displayedColumns.map(z=>{
-        temp = this.dataTable.filter(x=>{
-            if(typeof x[z] === 'string'){
-              return x[z].includes(this.objectFilter[z]) 
-            }
-          })
-console.log(temp)
-      return z
-    })
-    this.dataSource = new MatTableDataSource(temp);
-
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
+
 
   handleDataSource(){
     console.log(this.dataTable.length)

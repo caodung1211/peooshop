@@ -7,9 +7,10 @@ import { MainLayoutModule } from './layouts/main-layout/main-layout.module';
 import { AuthLayoutModule } from './layouts/auth-layout/auth-layout.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TableBaseLayoutModule } from './components/admin/table-base-layout/table-base-layout.module';
+import { HttpClientModule } from '@angular/common/http';
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,
@@ -17,7 +18,8 @@ import { TableBaseLayoutModule } from './components/admin/table-base-layout/tabl
     MainLayoutModule,
     AuthLayoutModule,
     BrowserAnimationsModule,
-    TableBaseLayoutModule
+    TableBaseLayoutModule,
+    HttpClientModule
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

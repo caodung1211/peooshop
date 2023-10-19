@@ -26,6 +26,7 @@ import { DialogConfirmCategoryComponent } from './dialog-confirm-category/dialog
     MatDialogModule,
     FormsModule,
     ReactiveFormsModule,
+    
   ],
 })
 export class CategoriesModule {}
