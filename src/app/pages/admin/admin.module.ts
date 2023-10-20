@@ -5,6 +5,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { TopbarComponent } from 'src/app/components/admin/topbar/topbar.component';
 import { SidebarComponent } from 'src/app/components/admin/sidebar/sidebar.component';
 import { BreadcrumbModule } from 'src/app/components/admin/breadcrumb/breadcrumb.module';
+import {MessageService} from 'primeng/api';
+import { ToastModule } from 'primeng';
+import { DataBroadcastService } from 'src/app/service/data-broadcast.service';
 
 const routes: Routes = [
   {
@@ -32,10 +35,12 @@ const routes: Routes = [
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
   ],
+  providers: [MessageService,DataBroadcastService],
   imports: [
     CommonModule,
     BreadcrumbModule,
     RouterModule.forChild(routes),
+    ToastModule 
   ]
 })
 export class AdminModule { }

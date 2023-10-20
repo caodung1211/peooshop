@@ -11,6 +11,9 @@ import { CommonModule } from '@angular/common';
 import { ErrorsMessageModule } from 'src/app/components/admin/errors-message/errors-message.module';
 import { CategoriesService } from '../categories.service';
 
+import { MessageService } from 'primeng/api';
+
+
 @Component({
   selector: 'app-add-or-edit-category',
   templateUrl: './add-or-edit-category.component.html',
@@ -35,8 +38,9 @@ export class AddOrEditCategoryComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<AddOrEditCategoryComponent>,
     private CategoriesService: CategoriesService,
+    private messageService: MessageService,
     @Inject(MAT_DIALOG_DATA) public data: any
-    ) {
+  ) {
     this.header = this.data.header;
     if (this.data.data) {
       this.dataCategory = this.data.data;
@@ -50,42 +54,78 @@ export class AddOrEditCategoryComponent implements OnInit {
     }
   }
 
+  alertSuccess(title:string, detail:string){
+    this.messageService.add({ severity: 'success', summary: title, detail: detail, life: 5000});
+  }
+
+  alertFailed(title:string, detail:string){
+    this.messageService.add({ severity: 'error', summary: title, detail: detail, life: 5000});
+  }
+
   ngOnInit() {}
 
-  onSubmit() {
-
-    if(this.imgFile){
+  onSubmit(type: string) {
+    if (this.imgFile) {
       const formdata = new FormData();
       formdata.append('image', this.imgFile);
       this.CategoriesService.uploadImage(formdata).subscribe((res) => {
-        if(res.status === 200){
-          this.dataCategory.avatar = res.url
+        if (res.status === 200) {
+          this.dataCategory.avatar = res.url;
 
-          this.CategoriesService.createCategory(this.dataCategory).subscribe((resCreate) => {
-            if(resCreate.status === 200){
-              alert('done ' + resCreate.message)
-            }else{
-              alert('Faild create' + resCreate.message)
+          if (type === 'add') {
+            this.CategoriesService.createCategory(this.dataCategory).subscribe(
+              (resCreate) => {
+                if (resCreate.status === 200) {
+                  this.alertSuccess('Thành công',resCreate.message)
+                } else {
+                  this.alertFailed('Thất bại',resCreate.message)
+                }
+              }
+            );
+          } else {
+            this.CategoriesService.editCategory(
+              this.dataCategory.id,
+              this.dataCategory
+            ).subscribe((resCreate) => {
+              if (resCreate.status === 200) {
+                this.alertSuccess('Thành công',resCreate.message)
+              } else {
+                this.alertFailed('Thất bại',resCreate.message)
+              }
+            });
+          }
+        } else {
+          this.alertFailed('Thất bại',res.message)
+        }
+      });
+    } else {
+      this.dataCategory.avatar = this.dataCategory.avatar
+        ? this.dataCategory.avatar
+        : 'https://peooshop.top/wp/wp-content/themes/peooshop/images/no_image.png';
+
+      if (type === 'add') {
+        this.CategoriesService.createCategory(this.dataCategory).subscribe(
+          (resCreate) => {
+            if (resCreate.status === 200) {
+              this.alertSuccess('Thành công',resCreate.message)
+            } else {
+              this.alertFailed('Thất bại',resCreate.message)
             }
-          });
-
-        }else{
-          alert('Faild ' + res.message)
-        }
-      });
-    }else{
-      this.dataCategory.avatar = this.dataCategory.avatar ? this.dataCategory.avatar : 'https://peooshop.top/wp/wp-content/themes/peooshop/images/no_image.png'
-
-      this.CategoriesService.createCategory(this.dataCategory).subscribe((resCreate) => {
-        if(resCreate.status === 200){
-          alert('done ' + resCreate.message)
-        }else{
-          alert('Faild ' + resCreate.message)
-        }
-      });
-
+          }
+        );
+      } else {
+        this.CategoriesService.editCategory(
+          this.dataCategory.id,
+          this.dataCategory
+        ).subscribe((resCreate) => {
+          if (resCreate.status === 200) {
+            this.alertSuccess('Thành công',resCreate.message)
+          } else {
+            this.alertFailed('Thất bại',resCreate.message)
+          }
+        });
+      }
     }
-    
 
     this.dialogRef.close(true);
   }

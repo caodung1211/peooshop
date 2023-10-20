@@ -12,16 +12,19 @@ export class ErrorsMessageComponent implements OnChanges {
   message = ''
 
   ngOnChanges(changes: SimpleChanges) {
+    this.control.valueChanges.subscribe((res:any)=>{
+      if(this.control.errors){
+        this.getMessage(Object.keys(this.control.errors)[0],this.name)
+      }
+    })
     
-    if(this.control?.touch) this.getMessage(Object?.keys(this.control.errors),this.name)
   }
 
 
   getMessage(control:any, name:any){
-    console.log(control)
     switch (control) {
       case 'required':
-        this.message = name + ' bắt buộc!'
+        this.message = name + ' là bắt buộc!'
         break;
     
       default:

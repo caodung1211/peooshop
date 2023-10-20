@@ -30,3 +30,31 @@ mat-form-field {
 .mat-mdc-form-field-subscript-wrapper{
   display: none !important;
 }
+
+body .ui-toast .ui-toast-message.ui-toast-message-success {
+  background-color: #5cb85c;
+  border: 0 none;
+  color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  border-radius: 10px;
+}
+
+body .ui-toast .ui-toast-message.ui-toast-message-error {
+  background-color: #d9534f;
+  border: 0 none;
+  color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  border-radius: 10px;
+}
+
+body .ui-toast .ui-toast-message.ui-toast-message-success .ui-toast-close-icon {
+  color: #fff;
+  top: 8px;
+  right: 8px;
+}
+
+body .ui-toast .ui-toast-message.ui-toast-message-error .ui-toast-close-icon{
+  color: #fff;
+  top: 8px;
+  right: 8px;
+}

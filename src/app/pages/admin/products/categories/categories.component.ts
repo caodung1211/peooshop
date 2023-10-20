@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { IConfigTableBase } from 'src/app/components/admin/table-base-layout/table-base-layout.model';
-import dataTableCategories from './../../../../json/categories.json';  
 import { MatDialog } from '@angular/material/dialog';
 import { AddOrEditCategoryComponent } from './add-or-edit-category/add-or-edit-category.component';
 import { DialogConfirmCategoryComponent } from './dialog-confirm-category/dialog-confirm-category.component';
 import { CategoriesService } from './categories.service';
+import { DataBroadcastService } from 'src/app/service/data-broadcast.service';
 
 @Component({
   selector: 'app-categories',
@@ -28,15 +28,18 @@ export class CategoriesComponent implements OnInit {
     actions: ['edit','view','delete']
   }
 
-  constructor(public dialog: MatDialog,private CategoriesService:CategoriesService) {}
+  constructor(public dialog: MatDialog,private CategoriesService:CategoriesService,private DataBroadcastService: DataBroadcastService) {}
 
   ngOnInit() {
     this.loadData()
   }
 
   loadData(){
+    this.DataBroadcastService.changeMessage('showLoadding');
+    
     this.CategoriesService.getListCategory().subscribe(res=>{
       this.dataTable = res
+      this.DataBroadcastService.changeMessage('hideLoadding');
     })
   }
 

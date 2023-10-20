@@ -18,6 +18,10 @@ export class CategoriesService {
     return this.http.post('http://peooshop.top/wp/wp-json/api/v1/category',body)
   }
 
+  editCategory(id:string,body:any): Observable<any> {
+    return this.http.post(`http://peooshop.top/wp/wp-json/api/v1/category/${id}` ,body)
+  }
+
   getListCategory(): Observable<any> {
     return this.http.get('http://peooshop.top/wp/wp-json/api/v1/category')
   }

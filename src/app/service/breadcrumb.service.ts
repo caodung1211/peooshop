@@ -19,7 +19,7 @@ export class BreadcrumbService {
   constructor(private router: Router) {
     this.router.events.pipe(
       // Filter the NavigationEnd events as the breadcrumb is updated only when the route reaches its end
-      filter((event) => event instanceof NavigationEnd)
+      filter((event:any) => event instanceof NavigationEnd)
     ).subscribe(event => {
       // Construct the breadcrumb hierarchy
       const root = this.router.routerState.snapshot.root;
