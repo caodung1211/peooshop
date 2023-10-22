@@ -2,26 +2,25 @@ import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MessageService } from 'primeng';
 import { DataBroadcastService } from 'src/app/service/data-broadcast.service';
-import { CategoriesService } from '../categories.service';
+import { managementSizeService } from '../management-size.service';
 
 @Component({
-  selector: 'app-dialog-confirm-category',
-  templateUrl: './dialog-confirm-category.component.html',
-  styleUrls: ['./dialog-confirm-category.component.scss'],
+  selector: 'app-dialog-confirm-size',
+  templateUrl: './dialog-confirm-size.component.html',
+  styleUrls: ['./dialog-confirm-size.component.scss'],
 })
-export class DialogConfirmCategoryComponent {
+export class DialogConfirmSizeComponent {
   title: string;
   message: string;
   id: string;
 
   constructor(
-    public dialogRef: MatDialogRef<DialogConfirmCategoryComponent>,
+    public dialogRef: MatDialogRef<DialogConfirmSizeComponent>,
     private DataBroadcastService: DataBroadcastService,
     private messageService: MessageService,
-    private CategoriesService: CategoriesService,
+    private managementSizeService: managementSizeService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    console.log(data)
     this.title = data.title;
     this.message = data.message;
     this.id = data.id;
@@ -48,7 +47,7 @@ export class DialogConfirmCategoryComponent {
   onConfirm(): void {
     this.DataBroadcastService.changeMessage('showLoadding');
 
-    this.CategoriesService.deleteCategory(this.id).subscribe((res) => {
+    this.managementSizeService.deleteSize(this.id).subscribe((res) => {
       if (res.status === 200) {
         this.alertSuccess('Thành công', res.message);
       } else {

@@ -1,19 +1,18 @@
-import { filter } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
-import { IConfigTableBase } from 'src/app/components/admin/table-base-layout/table-base-layout.model';
 import { MatDialog } from '@angular/material/dialog';
-import { AddOrEditCategoryComponent } from './add-or-edit-category/add-or-edit-category.component';
-import { DialogConfirmCategoryComponent } from './dialog-confirm-category/dialog-confirm-category.component';
-import { CategoriesService } from './categories.service';
+import { managementSizeService } from './management-size.service';
 import { DataBroadcastService } from 'src/app/service/data-broadcast.service';
 import { ConfirmationService, MessageService } from 'primeng';
+import { IConfigTableBase } from 'src/app/components/admin/table-base-layout/table-base-layout.model';
+import { DialogConfirmSizeComponent } from './dialog-confirm-size/dialog-confirm-size.component';
+import { AddOrEditSizeComponent } from './add-or-edit-size/add-or-edit-size.component';
 
 @Component({
-  selector: 'app-categories',
-  templateUrl: './categories.component.html',
-  styleUrls: ['./categories.component.scss'],
+  selector: 'app-management-size',
+  templateUrl: './management-size.component.html',
+  styleUrls: ['./management-size.component.scss'],
 })
-export class CategoriesComponent implements OnInit {
+export class ManagementSizeComponent implements OnInit {
   columns = [
     {
       field: 'name',
@@ -22,15 +21,6 @@ export class CategoriesComponent implements OnInit {
       typeFilter: 'text',
       showFilter: true,
       type: 'text',
-      center: true,
-    },
-    {
-      field: 'avatar',
-      header: 'Ảnh đại diện',
-      visible: true,
-      typeFilter: '',
-      showFilter: false,
-      type: 'image',
       center: true,
     },
     {
@@ -65,7 +55,7 @@ export class CategoriesComponent implements OnInit {
 
   constructor(
     public dialog: MatDialog,
-    private CategoriesService: CategoriesService,
+    private managementSizeService: managementSizeService,
     private DataBroadcastService: DataBroadcastService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService
@@ -96,7 +86,7 @@ export class CategoriesComponent implements OnInit {
   loadData() {
     this.DataBroadcastService.changeMessage('showLoadding');
 
-    this.CategoriesService.getListCategory().subscribe((res) => {
+    this.managementSizeService.getListSize().subscribe((res) => {
       this.dataTable = res;
 
       this.dataTable = this.dataTable.filter((x: any) => {
@@ -132,20 +122,20 @@ export class CategoriesComponent implements OnInit {
   changeStatus(id: string, data: any) {
     this.DataBroadcastService.changeMessage('showLoadding');
 
-    this.CategoriesService.changeStatusCategory(id, { status: data }).subscribe(
-      (res) => {
+    this.managementSizeService
+      .changeStatusSize(id, { status: data })
+      .subscribe((res: any) => {
         if (res.status === 200) {
           this.alertSuccess('Thành công', res.message);
         } else {
           this.alertFailed('Thất bại', res.message);
         }
         this.DataBroadcastService.changeMessage('hideLoadding');
-      }
-    );
+      });
   }
 
   addNew(data: any, type: string): void {
-    const dialogRef = this.dialog.open(AddOrEditCategoryComponent, {
+    const dialogRef = this.dialog.open(AddOrEditSizeComponent, {
       width: '70%',
       data: {
         type: type,
@@ -174,7 +164,7 @@ export class CategoriesComponent implements OnInit {
     //     accept: () => {
     //       this.DataBroadcastService.changeMessage('showLoadding');
 
-    //       this.CategoriesService.deleteCategory(id).subscribe(
+    //       this.managementSizeService.deleteCategory(id).subscribe(
     //         (res) => {
     //           if (res.status === 200) {
     //             this.alertSuccess('Thành công', res.message);
@@ -190,11 +180,11 @@ export class CategoriesComponent implements OnInit {
     //     }
     // });
 
-    const dialogRef = this.dialog.open(DialogConfirmCategoryComponent, {
+    const dialogRef = this.dialog.open(DialogConfirmSizeComponent, {
       width: '400px',
       data: {
-        title: 'Xóa danh mục',
-        message: 'Bạn có muốn xóa danh mục này?',
+        title: 'Xóa size',
+        message: 'Bạn có muốn xóa size này?',
         id: id,
       },
     });

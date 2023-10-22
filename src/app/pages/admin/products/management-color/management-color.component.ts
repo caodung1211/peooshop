@@ -1,19 +1,18 @@
-import { filter } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
-import { IConfigTableBase } from 'src/app/components/admin/table-base-layout/table-base-layout.model';
 import { MatDialog } from '@angular/material/dialog';
-import { AddOrEditCategoryComponent } from './add-or-edit-category/add-or-edit-category.component';
-import { DialogConfirmCategoryComponent } from './dialog-confirm-category/dialog-confirm-category.component';
-import { CategoriesService } from './categories.service';
 import { DataBroadcastService } from 'src/app/service/data-broadcast.service';
-import { ConfirmationService, MessageService } from 'primeng';
+import { MessageService } from 'primeng';
+import { IConfigTableBase } from 'src/app/components/admin/table-base-layout/table-base-layout.model';
+import { managementColorService } from './management-color.service';
+import { AddOrEditColorComponent } from './add-or-edit-color/add-or-edit-color.component';
+import { DialogConfirmColorComponent } from './dialog-confirm-color/dialog-confirm-color.component';
 
 @Component({
-  selector: 'app-categories',
-  templateUrl: './categories.component.html',
-  styleUrls: ['./categories.component.scss'],
+  selector: 'app-management-color',
+  templateUrl: './management-color.component.html',
+  styleUrls: ['./management-color.component.scss'],
 })
-export class CategoriesComponent implements OnInit {
+export class ManagementColorComponent implements OnInit {
   columns = [
     {
       field: 'name',
@@ -22,15 +21,6 @@ export class CategoriesComponent implements OnInit {
       typeFilter: 'text',
       showFilter: true,
       type: 'text',
-      center: true,
-    },
-    {
-      field: 'avatar',
-      header: 'Ảnh đại diện',
-      visible: true,
-      typeFilter: '',
-      showFilter: false,
-      type: 'image',
       center: true,
     },
     {
@@ -65,10 +55,9 @@ export class CategoriesComponent implements OnInit {
 
   constructor(
     public dialog: MatDialog,
-    private CategoriesService: CategoriesService,
+    private managementColorService: managementColorService,
     private DataBroadcastService: DataBroadcastService,
     private messageService: MessageService,
-    private confirmationService: ConfirmationService
   ) {}
 
   alertSuccess(title: string, detail: string) {
@@ -96,7 +85,7 @@ export class CategoriesComponent implements OnInit {
   loadData() {
     this.DataBroadcastService.changeMessage('showLoadding');
 
-    this.CategoriesService.getListCategory().subscribe((res) => {
+    this.managementColorService.getListSize().subscribe((res) => {
       this.dataTable = res;
 
       this.dataTable = this.dataTable.filter((x: any) => {
@@ -132,20 +121,20 @@ export class CategoriesComponent implements OnInit {
   changeStatus(id: string, data: any) {
     this.DataBroadcastService.changeMessage('showLoadding');
 
-    this.CategoriesService.changeStatusCategory(id, { status: data }).subscribe(
-      (res) => {
+    this.managementColorService
+      .changeStatusSize(id, { status: data })
+      .subscribe((res: any) => {
         if (res.status === 200) {
           this.alertSuccess('Thành công', res.message);
         } else {
           this.alertFailed('Thất bại', res.message);
         }
         this.DataBroadcastService.changeMessage('hideLoadding');
-      }
-    );
+      });
   }
 
   addNew(data: any, type: string): void {
-    const dialogRef = this.dialog.open(AddOrEditCategoryComponent, {
+    const dialogRef = this.dialog.open(AddOrEditColorComponent, {
       width: '70%',
       data: {
         type: type,
@@ -167,34 +156,11 @@ export class CategoriesComponent implements OnInit {
   }
 
   removeItems(id: string): void {
-    //   this.confirmationService.confirm({
-    //     message: 'Bạn có muốn xóa danh mục này?',
-    //     header: 'Xóa danh mục',
-    //     icon: 'pi pi-info-circle',
-    //     accept: () => {
-    //       this.DataBroadcastService.changeMessage('showLoadding');
-
-    //       this.CategoriesService.deleteCategory(id).subscribe(
-    //         (res) => {
-    //           if (res.status === 200) {
-    //             this.alertSuccess('Thành công', res.message);
-    //           } else {
-    //             this.alertFailed('Thất bại', res.message);
-    //           }
-    //           this.DataBroadcastService.changeMessage('hideLoadding');
-    //         }
-    //       );
-    //     },
-    //     reject: () => {
-
-    //     }
-    // });
-
-    const dialogRef = this.dialog.open(DialogConfirmCategoryComponent, {
+    const dialogRef = this.dialog.open(DialogConfirmColorComponent, {
       width: '400px',
       data: {
-        title: 'Xóa danh mục',
-        message: 'Bạn có muốn xóa danh mục này?',
+        title: 'Xóa màu',
+        message: 'Bạn có muốn xóa màu này?',
         id: id,
       },
     });

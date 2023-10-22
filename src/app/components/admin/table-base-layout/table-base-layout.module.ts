@@ -10,10 +10,15 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { DropdownModule, InputSwitchModule, InputTextModule, TableModule, TooltipModule } from 'primeng';
+import { DateCustomPipe } from 'src/app/pipes/dataPipe.pipe';
+import { PriceCustomPipe } from 'src/app/pipes/pricePipe.pipe';
 
 @NgModule({
   declarations: [
-    TableBaseLayoutComponent
+    TableBaseLayoutComponent,
+    DateCustomPipe,PriceCustomPipe
   ],
   imports: [
     CommonModule,
@@ -26,7 +31,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatSortModule,
     MatInputModule,
     MatFormFieldModule,
+    InputSwitchModule,
+    TableModule,
+    TooltipModule,
+    InputTextModule,
+    DropdownModule
   ],
-  exports: [TableBaseLayoutComponent]
+  exports: [TableBaseLayoutComponent],
+  // providers: [DateCustomPipe,PriceCustomPipe]
 })
 export class TableBaseLayoutModule { }

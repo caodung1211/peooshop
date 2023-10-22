@@ -6,31 +6,31 @@
 
             <div class="col-12">
                 <label for="avatar" class="img cursor-pointer" *ngIf="data.type !== 'view'">
-                    <img [src]="dataCategory.avatar ? dataCategory.avatar : '../../../../../assets/images/no_image.png'">
+                    <img [src]="currentData.avatar ? currentData.avatar : '../../../../../assets/images/no_image.png'">
                 </label>
                 <input name="imageUrl" type="file" accept="image/*" id="avatar" (change)="handleInputChange($event)" style="display: none" *ngIf="data.type !== 'view'"/>
             
-                <img [src]="dataCategory.avatar ? dataCategory.avatar : '../../../../../assets/images/no_image.png'" *ngIf="data.type === 'view'" class="img">
+                <img [src]="currentData.avatar ? currentData.avatar : 'https://peooshop.top/wp/wp-content/themes/peooshop/images/no_image.png'" *ngIf="data.type === 'view'" class="img">
             </div>
 
             <div class="col-12 mb-3">
                 <mat-form-field class="example-full-width">
-                    <mat-label>Tên danh mục</mat-label>
-                    <input matInput type="text" name="name" required #name="ngModel" [readonly]="data.type === 'view'" [(ngModel)]="dataCategory.name" placeholder="Tên danh mục" required>
+                    <mat-label>Tên sản phẩm</mat-label>
+                    <input matInput type="text" name="name" required #name="ngModel" [readonly]="data.type === 'view'" [(ngModel)]="currentData.name" placeholder="Tên sản phẩm" required>
                 </mat-form-field>
-                <app-errors-message [control]="name.control" [name]="'Tên danh mục'"></app-errors-message>
+                <app-errors-message [control]="name.control" [name]="'Tên sản phẩm'"></app-errors-message>
             </div>
             <div class="col-12 mb-3">
                 <mat-form-field class="example-full-width">
                     <mat-label>Mô tả</mat-label>
-                    <textarea matInput name="description" [readonly]="data.type === 'view'" [(ngModel)]="dataCategory.description" required #description="ngModel" placeholder="Tên danh mục"></textarea>
+                    <textarea matInput name="description" [readonly]="data.type === 'view'" [(ngModel)]="currentData.description" required #description="ngModel" placeholder="Tên danh mục"></textarea>
                 </mat-form-field>
                 <app-errors-message [control]="description.control" [name]="'Mô tả'"></app-errors-message>
             </div>
 
             <div class="col-12 d-flex gap-3">
                 <mat-label>Trạng thái</mat-label>
-                <mat-slide-toggle [checked]="dataCategory.status" name="status" [(ngModel)]="dataCategory.status" [disabled]="data.type === 'view'"></mat-slide-toggle>
+                <mat-slide-toggle [checked]="currentData.status" name="status" [(ngModel)]="currentData.status" [disabled]="data.type === 'view'"></mat-slide-toggle>
             </div>
             <div class="col-12 d-flex gap-3 mt-4 justify-content-center" *ngIf="data.type !== 'view'">
                 <button mat-flat-button color="primary" (click)="cancel()">Hủy</button>

@@ -1,113 +1,133 @@
-<div class="mat-elevation-z8">
-
-  <mat-form-field>
-    <mat-label>Tìm kiếm...</mat-label>
-    <input matInput (keyup)="applyFilter($event)" placeholder="Filter">
-  </mat-form-field>
-
-  <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)">
-    <ng-container matColumnDef="checkbox">
-      <th mat-header-cell *matHeaderCellDef>
-        <mat-checkbox
-          (change)="$event ? masterToggle() : null"
-          [checked]="selection.hasValue() && isAllSelected()"
-          [indeterminate]="selection.hasValue() && !isAllSelected()"
-        >
-        </mat-checkbox>
+<div class="getWidth">
+  <p-table #dt [value]="dataTable" [paginator]="true" [rows]="pageSize" [rowsPerPageOptions]="pageSizeOptions"
+  [showCurrentPageReport]="showCurrentPageReport"
+  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+  <ng-template pTemplate="header">
+    <tr class="header">
+      <th style="width: 50px; text-align: center;" *ngIf="config.checkbox" [style]="{'width':'50px'}">
+        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
       </th>
-      <td mat-cell *matCellDef="let row">
-        <mat-checkbox
-          (click)="$event.stopPropagation()"
-          (change)="$event ? selection.toggle(row) : null"
-          [checked]="selection.isSelected(row)"
-        >
-        </mat-checkbox>
+
+      <th class="text-center" *ngIf="config.stt" [style]="{'width':'50px'}">
+        STT
+      </th>
+      
+      <th *ngFor="let column of columns; index as i" [ngClass]="{ 'text-center': column.center }" class="peoTooltip" [style]="{'width':congfigWidthColumns[i] +'px'}"
+        [pTooltip]="column.header" [pSortableColumn]="column.field">
+        {{ column.header }}
+        <p-sortIcon [field]="column.field"></p-sortIcon>
+      </th>
+
+      <th class="text-center" *ngIf="config.actions" [style]="{'width':'140px'}">
+        Hành động
+      </th>
+
+    </tr>
+
+    <tr class="filter">
+      <th style="width: 50px; text-align: center;" *ngIf="config.checkbox" [style]="{'width':'50px'}">
+      </th>
+
+      <th class="text-center" *ngIf="config.stt" [style]="{'width':'50px'}">
+
+      </th>
+
+      <th *ngFor="let column of columns; index as i" [ngClass]="{ 'text-center': column.center }" [style]="{'width':congfigWidthColumns[i] +'px'}">
+        <ng-container [ngSwitch]="column.typeFilter">
+          <ng-container *ngSwitchCase="'text'">
+            <input pInputText type="text" (input)="dt.filter($event.target.value, column.field, 'contains')"
+              placeholder="Tìm kiếm..." class="ui-column-filter" [(ngModel)]="objectFilter[column.field]">
+          </ng-container>
+
+          <ng-container *ngSwitchCase="'dropdown'">
+            <p-dropdown [options]="objectOption[column.optionDropdown]" (onChange)="dt.filter($event.value, 'status', 'equals')"
+              styleClass="ui-column-filter" [style]="{'width':'100%','min-width': congfigWidthColumns[i] +'px'}" autoWidth="false" placeholder="Chọn..." >
+              <ng-template let-option pTemplate="item">
+                <span [class]="'customer-badge status-' + option.value">{{option.label}}</span>
+              </ng-template>
+            </p-dropdown>
+          </ng-container>
+        </ng-container>
+
+
+
+      </th>
+
+      <th class="text-center" *ngIf="config.actions" [style]="{'width':'140px'}">
+      </th>
+
+    </tr>
+  </ng-template>
+
+
+
+  <ng-template pTemplate="body" let-data let-rowIndex="rowIndex">
+    <tr>
+      <td style="text-align: center;" *ngIf="config.checkbox" [style]="{'width':'50px'}">
+        <p-tableCheckbox [value]="data"></p-tableCheckbox>
       </td>
-    </ng-container>
 
-    <ng-container matColumnDef="stt">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            <div class="text-center">STT</div>
-      </th>
-      <td mat-cell *matCellDef="let element; let i = index">
-        <div class="text-center">{{ element.stt}}</div>
+      <td class="text-center" *ngIf="config.stt" [style]="{'width':'50px'}">
+        {{rowIndex + 1}}
       </td>
-    </ng-container>
 
-    <ng-container matColumnDef="action">
-      <th mat-header-cell *matHeaderCellDef>
-            <div class="text-center">
-              Hành động
-            </div>
-      </th>
-      <td mat-cell *matCellDef="let element; let i = index">
-        <div class="d-flex justify-content-center align-items-center gap-2">
+      <td *ngFor="let column of columns; index as i" [style]="{'width':congfigWidthColumns[i] +'px'}">
+        <ng-container *ngIf="column.type === 'text'">
+          <div [ngClass]="{ 'text-center': column.center }" class="peoTooltip" [pTooltip]="data[column.field]">
+            {{ data[column.field] }}
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="column.type === 'number'" >
+          <div [ngClass]="{ 'text-center': column.center }" class="peoTooltip" [pTooltip]="data[column.field]">
+            {{ data[column.field] }}
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="column.type === 'price'" >
+          <div [ngClass]="{ 'text-center': column.center }" class="peoTooltip" [pTooltip]="data[column.field] | pricePipe">
+            {{ data[column.field] | pricePipe}}
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="column.type === 'date'" >
+          <div [ngClass]="{ 'text-center': column.center }" class="peoTooltip" [pTooltip]="data[column.field] | datePipe">
+            {{ data[column.field] | datePipe}}
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="column.type === 'image'">
+          <div [ngClass]="{ 'text-center': column.center }">
+            <img [src]="data[column.field]" alt="" />
+          </div>
+        </ng-container>
+        
+        <ng-container *ngIf="column.type === 'switch'">
+          <div [ngClass]="{ 'text-center': column.center }">
+            <p-inputSwitch [(ngModel)]="data[column.field]"
+              (ngModelChange)="hanldeChangeStatus($event,data.id)"></p-inputSwitch>
+          </div>
+        </ng-container>
+
+      </td>
+
+      <td *ngIf="config.actions" [style]="{'width':'140px'}">
+        <div class="d-flex justify-content-center align-items-center gap-1">
           <ng-container *ngFor="let action of config.actions">
-            <div *ngIf="action === 'edit'" class="cursor-pointer">
-              <i class="material-icons" (click)="tableAction(action, element)"
-                >edit</i
-              >
+            <div *ngIf="action === 'edit'" class="cursor-pointer icon-action" (click)="tableAction(action, data)">
+              <i class="pi pi-file-edit"></i>
             </div>
-            <div *ngIf="action === 'view'" class="cursor-pointer">
-              <i class="material-icons" (click)="tableAction(action, element)"
-                >remove_red_eye</i
-              >
+            <div *ngIf="action === 'view'" class="cursor-pointer icon-action" (click)="tableAction(action, data)">
+              <i class="pi pi-eye" ></i>
             </div>
-            <div *ngIf="action === 'delete'" class="cursor-pointer">
-              <i class="material-icons" (click)="tableAction(action, element)"
-                >delete</i
-              >
+            <div *ngIf="action === 'delete'" class="cursor-pointer icon-action" (click)="tableAction(action, data)">
+              <i class="pi pi-trash"></i>
             </div>
           </ng-container>
         </div>
       </td>
-    </ng-container>
 
-    <ng-container *ngFor="let column of columns; index as i">
-      <ng-container [matColumnDef]="column.field">
-        
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>
-              <div [ngClass]="{ 'text-center': column.center }">
-                {{ column.header }}
-          </div>
-        </th>
-
-        <td mat-cell *matCellDef="let element">
-          <ng-container *ngIf="column.type === 'text'">
-            <div [ngClass]="{ 'text-center': column.center }">
-              {{ element[column.field] }}
-            </div>
-          </ng-container>
-
-          <ng-container *ngIf="column.type === 'image'">
-            <div [ngClass]="{ 'text-center': column.center }">
-              <img [src]="element[column.field]" alt="" />
-            </div>
-          </ng-container>
-
-          <ng-container *ngIf="column.type === 'switch'">
-            <div [ngClass]="{ 'text-center': column.center }">
-              <mat-slide-toggle
-                [checked]="element[column.field]"
-              ></mat-slide-toggle>
-            </div>
-          </ng-container>
-        </td>
-      </ng-container>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr
-      mat-row
-      *matRowDef="let row; columns: displayedColumns; let i = index"
-    ></tr>
-  </table>
-
-  <mat-paginator
-  #paginator
-  [pageSize]="pageSize"
-  [pageSizeOptions]="pageSizeOptions"
-  [showFirstLastButtons]="true"
-  >
-  </mat-paginator>
+    </tr>
+  </ng-template>
+</p-table>
 </div>

@@ -1,10 +1,6 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild, AfterViewInit, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild, AfterViewInit, Output, EventEmitter, ElementRef } from '@angular/core';
 import { IConfigTableBase } from './table-base-layout.model';
-import { SelectionModel } from '@angular/cdk/collections';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatSort, Sort} from '@angular/material/sort';
-import {MatTableDataSource,} from '@angular/material/table';
-import {LiveAnnouncer} from '@angular/cdk/a11y';
+import { Table } from 'primeng';
 
 @Component({
   selector: 'app-table-base-layout',
@@ -15,42 +11,45 @@ export class TableBaseLayoutComponent implements OnInit, OnChanges, AfterViewIni
   @Input() dataTable!: any[];
   @Input() columns!: any[];
   @Input() config!: IConfigTableBase
-
+  @Input() showCurrentPageReport = false;
+  
   @Output() actionTable = new EventEmitter<any>();
 
-
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
-
-  displayedColumns:string[] = [];
-  dataSource = new MatTableDataSource<any>();
-  selection = new SelectionModel<any>(true, []);
+  @ViewChild('dt') table: Table;
 
   pageSizeOptions = [5, 10, 20, 50, 100]
-  pageSize = 5
+  pageSize = 10
   
   objectFilter:any = {}
+  congfigWidthColumns:any = []
 
-  constructor(private _liveAnnouncer: LiveAnnouncer) {}
+  minWidthColumn = 0
+
+  objectOption:any = {
+    statusEnable: [
+      {label: 'Tất cả', value: null},
+      {label: 'Kích hoạt', value: true},
+      {label: 'Không kích hoạt', value: false}
+    ]
+  }
+
+  constructor() {}
 
   ngOnChanges(changes: SimpleChanges) {
     this.handleColumns()
-    this.handleDataSource()
+    this.handleDataTable()
   }
 
   ngOnInit() {
   }
 
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    
   }
 
   handleColumns(){
-    this.displayedColumns = []
-    
+    this.congfigWidthColumns = []
     if(this.config.checkbox){
-      this.displayedColumns.push('checkbox')
       this.dataTable.map((x:any)=>{
         x.checkbox = false
         return x
@@ -58,7 +57,6 @@ export class TableBaseLayoutComponent implements OnInit, OnChanges, AfterViewIni
     }
 
     if(this.config.stt){
-      this.displayedColumns.push('stt')
       this.dataTable.map((x:any,index:number)=>{
         x.stt = index + 1
         return x
@@ -67,52 +65,39 @@ export class TableBaseLayoutComponent implements OnInit, OnChanges, AfterViewIni
 
     this.columns.map((x:any)=>{
       this.objectFilter[x.field] = ''
-      this.displayedColumns.push(x.field)
       return x
     })
 
-    if(this.config.actions){
-      this.displayedColumns.push('action')
-    }
+    this.setWidthColumns()
   }
 
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+  setWidthColumns(){
+    let totalWidthCustom = 0
+    this.columns.map((x:any)=>{
+      totalWidthCustom += x.customWidth ? x.customWidth : 0
+    })
+
+    this.minWidthColumn = (document.getElementsByClassName("getWidth")[0].clientWidth - 50 - 50 - (this.config.actions ? 140 : 0) - totalWidthCustom) / this.columns.length
+    this.columns.map((x:any,index:number)=>{
+      if(x.customWidth){
+        this.congfigWidthColumns.push(x.customWidth)
+      }else{
+        this.congfigWidthColumns.push(this.minWidthColumn)
+      }
+      return x
+    })
   }
 
-
-  handleDataSource(){
-    this.dataSource = new MatTableDataSource(this.dataTable)
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-  }
- 
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
-  }
-
-  masterToggle() {
-    this.isAllSelected() ?
-        this.selection.clear() :
-        this.dataSource.data.forEach((row:any) => this.selection.select(row));
-  }
-
-  /** Announce the change in sort state for assistive technology. */
-  announceSortChange(sortState: Sort) {
-    // This example uses English messages. If your application supports
-    // multiple language, you would internationalize these strings.
-    // Furthermore, you can customize the message to add additional
-    // details about the values being sorted.
-    if (sortState.direction) {
-      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-    } else {
-      this._liveAnnouncer.announce('Sorting cleared');
-    }
+  handleDataTable(){
+    this.columns.map((x:any)=>{
+      if(x.field === 'stock_status'){
+        this.dataTable.map(z=>{
+          z.stock_status = z.stock_status === '1' ? 'Còn hàng' : 'Hết hàng'
+          return z
+        })
+      }
+      return x
+    })
   }
 
   tableAction(action:string,dataItem:any){
@@ -122,4 +107,14 @@ export class TableBaseLayoutComponent implements OnInit, OnChanges, AfterViewIni
     }
     this.actionTable.emit(dataEmit)
   }
+
+  hanldeChangeStatus(data:any,id:string){
+    this.actionTable.emit({
+      type: 'status',
+      id: id,
+      data: data
+    })
+
+  }
+
 }

@@ -3,27 +3,17 @@
     <form #userForm="ngForm">
 
         <div class="row">
-
-            <div class="col-12">
-                <label for="avatar" class="img cursor-pointer" *ngIf="data.type !== 'view'">
-                    <img [src]="dataCategory.avatar ? dataCategory.avatar : '../../../../../assets/images/no_image.png'">
-                </label>
-                <input name="imageUrl" type="file" accept="image/*" id="avatar" (change)="handleInputChange($event)" style="display: none" *ngIf="data.type !== 'view'"/>
-            
-                <img [src]="dataCategory.avatar ? dataCategory.avatar : '../../../../../assets/images/no_image.png'" *ngIf="data.type === 'view'" class="img">
-            </div>
-
-            <div class="col-12 mb-3">
+             <div class="col-12 mb-3">
                 <mat-form-field class="example-full-width">
-                    <mat-label>Tên danh mục</mat-label>
-                    <input matInput type="text" name="name" required #name="ngModel" [readonly]="data.type === 'view'" [(ngModel)]="dataCategory.name" placeholder="Tên danh mục" required>
+                    <mat-label>Tên size</mat-label>
+                    <input matInput type="text" name="name" required #name="ngModel" [readonly]="data.type === 'view'" [(ngModel)]="dataCategory.name" placeholder="Tên size" required>
                 </mat-form-field>
-                <app-errors-message [control]="name.control" [name]="'Tên danh mục'"></app-errors-message>
+                <app-errors-message [control]="name.control" [name]="'Tên size'"></app-errors-message>
             </div>
             <div class="col-12 mb-3">
                 <mat-form-field class="example-full-width">
                     <mat-label>Mô tả</mat-label>
-                    <textarea matInput name="description" [readonly]="data.type === 'view'" [(ngModel)]="dataCategory.description" required #description="ngModel" placeholder="Tên danh mục"></textarea>
+                    <textarea matInput name="description" [readonly]="data.type === 'view'" [(ngModel)]="dataCategory.description" required #description="ngModel" placeholder="Tên size"></textarea>
                 </mat-form-field>
                 <app-errors-message [control]="description.control" [name]="'Mô tả'"></app-errors-message>
             </div>

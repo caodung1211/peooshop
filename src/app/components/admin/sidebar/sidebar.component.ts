@@ -42,6 +42,12 @@ export class SidebarComponent {
                 },
                 {
                     label: 'Danh mục', icon: 'pi pi-fw pi-bookmark', routerLink: ['/admin/categories'],
+                },
+                {
+                    label: 'Danh mục size', icon: 'pi pi-fw pi-bookmark', routerLink: ['/admin/size'],
+                },
+                {
+                    label: 'Danh mục màu', icon: 'pi pi-fw pi-bookmark', routerLink: ['/admin/color'],
                 }
             ]
         },

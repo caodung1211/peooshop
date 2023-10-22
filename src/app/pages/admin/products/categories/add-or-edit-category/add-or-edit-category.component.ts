@@ -134,6 +134,10 @@ export class AddOrEditCategoryComponent implements OnInit {
     this.dialogRef.close();
   }
 
+  hanldeChangeStatus($event:any){
+    console.log($event)
+  }
+
   handleInputChange(e: any) {
     var file = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
     var pattern = /image-*/;
