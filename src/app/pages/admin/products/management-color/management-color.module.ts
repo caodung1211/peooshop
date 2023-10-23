@@ -6,6 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ManagementColorComponent } from './management-color.component';
 import { DialogConfirmColorComponent } from './dialog-confirm-color/dialog-confirm-color.component';
+import { TableNameConfigModule } from 'src/app/components/admin/table-name-config/table-name-config.module';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { DialogConfirmColorComponent } from './dialog-confirm-color/dialog-confi
     TableBaseLayoutModule,
     MatButtonModule,
     MatDialogModule,
+    TableNameConfigModule
   ],
 })
 export class ManagementColorModule { }

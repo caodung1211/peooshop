@@ -13,37 +13,7 @@ import { DialogConfirmColorComponent } from './dialog-confirm-color/dialog-confi
   styleUrls: ['./management-color.component.scss'],
 })
 export class ManagementColorComponent implements OnInit {
-  columns = [
-    {
-      field: 'name',
-      header: 'Tên',
-      visible: true,
-      typeFilter: 'text',
-      showFilter: true,
-      type: 'text',
-      center: true,
-    },
-    {
-      field: 'description',
-      header: 'Mô tả',
-      visible: true,
-      typeFilter: 'text',
-      showFilter: true,
-      type: 'text',
-      center: true,
-    },
-    {
-      field: 'status',
-      header: 'Trạng thái',
-      visible: true,
-      typeFilter: 'dropdown',
-      showFilter: true,
-      type: 'switch',
-      optionDropdown: 'statusEnable',
-      center: true,
-      customWidth: 80,
-    },
-  ];
+  columns:any = []
 
   dataTable: any = [];
 
@@ -52,6 +22,9 @@ export class ManagementColorComponent implements OnInit {
     stt: true,
     actions: ['edit', 'view', 'delete'],
   };
+
+  showColumns = false;
+  tableName = 'TABLE_COLORS'
 
   constructor(
     public dialog: MatDialog,
@@ -169,6 +142,22 @@ export class ManagementColorComponent implements OnInit {
       if (result) {
         this.loadData();
       }
+    });
+  }
+
+  handleCloseTableConfig($event: any) {
+    if ($event.hide) {
+      this.showColumns = false;
+    }
+    this.handleColumns($event.data);
+  }
+  handleColumns(columns: any) {
+    this.columns = columns.map((x: any) => {
+      if (x.field === 'name') {
+        x.customWidth = 100;
+      }
+
+      return x;
     });
   }
 }

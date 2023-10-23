@@ -8,6 +8,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DialogConfirmCategoryComponent } from './dialog-confirm-category/dialog-confirm-category.component';
 import { ConfirmationService } from 'primeng';
+import { TableNameConfigModule } from 'src/app/components/admin/table-name-config/table-name-config.module';
 
 @NgModule({
   declarations: [CategoriesComponent, DialogConfirmCategoryComponent],
@@ -27,6 +28,7 @@ import { ConfirmationService } from 'primeng';
     MatDialogModule,
     FormsModule,
     ReactiveFormsModule,
+    TableNameConfigModule
   ],
   providers: [ConfirmationService]
 })

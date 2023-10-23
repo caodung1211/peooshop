@@ -13,153 +13,11 @@ import { DialogConfirmProductComponent } from './dialog-confirm-product/dialog-c
   styleUrls: ['./products.component.scss'],
 })
 export class ProductsComponent implements OnInit {
-  columns = [
-    {
-      field: 'name',
-      header: 'Tên',
-      visible: true,
-      typeFilter: 'text',
-      showFilter: true,
-      type: 'text',
-      center: true,
-      customWidth: 150,
-    },
-    {
-      field: 'avatar',
-      header: 'Ảnh đại diện',
-      visible: true,
-      typeFilter: '',
-      showFilter: false,
-      type: 'image',
-      customWidth: 150,
-      center: true,
-    },
-
-    {
-      field: 'price_cost',
-      header: 'Giá nhập',
-      visible: true,
-      typeFilter: 'text',
-      showFilter: true,
-      type: 'price',
-      center: true,
-    },
-    {
-      field: 'price',
-      header: 'Giá',
-      visible: true,
-      typeFilter: 'text',
-      showFilter: true,
-      type: 'price',
-      center: true,
-    },
-    {
-      field: 'price_collab',
-      header: 'Giá CTV',
-      visible: true,
-      typeFilter: 'text',
-      showFilter: true,
-      type: 'price',
-      center: true,
-    },
-    {
-      field: 'price_sale',
-      header: 'Giá khuyến mãi',
-      visible: true,
-      typeFilter: 'text',
-      showFilter: true,
-      type: 'price',
-      center: true,
-    },
-    {
-      field: 'category',
-      header: 'Danh mục',
-      visible: true,
-      typeFilter: 'text',
-      showFilter: true,
-      type: 'text',
-      center: true,
-    },
-    {
-      field: 'color',
-      header: 'Màu',
-      visible: true,
-      typeFilter: 'text',
-      showFilter: true,
-      type: 'text',
-      center: true,
-    },
-    {
-      field: 'size',
-      header: 'Kích thước',
-      visible: true,
-      typeFilter: 'text',
-      showFilter: true,
-      type: 'text',
-      center: true,
-    },
-    {
-      field: 'stock_status',
-      header: 'Tình trạng',
-      visible: true,
-      typeFilter: 'text',
-      showFilter: true,
-      type: 'text',
-      center: true,
-    },
-    {
-      field: 'quantity',
-      header: 'Số lượng',
-      visible: true,
-      typeFilter: 'text',
-      showFilter: true,
-      type: 'number',
-      center: true,
-      customWidth: 60,
-    },
-    {
-      field: 'description',
-      header: 'Mô tả',
-      visible: true,
-      typeFilter: 'text',
-      showFilter: true,
-      type: 'text',
-      center: true,
-    },
-    {
-      field: 'sale',
-      header: 'Khuyến mãi',
-      visible: true,
-      typeFilter: 'dropdown',
-      showFilter: true,
-      type: 'switch',
-      optionDropdown: 'statusEnable',
-      center: true,
-      customWidth: 80,
-    },
-    {
-      field: 'status',
-      header: 'Trạng thái',
-      visible: true,
-      typeFilter: 'dropdown',
-      showFilter: true,
-      type: 'switch',
-      optionDropdown: 'statusEnable',
-      center: true,
-      customWidth: 80,
-    },
-    {
-      field: 'date_update',
-      header: 'Ngày cập nhật',
-      visible: true,
-      typeFilter: 'text',
-      showFilter: true,
-      type: 'date',
-      center: true,
-    },
-  ];
+  columns: any = [];
 
   dataTable: any = [];
+
+  tableName = 'TABLE_PRODUCTS';
 
   config: IConfigTableBase = {
     checkbox: true,
@@ -167,8 +25,11 @@ export class ProductsComponent implements OnInit {
     actions: ['edit', 'view', 'delete'],
   };
 
-  listCategory:any = []
-  listSize:any = []
+  listCategory: any = [];
+  listSize: any = [];
+  listColor: any = [];
+
+  showColumns = false;
 
   constructor(
     public dialog: MatDialog,
@@ -199,64 +60,92 @@ export class ProductsComponent implements OnInit {
     this.loadData();
   }
 
+  handleColumns(columns: any) {
+    this.columns = columns.map((x: any) => {
+      if (x.field === 'name') {
+        x.customWidth = 100;
+      }
+      return x;
+    });
+  }
+
   loadData() {
     this.DataBroadcastService.changeMessage('showLoadding');
 
-    this.productsService.getListCategory().subscribe(resCategory=>{
-      this.listCategory = resCategory
+    this.productsService.getListCategory().subscribe((resCategory) => {
+      this.listCategory = resCategory;
 
-      this.productsService.getListSize().subscribe(resSize=>{
-        this.listSize = resSize
+      this.productsService.getListSize().subscribe((resSize) => {
+        this.listSize = resSize;
 
-        this.productsService.getListProduct().subscribe((res) => {
-          this.dataTable = res
+        this.productsService.getListColor().subscribe((resColor) => {
+          this.listColor = resColor;
 
-          this.dataTable.map((x:any)=>{
-            let temp:any = []
-            this.listCategory.map((category:any)=>{
-              x.category.split(',').map((z:any)=>{
-                if(z === category.id){
-                  temp.push(category.name)
-                }
-                return z
-              })
-              return category
-            })
-    
-            x.category = temp
-            return x
-          })
+          this.productsService.getListProduct().subscribe((res) => {
+            this.dataTable = res;
 
-          this.dataTable.map((x:any)=>{
-            let temp:any = []
-            this.listSize.map((size:any)=>{
-              x.size.split(',').map((z:any)=>{
-                if(z === size.id){
-                  temp.push(size.name)
-                }
-                return z
-              })
-              return size
-            })
-    
-            x.size = temp
-            return x
-          })
-    
-          this.dataTable = this.dataTable.filter((x: any) => {
-            if (x.status === '1' || x.status === '0') {
-              x.status = x.status === '1' ? true : false;
+            this.dataTable.map((x: any) => {
+              let temp: any = [];
+              this.listCategory.map((category: any) => {
+                x.category.split(',').map((z: any) => {
+                  if (z === category.id) {
+                    temp.push(category.name);
+                  }
+                  return z;
+                });
+                return category;
+              });
+
+              x.category = temp;
               return x;
-            }
-          });
-    
-          this.DataBroadcastService.changeMessage('hideLoadding');
-        });
-      })
-    })
-    
+            });
 
-   
+            this.dataTable.map((x: any) => {
+              let temp: any = [];
+              this.listSize.map((size: any) => {
+                x.size.split(',').map((z: any) => {
+                  if (z === size.id) {
+                    temp.push(size.name);
+                  }
+                  return z;
+                });
+                return size;
+              });
+
+              x.size = temp;
+              return x;
+            });
+
+            this.dataTable.map((x: any) => {
+              let temp: any = [];
+              this.listColor.map((color: any) => {
+                x.color.split(',').map((z: any) => {
+                  if (z === color.id) {
+                    temp.push(color.name);
+                  }
+                  return z;
+                });
+                return color;
+              });
+
+              x.color = temp;
+              return x;
+            });
+
+            this.dataTable = this.dataTable.filter((x: any) => {
+              if (x.status === '1' || x.status === '0') {
+                x.status = x.status === '1' ? true : false;
+                x.sale = x.sale === '1' ? true : false;
+
+                return x;
+              }
+            });
+
+            this.DataBroadcastService.changeMessage('hideLoadding');
+          });
+        });
+      });
+    });
   }
 
   handleActionTable(event: any) {
@@ -268,21 +157,22 @@ export class ProductsComponent implements OnInit {
         this.addNew(event.data, event.type);
         break;
       case 'delete':
-        this.removeItems(event.data.id);
+        this.removeItems(event.data.product_id);
         break;
       case 'status':
-        this.changeStatus(event.id, event.data);
+      case 'sale':
+        this.changeStatus(event.type, event.id, event.data);
         break;
       default:
         break;
     }
   }
 
-  changeStatus(id: string, data: any) {
+  changeStatus(type:string, id: string, data: any) {
     this.DataBroadcastService.changeMessage('showLoadding');
 
     this.productsService
-      .changeStatusProduct(id, { status: data })
+      .changeStatusProduct(id, { [type]: data })
       .subscribe((res: any) => {
         if (res.status === 200) {
           this.alertSuccess('Thành công', res.message);
@@ -296,6 +186,7 @@ export class ProductsComponent implements OnInit {
   addNew(data: any, type: string): void {
     const dialogRef = this.dialog.open(AddOrEditProductComponent, {
       width: '70%',
+      height: '90vh',
       data: {
         type: type,
         header:
@@ -307,7 +198,8 @@ export class ProductsComponent implements OnInit {
         data: {
           id: data.product_id,
           listSize: this.listSize,
-          listCategory: this.listCategory
+          listCategory: this.listCategory,
+          listColor: this.listColor,
         },
       },
     });
@@ -320,34 +212,11 @@ export class ProductsComponent implements OnInit {
   }
 
   removeItems(id: string): void {
-    //   this.confirmationService.confirm({
-    //     message: 'Bạn có muốn xóa danh mục này?',
-    //     header: 'Xóa danh mục',
-    //     icon: 'pi pi-info-circle',
-    //     accept: () => {
-    //       this.DataBroadcastService.changeMessage('showLoadding');
-
-    //       this.productsService.deleteCategory(id).subscribe(
-    //         (res) => {
-    //           if (res.status === 200) {
-    //             this.alertSuccess('Thành công', res.message);
-    //           } else {
-    //             this.alertFailed('Thất bại', res.message);
-    //           }
-    //           this.DataBroadcastService.changeMessage('hideLoadding');
-    //         }
-    //       );
-    //     },
-    //     reject: () => {
-
-    //     }
-    // });
-
     const dialogRef = this.dialog.open(DialogConfirmProductComponent, {
       width: '400px',
       data: {
-        title: 'Xóa size',
-        message: 'Bạn có muốn xóa size này?',
+        title: 'Xóa sản phẩm',
+        message: 'Bạn có muốn xóa sản phẩm này?',
         id: id,
       },
     });
@@ -357,5 +226,12 @@ export class ProductsComponent implements OnInit {
         this.loadData();
       }
     });
+  }
+
+  handleCloseTableConfig($event: any) {
+    if ($event.hide) {
+      this.showColumns = false;
+    }
+    this.handleColumns($event.data);
   }
 }

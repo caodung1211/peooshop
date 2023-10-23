@@ -20,17 +20,122 @@
                 </mat-form-field>
                 <app-errors-message [control]="name.control" [name]="'Tên sản phẩm'"></app-errors-message>
             </div>
+
+            <div class="col-12 mb-3 d-flex">
+                <div class="col-6" style="padding-right: 10px;">
+                    <mat-form-field>
+                        <mat-label>Danh mục</mat-label>
+                        <mat-select name="category" [(ngModel)]="tempCategory" multiple #category="ngModel" required [disabled]="data.type === 'view'">
+                          <mat-option *ngFor="let item of optionDropdow.category" [value]="item.value">{{item.label}}</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    <app-errors-message [control]="category.control" [name]="'Danh mục'"></app-errors-message>
+                </div>
+                <div class="col-6" style="padding-left: 10px;">
+                    <mat-form-field>
+                        <mat-label>Màu</mat-label>
+                        <mat-select name="color" [(ngModel)]="tempColor" multiple #color="ngModel" required [disabled]="data.type === 'view'">
+                          <mat-option *ngFor="let item of optionDropdow.color" [value]="item.value">{{item.label}}</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    <app-errors-message [control]="color.control" [name]="'Màu'"></app-errors-message>
+                </div>
+            </div>
+
+            <div class="col-12 mb-3 d-flex">
+                <div class="col-6" style="padding-right: 10px;">
+                    <mat-form-field>
+                        <mat-label>Size</mat-label>
+                        <mat-select name="size" [(ngModel)]="tempSize" multiple #size="ngModel" required [disabled]="data.type === 'view'">
+                          <mat-option *ngFor="let item of optionDropdow.size" [value]="item.value">{{item.label}}</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    <app-errors-message [control]="size.control" [name]="'Size'"></app-errors-message>
+                </div>
+                <div class="col-6" style="padding-left: 10px;">
+                    <mat-form-field>
+                        <mat-label>Tình trạng</mat-label>
+                        <mat-select name="stock" [(ngModel)]="currentData.stock_status" #stock="ngModel" required [disabled]="data.type === 'view'">
+                          <mat-option *ngFor="let item of optionDropdow.stock" [value]="item.value">{{item.label}}</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    <app-errors-message [control]="stock.control" [name]="'Tình trạng'"></app-errors-message>
+                </div>
+            </div>
+
+            <div class="col-12 mb-3 d-flex">
+                <div class="col-6" style="padding-right: 10px;">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Giá nhập</mat-label>
+                        <input matInput type="number" name="cost" #cost="ngModel" [readonly]="data.type === 'view'" [(ngModel)]="currentData.price_cost" placeholder="Giá nhập" required>
+                    </mat-form-field>
+                    <app-errors-message [control]="cost.control" [name]="'Giá nhập'"></app-errors-message>
+                </div>
+                <div class="col-6" style="padding-left: 10px;">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Giá bán</mat-label>
+                        <input matInput type="number" name="price" #price="ngModel" [readonly]="data.type === 'view'" [(ngModel)]="currentData.price" placeholder="Giá bán" required>
+                    </mat-form-field>
+                    <app-errors-message [control]="price.control" [name]="'Giá bán'"></app-errors-message>
+                </div>
+            </div>
+
+            <div class="col-12 mb-3 d-flex">
+                <div class="col-6" style="padding-right: 10px;">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Giá CTV</mat-label>
+                        <input matInput type="number" name="collab" #collab="ngModel" [readonly]="data.type === 'view'" [(ngModel)]="currentData.price_collab" placeholder="Giá CTV" required>
+                    </mat-form-field>
+                    <app-errors-message [control]="collab.control" [name]="'Giá CTV'"></app-errors-message>
+                </div>
+                <div class="col-6" style="padding-left: 10px;">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Giá khuyến mãi</mat-label>
+                        <input matInput type="number" name="priceSale" #priceSale="ngModel" [readonly]="data.type === 'view'" [(ngModel)]="currentData.price_sale" placeholder="Giá khuyến mãi">
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="col-12 mb-3">
+                <mat-form-field class="example-full-width">
+                    <mat-label>Số lượng:</mat-label>
+                    <input matInput type="number" name="quantity" #quantity="ngModel" [readonly]="data.type === 'view'" [(ngModel)]="currentData.quantity" placeholder="Số lượng" required>
+                </mat-form-field>
+                <app-errors-message [control]="quantity.control" [name]="'Số lượng'"></app-errors-message>
+            </div>
+
             <div class="col-12 mb-3">
                 <mat-form-field class="example-full-width">
                     <mat-label>Mô tả</mat-label>
-                    <textarea matInput name="description" [readonly]="data.type === 'view'" [(ngModel)]="currentData.description" required #description="ngModel" placeholder="Tên danh mục"></textarea>
+                    <textarea rows="5" cols="40" matInput name="description" [readonly]="data.type === 'view'" [(ngModel)]="currentData.description" #description="ngModel" placeholder="Tên danh mục"></textarea>
                 </mat-form-field>
-                <app-errors-message [control]="description.control" [name]="'Mô tả'"></app-errors-message>
+                <!-- <app-errors-message [control]="description.control" [name]="'Mô tả'"></app-errors-message> -->
+            </div>
+
+            <div class="col-12 mb-3 d-flex">
+                <div class="col-6 d-flex align-items-center gap-3" style="padding-right: 10px;">
+                    <mat-label>Khuyến mãi</mat-label>
+                    <p-inputSwitch
+                        [(ngModel)]="currentData.sale"
+                        name="sale"
+                        [disabled]="data.type === 'view'"
+                        (ngModelChange)="hanldeChangeStatus($event)"
+                    ></p-inputSwitch>
+                </div>
+                <div class="col-6 d-flex align-items-center gap-3" style="padding-left: 10px;">
+                    <mat-label>Trạng thái</mat-label>
+                    <p-inputSwitch
+                        [(ngModel)]="currentData.status"
+                        name="status"
+                        [disabled]="data.type === 'view'"
+                        (ngModelChange)="hanldeChangeStatus($event)"
+                    ></p-inputSwitch>
+                </div>
             </div>
 
             <div class="col-12 d-flex gap-3">
-                <mat-label>Trạng thái</mat-label>
-                <mat-slide-toggle [checked]="currentData.status" name="status" [(ngModel)]="currentData.status" [disabled]="data.type === 'view'"></mat-slide-toggle>
+                
+                <!-- <mat-slide-toggle [checked]="currentData.status" name="status" [(ngModel)]="currentData.status" [disabled]="data.type === 'view'"></mat-slide-toggle> -->
             </div>
             <div class="col-12 d-flex gap-3 mt-4 justify-content-center" *ngIf="data.type !== 'view'">
                 <button mat-flat-button color="primary" (click)="cancel()">Hủy</button>

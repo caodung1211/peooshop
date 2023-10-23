@@ -14,46 +14,7 @@ import { ConfirmationService, MessageService } from 'primeng';
   styleUrls: ['./categories.component.scss'],
 })
 export class CategoriesComponent implements OnInit {
-  columns = [
-    {
-      field: 'name',
-      header: 'Tên',
-      visible: true,
-      typeFilter: 'text',
-      showFilter: true,
-      type: 'text',
-      center: true,
-    },
-    {
-      field: 'avatar',
-      header: 'Ảnh đại diện',
-      visible: true,
-      typeFilter: '',
-      showFilter: false,
-      type: 'image',
-      center: true,
-    },
-    {
-      field: 'description',
-      header: 'Mô tả',
-      visible: true,
-      typeFilter: 'text',
-      showFilter: true,
-      type: 'text',
-      center: true,
-    },
-    {
-      field: 'status',
-      header: 'Trạng thái',
-      visible: true,
-      typeFilter: 'dropdown',
-      showFilter: true,
-      type: 'switch',
-      optionDropdown: 'statusEnable',
-      center: true,
-      customWidth: 80,
-    },
-  ];
+  columns:any = []
 
   dataTable: any = [];
 
@@ -63,12 +24,14 @@ export class CategoriesComponent implements OnInit {
     actions: ['edit', 'view', 'delete'],
   };
 
+  showColumns = false;
+  tableName = 'TABLE_CATEGORIES'
+
   constructor(
     public dialog: MatDialog,
     private CategoriesService: CategoriesService,
     private DataBroadcastService: DataBroadcastService,
     private messageService: MessageService,
-    private confirmationService: ConfirmationService
   ) {}
 
   alertSuccess(title: string, detail: string) {
@@ -167,29 +130,6 @@ export class CategoriesComponent implements OnInit {
   }
 
   removeItems(id: string): void {
-    //   this.confirmationService.confirm({
-    //     message: 'Bạn có muốn xóa danh mục này?',
-    //     header: 'Xóa danh mục',
-    //     icon: 'pi pi-info-circle',
-    //     accept: () => {
-    //       this.DataBroadcastService.changeMessage('showLoadding');
-
-    //       this.CategoriesService.deleteCategory(id).subscribe(
-    //         (res) => {
-    //           if (res.status === 200) {
-    //             this.alertSuccess('Thành công', res.message);
-    //           } else {
-    //             this.alertFailed('Thất bại', res.message);
-    //           }
-    //           this.DataBroadcastService.changeMessage('hideLoadding');
-    //         }
-    //       );
-    //     },
-    //     reject: () => {
-
-    //     }
-    // });
-
     const dialogRef = this.dialog.open(DialogConfirmCategoryComponent, {
       width: '400px',
       data: {
@@ -203,6 +143,23 @@ export class CategoriesComponent implements OnInit {
       if (result) {
         this.loadData();
       }
+    });
+  }
+
+  handleCloseTableConfig($event: any) {
+    if ($event.hide) {
+      this.showColumns = false;
+    }
+    this.handleColumns($event.data);
+  }
+
+  handleColumns(columns: any) {
+    this.columns = columns.map((x: any) => {
+      if (x.field === 'name') {
+        x.customWidth = 200;
+      }
+
+      return x;
     });
   }
 }

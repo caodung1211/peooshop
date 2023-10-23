@@ -1,133 +1,220 @@
 <div class="getWidth">
-  <p-table #dt [value]="dataTable" [paginator]="true" [rows]="pageSize" [rowsPerPageOptions]="pageSizeOptions"
-  [showCurrentPageReport]="showCurrentPageReport"
-  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
-  <ng-template pTemplate="header">
-    <tr class="header">
-      <th style="width: 50px; text-align: center;" *ngIf="config.checkbox" [style]="{'width':'50px'}">
-        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-      </th>
+  <p-table
+    #dt
+    [value]="dataTable"
+    [paginator]="true"
+    [rows]="pageSize"
+    [rowsPerPageOptions]="pageSizeOptions"
+    [showCurrentPageReport]="showCurrentPageReport"
+    [responsive]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+  >
+    <ng-template pTemplate="header">
+      <tr class="header">
+        <th
+          style="text-align: center"
+          *ngIf="config.checkbox"
+          [style]="{ width: widthCheckBox+'px' }"
+        >
+          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        </th>
 
-      <th class="text-center" *ngIf="config.stt" [style]="{'width':'50px'}">
-        STT
-      </th>
-      
-      <th *ngFor="let column of columns; index as i" [ngClass]="{ 'text-center': column.center }" class="peoTooltip" [style]="{'width':congfigWidthColumns[i] +'px'}"
-        [pTooltip]="column.header" [pSortableColumn]="column.field">
-        {{ column.header }}
-        <p-sortIcon [field]="column.field"></p-sortIcon>
-      </th>
+        <th class="text-center" *ngIf="config.stt" [style]="{ width: widthStt+'px' }">
+          STT
+        </th>
 
-      <th class="text-center" *ngIf="config.actions" [style]="{'width':'140px'}">
-        Hành động
-      </th>
-
-    </tr>
-
-    <tr class="filter">
-      <th style="width: 50px; text-align: center;" *ngIf="config.checkbox" [style]="{'width':'50px'}">
-      </th>
-
-      <th class="text-center" *ngIf="config.stt" [style]="{'width':'50px'}">
-
-      </th>
-
-      <th *ngFor="let column of columns; index as i" [ngClass]="{ 'text-center': column.center }" [style]="{'width':congfigWidthColumns[i] +'px'}">
-        <ng-container [ngSwitch]="column.typeFilter">
-          <ng-container *ngSwitchCase="'text'">
-            <input pInputText type="text" (input)="dt.filter($event.target.value, column.field, 'contains')"
-              placeholder="Tìm kiếm..." class="ui-column-filter" [(ngModel)]="objectFilter[column.field]">
-          </ng-container>
-
-          <ng-container *ngSwitchCase="'dropdown'">
-            <p-dropdown [options]="objectOption[column.optionDropdown]" (onChange)="dt.filter($event.value, 'status', 'equals')"
-              styleClass="ui-column-filter" [style]="{'width':'100%','min-width': congfigWidthColumns[i] +'px'}" autoWidth="false" placeholder="Chọn..." >
-              <ng-template let-option pTemplate="item">
-                <span [class]="'customer-badge status-' + option.value">{{option.label}}</span>
-              </ng-template>
-            </p-dropdown>
-          </ng-container>
+        <ng-container *ngFor="let column of columns; index as i">
+          <th
+            *ngIf="column.visible"
+            [ngClass]="{ 'text-center': column.center }"
+            class="peoTooltip"
+            [style]="{ width: congfigWidthColumns[i] + 'px' }"
+            [pTooltip]="column.header"
+            [pSortableColumn]="column.field"
+          >
+            {{ column.header }}
+            <p-sortIcon [field]="column.field"></p-sortIcon>
+          </th>
         </ng-container>
 
+        <th
+          class="text-center"
+          *ngIf="config.actions"
+          [style]="{ width: widthActions+'px',maxWidth: widthActions+'px' }"
+        >
+          Hành động
+        </th>
+      </tr>
 
+      <tr class="filter">
+        <th
+          style="text-align: center"
+          *ngIf="config.checkbox"
+          [style]="{ width: widthCheckBox+'px' }"
+        ></th>
 
-      </th>
+        <th
+          class="text-center"
+          *ngIf="config.stt"
+          [style]="{ width: widthStt+'px' }"
+        ></th>
 
-      <th class="text-center" *ngIf="config.actions" [style]="{'width':'140px'}">
-      </th>
+        <ng-container *ngFor="let column of columns; index as i">
+          <th
+            *ngIf="column.visible"
+            [ngClass]="{ 'text-center': column.center }"
+            [style]="{ width: congfigWidthColumns[i] + 'px' }"
+          >
+            <ng-container [ngSwitch]="column.typeFilter">
+              <ng-container *ngSwitchCase="'text'">
+                <input
+                  pInputText
+                  type="text"
+                  (input)="
+                    dt.filter($event.target?.value, column.field, 'contains')
+                  "
+                  placeholder="Tìm kiếm..."
+                  class="ui-column-filter"
+                  [(ngModel)]="objectFilter[column.field]"
+                />
+              </ng-container>
 
-    </tr>
-  </ng-template>
+              <ng-container *ngSwitchCase="'dropdown'">
+                <p-dropdown
+                  [options]="objectOption[column.optionDropdown]"
+                  (onChange)="dt.filter($event.value, 'status', 'equals')"
+                  styleClass="ui-column-filter"
+                  appendTo="body"
+                  [style]="{
+                    width: '100%',
+                    'min-width': (congfigWidthColumns[i] - 10) + 'px'
+                  }"
+                  autoWidth="false"
+                  placeholder="Chọn..."
+                >
+                  <ng-template let-option pTemplate="item">
+                    <span [class]="'customer-badge status-' + option.value">{{
+                      option.label
+                    }}</span>
+                  </ng-template>
+                </p-dropdown>
+              </ng-container>
+            </ng-container>
+          </th>
+        </ng-container>
 
+        <th
+          class="text-center"
+          *ngIf="config.actions"
+          [style]="{ width: widthActions+'px',maxWidth: widthActions+'px' }"
+        ></th>
+      </tr>
+    </ng-template>
 
+    <ng-template pTemplate="body" let-data let-rowIndex="rowIndex">
+      <tr>
+        <td
+          style="text-align: center"
+          *ngIf="config.checkbox"
+          [style]="{ width: widthCheckBox+'px' }"
+        >
+          <p-tableCheckbox [value]="data"></p-tableCheckbox>
+        </td>
 
-  <ng-template pTemplate="body" let-data let-rowIndex="rowIndex">
-    <tr>
-      <td style="text-align: center;" *ngIf="config.checkbox" [style]="{'width':'50px'}">
-        <p-tableCheckbox [value]="data"></p-tableCheckbox>
-      </td>
+        <td class="text-center" *ngIf="config.stt" [style]="{ width: widthStt+'px' }">
+          {{ rowIndex + 1 }}
+        </td>
 
-      <td class="text-center" *ngIf="config.stt" [style]="{'width':'50px'}">
-        {{rowIndex + 1}}
-      </td>
+        <ng-container *ngFor="let column of columns; index as i">
+          <td
+            *ngIf="column.visible"
+            [style]="{ width: congfigWidthColumns[i] + 'px' }"
+          >
+            <ng-container *ngIf="column.type === 'text'">
+              <div
+                [ngClass]="{ 'text-center': column.center }"
+                class="peoTooltip"
+                [pTooltip]="data[column.field]"
+              >
+                {{ data[column.field] }}
+              </div>
+            </ng-container>
 
-      <td *ngFor="let column of columns; index as i" [style]="{'width':congfigWidthColumns[i] +'px'}">
-        <ng-container *ngIf="column.type === 'text'">
-          <div [ngClass]="{ 'text-center': column.center }" class="peoTooltip" [pTooltip]="data[column.field]">
-            {{ data[column.field] }}
+            <ng-container *ngIf="column.type === 'number'">
+              <div
+                [ngClass]="{ 'text-center': column.center }"
+                class="peoTooltip"
+                [pTooltip]="data[column.field]"
+              >
+                {{ data[column.field] }}
+              </div>
+            </ng-container>
+
+            <ng-container *ngIf="column.type === 'price'">
+              <div
+                [ngClass]="{ 'text-center': column.center }"
+                class="peoTooltip"
+                [pTooltip]="data[column.field] | pricePipe"
+              >
+                {{ data[column.field] | pricePipe }}
+              </div>
+            </ng-container>
+
+            <ng-container *ngIf="column.type === 'date'">
+              <div
+                [ngClass]="{ 'text-center': column.center }"
+                class="peoTooltip"
+                [pTooltip]="data[column.field] | datePipe"
+              >
+                {{ data[column.field] | datePipe }}
+              </div>
+            </ng-container>
+
+            <ng-container *ngIf="column.type === 'image'">
+              <div [ngClass]="{ 'text-center': column.center }">
+                <img [src]="data[column.field]" alt="" />
+              </div>
+            </ng-container>
+
+            <ng-container *ngIf="column.type === 'switch'">
+              <div [ngClass]="{ 'text-center': column.center }">
+                <p-inputSwitch
+                  [(ngModel)]="data[column.field]"
+                  (ngModelChange)="hanldeChangeStatus(column.field,$event, data.id)"
+                ></p-inputSwitch>
+              </div>
+            </ng-container>
+          </td>
+        </ng-container>
+
+        <td *ngIf="config.actions" [style]="{ width: widthActions+'px' }">
+          <div class="d-flex justify-content-center align-items-center" style="margin: 0 auto;">
+            <ng-container *ngFor="let action of config.actions">
+              <div
+                *ngIf="action === 'edit'"
+                class="cursor-pointer icon-action"
+                (click)="tableAction(action, data)"
+              >
+                <i class="pi pi-file-edit"></i>
+              </div>
+              <div
+                *ngIf="action === 'view'"
+                class="cursor-pointer icon-action"
+                (click)="tableAction(action, data)"
+              >
+                <i class="pi pi-eye"></i>
+              </div>
+              <div
+                *ngIf="action === 'delete'"
+                class="cursor-pointer icon-action"
+                (click)="tableAction(action, data)"
+              >
+                <i class="pi pi-trash"></i>
+              </div>
+            </ng-container>
           </div>
-        </ng-container>
-
-        <ng-container *ngIf="column.type === 'number'" >
-          <div [ngClass]="{ 'text-center': column.center }" class="peoTooltip" [pTooltip]="data[column.field]">
-            {{ data[column.field] }}
-          </div>
-        </ng-container>
-
-        <ng-container *ngIf="column.type === 'price'" >
-          <div [ngClass]="{ 'text-center': column.center }" class="peoTooltip" [pTooltip]="data[column.field] | pricePipe">
-            {{ data[column.field] | pricePipe}}
-          </div>
-        </ng-container>
-
-        <ng-container *ngIf="column.type === 'date'" >
-          <div [ngClass]="{ 'text-center': column.center }" class="peoTooltip" [pTooltip]="data[column.field] | datePipe">
-            {{ data[column.field] | datePipe}}
-          </div>
-        </ng-container>
-
-        <ng-container *ngIf="column.type === 'image'">
-          <div [ngClass]="{ 'text-center': column.center }">
-            <img [src]="data[column.field]" alt="" />
-          </div>
-        </ng-container>
-        
-        <ng-container *ngIf="column.type === 'switch'">
-          <div [ngClass]="{ 'text-center': column.center }">
-            <p-inputSwitch [(ngModel)]="data[column.field]"
-              (ngModelChange)="hanldeChangeStatus($event,data.id)"></p-inputSwitch>
-          </div>
-        </ng-container>
-
-      </td>
-
-      <td *ngIf="config.actions" [style]="{'width':'140px'}">
-        <div class="d-flex justify-content-center align-items-center gap-1">
-          <ng-container *ngFor="let action of config.actions">
-            <div *ngIf="action === 'edit'" class="cursor-pointer icon-action" (click)="tableAction(action, data)">
-              <i class="pi pi-file-edit"></i>
-            </div>
-            <div *ngIf="action === 'view'" class="cursor-pointer icon-action" (click)="tableAction(action, data)">
-              <i class="pi pi-eye" ></i>
-            </div>
-            <div *ngIf="action === 'delete'" class="cursor-pointer icon-action" (click)="tableAction(action, data)">
-              <i class="pi pi-trash"></i>
-            </div>
-          </ng-container>
-        </div>
-      </td>
-
-    </tr>
-  </ng-template>
-</p-table>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
 </div>

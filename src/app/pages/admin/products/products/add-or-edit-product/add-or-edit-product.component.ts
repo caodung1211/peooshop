@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { MessageService } from 'primeng';
+import { InputSwitchModule, MessageService } from 'primeng';
 import { DataBroadcastService } from 'src/app/service/data-broadcast.service';
 import { productsService } from '../products.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
@@ -10,6 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatButtonModule } from '@angular/material/button';
 import { ErrorsMessageModule } from 'src/app/components/admin/errors-message/errors-message.module';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-add-or-edit-product',
@@ -25,13 +26,30 @@ import { ErrorsMessageModule } from 'src/app/components/admin/errors-message/err
     MatSlideToggleModule,
     MatButtonModule,
     ErrorsMessageModule,
+    InputSwitchModule,
+    MatSelectModule,
   ],
 })
 export class AddOrEditProductComponent {
-  currentData: any;
+  currentData: any = {};
   product_id = '';
   header = '';
   imgFile: any;
+
+  optionDropdow: any = {
+    stock: [
+      { label: 'Còn hàng', value: '1' },
+      { label: 'Hết hàng', value: '0' },
+    ],
+    category: [],
+    size: [],
+    color: [],
+  };
+
+  tempCategory:any = []
+  tempSize:any = []
+  tempColor:any = []
+
 
   constructor(
     public dialogRef: MatDialogRef<AddOrEditProductComponent>,
@@ -41,8 +59,32 @@ export class AddOrEditProductComponent {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.product_id = this.data.data.id;
-
     this.header = this.data.header;
+
+    this.data.data.listCategory.map((x: any) => {
+      this.optionDropdow.category.push({
+        label: x.name,
+        value: x.id,
+      });
+      return x;
+    });
+
+    this.data.data.listSize.map((x: any) => {
+      this.optionDropdow.size.push({
+        label: x.name,
+        value: x.id,
+      });
+      return x;
+    });
+
+    this.data.data.listColor.map((x: any) => {
+      this.optionDropdow.color.push({
+        label: x.name,
+        value: x.id,
+      });
+      return x;
+    });
+
     if (this.data.data.id) {
       this.loadData(this.product_id);
     } else {
@@ -52,8 +94,8 @@ export class AddOrEditProductComponent {
         description: '',
         category: '',
         avatar: '',
-        sale: '',
-        status: '',
+        sale: false,
+        status: true,
         stock_status: '',
         quantity: '',
         color: '',
@@ -61,8 +103,7 @@ export class AddOrEditProductComponent {
         price_cost: '',
         price: '',
         price_collab: '',
-        price_sale: '',
-        date_update: '',
+        price_sale: ''
       };
     }
   }
@@ -88,14 +129,105 @@ export class AddOrEditProductComponent {
   ngOnInit() {}
 
   loadData(id: string) {
+    this.DataBroadcastService.changeMessage('showLoadding');
+
     this.productsService.getDetailProduct(id).subscribe((res) => {
-      console.log(res);
-      this.currentData =res
+      this.currentData = res;
+
+      this.tempCategory = this.currentData.category.split(',');
+      this.tempSize = this.currentData.size.split(',');
+      this.tempColor = this.currentData.color.split(',');
+
+      this.currentData.status = this.currentData.status === '1' ? true : false;
+      this.currentData.sale = this.currentData.sale === '1' ? true : false;
+      this.DataBroadcastService.changeMessage('hideLoadding');
     });
   }
 
   onSubmit(type: string) {
-    this.dialogRef.close(true);
+    this.DataBroadcastService.changeMessage('showLoadding');
+
+    this.currentData.category = this.tempCategory.toString();
+    this.currentData.size = this.tempSize.toString();
+    this.currentData.color = this.tempColor.toString();
+
+    if (this.imgFile) {
+      const formdata = new FormData();
+      formdata.append('image', this.imgFile);
+      this.productsService.uploadImage(formdata).subscribe((res) => {
+        if (res.status === 200) {
+          this.currentData.avatar = res.url;
+
+          if (type === 'add') {
+            this.productsService
+              .createProduct(this.currentData)
+              .subscribe((resCreate) => {
+                if (resCreate.status === 200) {
+                  this.dialogRef.close(true);
+                  this.alertSuccess('Thành công', resCreate.message);
+                  this.DataBroadcastService.changeMessage('hideLoadding');
+                } else {
+                  this.DataBroadcastService.changeMessage('hideLoadding');
+
+                  this.alertFailed('Thất bại', resCreate.message);
+                }
+              });
+          } else {
+            this.productsService
+              .editProduct(this.product_id, this.currentData)
+              .subscribe((resCreate) => {
+                if (resCreate.status === 200) {
+                  this.DataBroadcastService.changeMessage('hideLoadding');
+                  this.dialogRef.close(true);
+                  this.alertSuccess('Thành công', resCreate.message);
+                } else {
+                  this.DataBroadcastService.changeMessage('hideLoadding');
+
+                  this.alertFailed('Thất bại', resCreate.message);
+                }
+              });
+          }
+        } else {
+          this.DataBroadcastService.changeMessage('hideLoadding');
+
+          this.alertFailed('Thất bại', res.message);
+        }
+      });
+    } else {
+      this.currentData.avatar = this.currentData.avatar
+        ? this.currentData.avatar
+        : 'https://peooshop.top/wp/wp-content/themes/peooshop/images/no_image.png';
+
+      if (type === 'add') {
+        this.productsService
+          .createProduct(this.currentData)
+          .subscribe((resCreate) => {
+            if (resCreate.status === 200) {
+              this.DataBroadcastService.changeMessage('hideLoadding');
+              this.dialogRef.close(true);
+              this.alertSuccess('Thành công', resCreate.message);
+            } else {
+              this.DataBroadcastService.changeMessage('hideLoadding');
+
+              this.alertFailed('Thất bại', resCreate.message);
+            }
+          });
+      } else {
+        this.productsService
+          .editProduct(this.product_id, this.currentData)
+          .subscribe((resCreate) => {
+            if (resCreate.status === 200) {
+              this.DataBroadcastService.changeMessage('hideLoadding');
+              this.dialogRef.close(true);
+              this.alertSuccess('Thành công', resCreate.message);
+            } else {
+              this.DataBroadcastService.changeMessage('hideLoadding');
+
+              this.alertFailed('Thất bại', resCreate.message);
+            }
+          });
+      }
+    }
   }
 
   cancel() {

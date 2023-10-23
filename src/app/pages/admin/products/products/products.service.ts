@@ -9,7 +9,6 @@ export class productsService {
 
   constructor(private http: HttpClient) { }
 
-
   uploadImage(body:any): Observable<any> {
     return this.http.post('http://peooshop.top/wp/wp-json/api/v1/upload_image',body)
   }
@@ -36,6 +35,10 @@ export class productsService {
 
   getListSize(): Observable<any> {
     return this.http.get('http://peooshop.top/wp/wp-json/api/v1/size')
+  }
+
+  getListColor(): Observable<any> {
+    return this.http.get('http://peooshop.top/wp/wp-json/api/v1/color')
   }
 
   getListCategory(): Observable<any> {

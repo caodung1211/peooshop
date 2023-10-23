@@ -1,0 +1,31 @@
+<p-dialog
+  header="Chỉnh sửa hiển thị"
+  (onHide)="handleHideDialog($event)"
+  [(visible)]="showColumns"
+  [modal]="true"
+  [style]="{ width: '50vw' }"
+  [baseZIndex]="10000"
+  [dismissableMask]="true"
+>
+  <div class="box-columns">
+    <ng-container *ngFor="let item of columns">
+      <p-checkbox
+        [name]="item.header"
+        [value]="item.header"
+        [label]="item.header"
+        [(ngModel)]="item.visible"
+        [inputId]="item.field"
+        [binary]="true"
+      ></p-checkbox>
+    </ng-container>
+  </div>
+
+  <p-footer>
+    <div class="d-flex gap-2 justify-content-center">
+        <button mat-raised-button (click)="showColumns = false">
+            Hủy
+          </button>
+          <button mat-raised-button color="primary" (click)="onSubmit()">Lưu</button>
+    </div>
+  </p-footer>
+</p-dialog>

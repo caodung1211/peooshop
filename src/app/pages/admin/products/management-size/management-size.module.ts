@@ -7,6 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ConfirmationService } from 'primeng';
 import { DialogConfirmSizeComponent } from './dialog-confirm-size/dialog-confirm-size.component';
+import { TableNameConfigModule } from 'src/app/components/admin/table-name-config/table-name-config.module';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { DialogConfirmSizeComponent } from './dialog-confirm-size/dialog-confirm
     TableBaseLayoutModule,
     MatButtonModule,
     MatDialogModule,
+    TableNameConfigModule
   ],
   providers: [ConfirmationService]
 })

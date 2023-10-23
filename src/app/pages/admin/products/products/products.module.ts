@@ -6,6 +6,7 @@ import { TableBaseLayoutModule } from 'src/app/components/admin/table-base-layou
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { DialogConfirmProductComponent } from './dialog-confirm-product/dialog-confirm-product.component';
+import { TableNameConfigModule } from 'src/app/components/admin/table-name-config/table-name-config.module';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { DialogConfirmProductComponent } from './dialog-confirm-product/dialog-c
     TableBaseLayoutModule,
     MatButtonModule,
     MatDialogModule,
+    TableNameConfigModule
   ],
 })
 export class ProductsModule { }

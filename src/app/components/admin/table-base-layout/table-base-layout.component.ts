@@ -1,4 +1,15 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild, AfterViewInit, Output, EventEmitter, ElementRef } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+  ViewChild,
+  AfterViewInit,
+  Output,
+  EventEmitter,
+  ElementRef,
+} from '@angular/core';
 import { IConfigTableBase } from './table-base-layout.model';
 import { Table } from 'primeng';
 
@@ -7,114 +18,144 @@ import { Table } from 'primeng';
   templateUrl: './table-base-layout.component.html',
   styleUrls: ['./table-base-layout.component.scss'],
 })
-export class TableBaseLayoutComponent implements OnInit, OnChanges, AfterViewInit{
+export class TableBaseLayoutComponent
+  implements OnInit, OnChanges, AfterViewInit
+{
   @Input() dataTable!: any[];
   @Input() columns!: any[];
-  @Input() config!: IConfigTableBase
+  @Input() config!: IConfigTableBase;
   @Input() showCurrentPageReport = false;
-  
+
   @Output() actionTable = new EventEmitter<any>();
 
   @ViewChild('dt') table: Table;
 
-  pageSizeOptions = [5, 10, 20, 50, 100]
-  pageSize = 10
-  
-  objectFilter:any = {}
-  congfigWidthColumns:any = []
+  pageSizeOptions = [5, 10, 20, 50, 100];
+  pageSize = 10;
 
-  minWidthColumn = 0
+  objectFilter: any = {};
+  congfigWidthColumns: any = [];
 
-  objectOption:any = {
+  minWidthColumn = 0;
+
+  widthCheckBox = 30;
+  widthStt = 30;
+  widthActions = 140;
+
+  objectOption: any = {
     statusEnable: [
-      {label: 'Tất cả', value: null},
-      {label: 'Kích hoạt', value: true},
-      {label: 'Không kích hoạt', value: false}
-    ]
-  }
+      { label: 'Tất cả', value: null },
+      { label: 'Kích hoạt', value: true },
+      { label: 'Không kích hoạt', value: false },
+    ],
+  };
 
   constructor() {}
 
   ngOnChanges(changes: SimpleChanges) {
-    this.handleColumns()
-    this.handleDataTable()
+    this.handleColumns();
+    this.handleDataTable();
   }
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  ngAfterViewInit() {}
+
+  handleColumns() {
+    this.congfigWidthColumns = [];
+    if (this.config.checkbox) {
+      this.dataTable.map((x: any) => {
+        x.checkbox = false;
+        return x;
+      });
+    }
+
+    if (this.config.stt) {
+      this.dataTable.map((x: any, index: number) => {
+        x.stt = index + 1;
+        return x;
+      });
+    }
+
+    this.columns.map((x: any) => {
+      this.objectFilter[x.field] = '';
+      return x;
+    });
+
+    this.setWidthColumns();
   }
 
-  ngAfterViewInit() {
+  setWidthColumns() {
+    let totalWidthCustom = 0;
+    let totalColumns = 0;
+
+    this.columns.map((x: any) => {
+      if (x.visible) {
+        if(x.customWidth){
+          totalWidthCustom += x.customWidth;
+        }else{
+          totalWidthCustom += 0;
+          totalColumns += 1;
+        }
+      }
+    });
+
+    totalWidthCustom = totalWidthCustom + (this.config.stt ? this.widthStt : 0) + (this.config.checkbox ? this.widthCheckBox : 0) + (this.config.actions ? this.widthActions : 0);
+
+    // totalColumns =
+    //   totalColumns +
+    //   (this.config.stt ? 1 : 0) +
+    //   (this.config.checkbox ? 1 : 0) +
+    //   (this.config.actions ? 1 : 0);
+
+    this.minWidthColumn = (document.getElementsByClassName('getWidth')[0].clientWidth - totalWidthCustom) / totalColumns;
+
+
+    this.columns.map((x: any, index: number) => {
+      if (x.visible) {
+        if (x.customWidth) {
+          this.congfigWidthColumns.push(x.customWidth);
+        } else {
+          this.congfigWidthColumns.push(this.minWidthColumn);
+        }
+      }
+      return x;
+    });
+
     
+    console.log(document.getElementsByClassName('getWidth')[0].clientWidth)
+
+    console.log("totalColumns",totalColumns)
+    console.log("totalWidthCustom",totalWidthCustom)
+    console.log("minWidthColumn",this.minWidthColumn)
+    console.log("congfigWidthColumns",this.congfigWidthColumns)
   }
 
-  handleColumns(){
-    this.congfigWidthColumns = []
-    if(this.config.checkbox){
-      this.dataTable.map((x:any)=>{
-        x.checkbox = false
-        return x
-      })
-    }
-
-    if(this.config.stt){
-      this.dataTable.map((x:any,index:number)=>{
-        x.stt = index + 1
-        return x
-      })
-    }
-
-    this.columns.map((x:any)=>{
-      this.objectFilter[x.field] = ''
-      return x
-    })
-
-    this.setWidthColumns()
-  }
-
-  setWidthColumns(){
-    let totalWidthCustom = 0
-    this.columns.map((x:any)=>{
-      totalWidthCustom += x.customWidth ? x.customWidth : 0
-    })
-
-    this.minWidthColumn = (document.getElementsByClassName("getWidth")[0].clientWidth - 50 - 50 - (this.config.actions ? 140 : 0) - totalWidthCustom) / this.columns.length
-    this.columns.map((x:any,index:number)=>{
-      if(x.customWidth){
-        this.congfigWidthColumns.push(x.customWidth)
-      }else{
-        this.congfigWidthColumns.push(this.minWidthColumn)
+  handleDataTable() {
+    this.columns.map((x: any) => {
+      if (x.field === 'stock_status') {
+        this.dataTable.map((z) => {
+          z.stock_status = z.stock_status === '1' ? 'Còn hàng' : 'Hết hàng';
+          return z;
+        });
       }
-      return x
-    })
+      return x;
+    });
   }
 
-  handleDataTable(){
-    this.columns.map((x:any)=>{
-      if(x.field === 'stock_status'){
-        this.dataTable.map(z=>{
-          z.stock_status = z.stock_status === '1' ? 'Còn hàng' : 'Hết hàng'
-          return z
-        })
-      }
-      return x
-    })
-  }
-
-  tableAction(action:string,dataItem:any){
+  tableAction(action: string, dataItem: any) {
     let dataEmit = {
       type: action,
-      data: dataItem
-    }
-    this.actionTable.emit(dataEmit)
+      data: dataItem,
+    };
+    this.actionTable.emit(dataEmit);
   }
 
-  hanldeChangeStatus(data:any,id:string){
+  hanldeChangeStatus(type:string,data: any, id: string) {
     this.actionTable.emit({
-      type: 'status',
+      type: type,
       id: id,
-      data: data
-    })
-
+      data: data,
+    });
   }
-
 }
