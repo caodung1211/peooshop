@@ -1,0 +1,57 @@
+<div class="d-flex justify-content-between align-items-center">
+  <button
+    mat-raised-button
+    color="primary"
+    class="mb-4"
+    (click)="fileInput.click()"
+  >
+    <i class="material-icons">add</i>Thêm mới
+  </button>
+
+  <input
+    #fileInput
+    multiple
+    name="imageGallery"
+    type="file"
+    accept="image/*"
+    id="imageGallery"
+    style="display: none"
+    (change)="addGallery($event)"
+  />
+
+  <!-- <div (click)="showColumns = true" class="cursor-pointer">
+      <i class="pi pi-cog" style="font-size: 2em"></i>
+    </div> -->
+</div>
+
+<div class="library">
+  <div class="box-img cursor-pointer" *ngFor="let item of library">
+    <img [src]="item" (click)="showLightBox(item)" />
+    <div class="icon-remove">
+      <i
+        class="pi pi-minus"
+        style="font-size: 14px"
+        (click)="removeGallery(item)"
+      ></i>
+    </div>
+  </div>
+</div>
+
+<p-dialog
+  [(visible)]="lightBoxImg"
+  [modal]="true"
+  [showHeader]="false"
+  [style]="{ width: '90vw' }"
+  [baseZIndex]="12"
+  [dismissableMask]="true"
+>
+  <div class="imgLightBox">
+    <img [src]="lightBoxImgURL" />
+  </div>
+</p-dialog>
+
+<p-confirmDialog
+[baseZIndex]="100"
+  header="Confirmation"
+  icon="pi pi-exclamation-triangle"
+></p-confirmDialog>

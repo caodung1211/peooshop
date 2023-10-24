@@ -22,6 +22,7 @@ const routes: Routes = [
       { path: 'categories', loadChildren: () => import('./products/categories/categories.module').then(m => m.CategoriesModule), },
       { path: 'size', loadChildren: () => import('./products/management-size/management-size.module').then(m => m.ManagementSizeModule), },
       { path: 'color', loadChildren: () => import('./products/management-color/management-color.module').then(m => m.ManagementColorModule), },
+      { path: 'library', loadChildren: () => import('./library/library.module').then(m => m.LibraryModule), },
 
       
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },

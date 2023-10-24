@@ -51,6 +51,14 @@ export class SidebarComponent {
                 }
             ]
         },
+        {
+            label: 'Hình ảnh',
+            items: [
+                {
+                    label: 'Danh sách hình ảnh', icon: 'pi pi-fw pi-bookmark', routerLink: ['/admin/library']
+                }
+            ]
+        },
       ];
   }
 }

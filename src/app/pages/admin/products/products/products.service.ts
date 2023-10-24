@@ -12,7 +12,10 @@ export class productsService {
   uploadImage(body:any): Observable<any> {
     return this.http.post('http://peooshop.top/wp/wp-json/api/v1/upload_image',body)
   }
-
+  uploadImageMulti(body:any): Observable<any> {
+    return this.http.post('http://peooshop.top/wp/wp-json/api/v1/upload_image/multi',body)
+  }
+  
   createProduct(body:any): Observable<any> {
     return this.http.post('http://peooshop.top/wp/wp-json/api/v1/product',body)
   }

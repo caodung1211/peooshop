@@ -1,0 +1,45 @@
+.library {
+  display: grid;
+  grid-gap: 10px;
+  grid-template-columns: repeat(7, 1fr);
+  background: #fff;
+  padding: 10px;
+  .box-img {
+    max-height: 200px;
+    position: relative;
+    .icon-remove {
+      opacity: 0;
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #000;
+      border-radius: 50%;
+      width: 22px;
+      height: 22px;
+      cursor: pointer;
+      transition: all 0.5s;
+    }
+    &:hover {
+      .icon-remove {
+        opacity: 1;
+      }
+    }
+    img {
+      width: 100%;
+      object-fit: contain;
+      height: 100%;
+    }
+  }
+}
+
+.imgLightBox {
+  text-align: center;
+  img {
+    width: auto;
+    object-fit: cover;
+  }
+}

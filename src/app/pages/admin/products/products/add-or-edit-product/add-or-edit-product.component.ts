@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { InputSwitchModule, MessageService } from 'primeng';
+import { DialogModule, InputSwitchModule, MessageService } from 'primeng';
 import { DataBroadcastService } from 'src/app/service/data-broadcast.service';
 import { productsService } from '../products.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
@@ -28,18 +28,25 @@ import { MatSelectModule } from '@angular/material/select';
     ErrorsMessageModule,
     InputSwitchModule,
     MatSelectModule,
+    DialogModule
   ],
 })
 export class AddOrEditProductComponent {
   currentData: any = {};
-  product_id = '';
+  id = '';
   header = '';
   imgFile: any;
+  imgGalleryUpload: any = []
+
 
   optionDropdow: any = {
     stock: [
-      { label: 'Còn hàng', value: '1' },
-      { label: 'Hết hàng', value: '0' },
+      { label: 'Còn hàng', id: '1' },
+      { label: 'Hết hàng', id: '0' },
+    ],
+    branch:[
+      { label: 'CNK', id: 'CNK' },
+      { label: 'Shein', id: 'Shein' }
     ],
     category: [],
     size: [],
@@ -49,7 +56,10 @@ export class AddOrEditProductComponent {
   tempCategory:any = []
   tempSize:any = []
   tempColor:any = []
+  tempGallery:any = []
 
+  lightBoxImg = false
+  lightBoxImgURL = ''
 
   constructor(
     public dialogRef: MatDialogRef<AddOrEditProductComponent>,
@@ -58,38 +68,23 @@ export class AddOrEditProductComponent {
     private messageService: MessageService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    this.product_id = this.data.data.id;
+    this.id = this.data.data.id;
     this.header = this.data.header;
 
-    this.data.data.listCategory.map((x: any) => {
-      this.optionDropdow.category.push({
-        label: x.name,
-        value: x.id,
-      });
-      return x;
-    });
+    this.optionDropdow.category = this.data.data.listCategory
+    this.optionDropdow.category.shift()
 
-    this.data.data.listSize.map((x: any) => {
-      this.optionDropdow.size.push({
-        label: x.name,
-        value: x.id,
-      });
-      return x;
-    });
+    this.optionDropdow.size = this.data.data.listSize
+    this.optionDropdow.size.shift()
 
-    this.data.data.listColor.map((x: any) => {
-      this.optionDropdow.color.push({
-        label: x.name,
-        value: x.id,
-      });
-      return x;
-    });
+    this.optionDropdow.color = this.data.data.listColor
+    this.optionDropdow.color.shift()
 
     if (this.data.data.id) {
-      this.loadData(this.product_id);
+      this.loadData(this.id);
     } else {
       this.currentData = {
-        product_id: '',
+        id: '',
         name: '',
         description: '',
         category: '',
@@ -103,7 +98,8 @@ export class AddOrEditProductComponent {
         price_cost: '',
         price: '',
         price_collab: '',
-        price_sale: ''
+        price_sale: '',
+        gallery: []
       };
     }
   }
@@ -129,10 +125,15 @@ export class AddOrEditProductComponent {
   ngOnInit() {}
 
   loadData(id: string) {
+    this.imgGalleryUpload = []
+
     this.DataBroadcastService.changeMessage('showLoadding');
 
     this.productsService.getDetailProduct(id).subscribe((res) => {
       this.currentData = res;
+      JSON.parse(res.gallery).map((x:any,index:number)=>{
+        this.tempGallery.push({img: x, id: index})
+      })
 
       this.tempCategory = this.currentData.category.split(',');
       this.tempSize = this.currentData.size.split(',');
@@ -158,6 +159,155 @@ export class AddOrEditProductComponent {
         if (res.status === 200) {
           this.currentData.avatar = res.url;
 
+          if(this.imgGalleryUpload && this.imgGalleryUpload.length > 0){
+
+            this.currentData.gallery = []
+
+            this.currentData.gallery = this.tempGallery.filter((x:any)=>{
+              if(x.img.substring(0,10) !== "data:image"){
+                return x
+              }
+            }).map((z:any)=>{
+              return z.img
+            })
+
+              const formdataImgGalleryUpload = new FormData();
+
+              for(var i = 0; i <  this.imgGalleryUpload.length; i++)  {  
+                formdataImgGalleryUpload.append("image[]",  this.imgGalleryUpload[i]);
+              } 
+
+              this.productsService.uploadImageMulti(formdataImgGalleryUpload).subscribe((resImgGalleryUpload) => {
+                this.currentData.gallery = this.currentData.gallery.concat(resImgGalleryUpload.url)
+
+                  if (type === 'add') {
+                    this.productsService
+                      .createProduct(this.currentData)
+                      .subscribe((resCreate) => {
+                        if (resCreate.status === 200) {
+                          this.dialogRef.close(true);
+                          this.alertSuccess('Thành công', resCreate.message);
+                          this.DataBroadcastService.changeMessage('hideLoadding');
+                        } else {
+                          this.DataBroadcastService.changeMessage('hideLoadding');
+        
+                          this.alertFailed('Thất bại', resCreate.message);
+                        }
+                      });
+                  } else {
+                    this.productsService
+                      .editProduct(this.id, this.currentData)
+                      .subscribe((resCreate) => {
+                        if (resCreate.status === 200) {
+                          this.DataBroadcastService.changeMessage('hideLoadding');
+                          this.dialogRef.close(true);
+                          this.alertSuccess('Thành công', resCreate.message);
+                        } else {
+                          this.DataBroadcastService.changeMessage('hideLoadding');
+        
+                          this.alertFailed('Thất bại', resCreate.message);
+                        }
+                      });
+                  }
+
+              }) 
+          }else{
+         
+            if (type === 'add') {
+              this.productsService
+                .createProduct(this.currentData)
+                .subscribe((resCreate) => {
+                  if (resCreate.status === 200) {
+                    this.dialogRef.close(true);
+                    this.alertSuccess('Thành công', resCreate.message);
+                    this.DataBroadcastService.changeMessage('hideLoadding');
+                  } else {
+                    this.DataBroadcastService.changeMessage('hideLoadding');
+  
+                    this.alertFailed('Thất bại', resCreate.message);
+                  }
+                });
+            } else {
+              this.productsService
+                .editProduct(this.id, this.currentData)
+                .subscribe((resCreate) => {
+                  if (resCreate.status === 200) {
+                    this.DataBroadcastService.changeMessage('hideLoadding');
+                    this.dialogRef.close(true);
+                    this.alertSuccess('Thành công', resCreate.message);
+                  } else {
+                    this.DataBroadcastService.changeMessage('hideLoadding');
+  
+                    this.alertFailed('Thất bại', resCreate.message);
+                  }
+                });
+            }
+          }
+
+        } else {
+          this.DataBroadcastService.changeMessage('hideLoadding');
+
+          this.alertFailed('Thất bại', res.message);
+        }
+      });
+    } else {
+      this.currentData.avatar = this.currentData.avatar
+        ? this.currentData.avatar
+        : 'https://peooshop.top/wp/wp-content/themes/peooshop/images/no_image.png';
+
+        if(this.imgGalleryUpload && this.imgGalleryUpload.length > 0){
+
+          this.currentData.gallery = []
+
+          this.currentData.gallery = this.tempGallery.filter((x:any)=>{
+            if(x.img.substring(0,10) !== "data:image"){
+              return x
+            }
+          }).map((z:any)=>{
+            return z.img
+          })
+
+            const formdataImgGalleryUpload = new FormData();
+
+            for(var i = 0; i <  this.imgGalleryUpload.length; i++)  {  
+              formdataImgGalleryUpload.append("image[]",  this.imgGalleryUpload[i]);
+            } 
+            this.productsService.uploadImageMulti(formdataImgGalleryUpload).subscribe((resImgGalleryUpload) => {
+              this.currentData.gallery = this.currentData.gallery.concat(resImgGalleryUpload.url)
+
+                if (type === 'add') {
+                  this.productsService
+                    .createProduct(this.currentData)
+                    .subscribe((resCreate) => {
+                      if (resCreate.status === 200) {
+                        this.dialogRef.close(true);
+                        this.alertSuccess('Thành công', resCreate.message);
+                        this.DataBroadcastService.changeMessage('hideLoadding');
+                      } else {
+                        this.DataBroadcastService.changeMessage('hideLoadding');
+      
+                        this.alertFailed('Thất bại', resCreate.message);
+                      }
+                    });
+                } else {
+                  this.productsService
+                    .editProduct(this.id, this.currentData)
+                    .subscribe((resCreate) => {
+                      if (resCreate.status === 200) {
+                        this.DataBroadcastService.changeMessage('hideLoadding');
+                        this.dialogRef.close(true);
+                        this.alertSuccess('Thành công', resCreate.message);
+                      } else {
+                        this.DataBroadcastService.changeMessage('hideLoadding');
+      
+                        this.alertFailed('Thất bại', resCreate.message);
+                      }
+                    });
+                }
+
+            }) 
+        }else{
+       
           if (type === 'add') {
             this.productsService
               .createProduct(this.currentData)
@@ -174,7 +324,7 @@ export class AddOrEditProductComponent {
               });
           } else {
             this.productsService
-              .editProduct(this.product_id, this.currentData)
+              .editProduct(this.id, this.currentData)
               .subscribe((resCreate) => {
                 if (resCreate.status === 200) {
                   this.DataBroadcastService.changeMessage('hideLoadding');
@@ -187,46 +337,9 @@ export class AddOrEditProductComponent {
                 }
               });
           }
-        } else {
-          this.DataBroadcastService.changeMessage('hideLoadding');
-
-          this.alertFailed('Thất bại', res.message);
         }
-      });
-    } else {
-      this.currentData.avatar = this.currentData.avatar
-        ? this.currentData.avatar
-        : 'https://peooshop.top/wp/wp-content/themes/peooshop/images/no_image.png';
 
-      if (type === 'add') {
-        this.productsService
-          .createProduct(this.currentData)
-          .subscribe((resCreate) => {
-            if (resCreate.status === 200) {
-              this.DataBroadcastService.changeMessage('hideLoadding');
-              this.dialogRef.close(true);
-              this.alertSuccess('Thành công', resCreate.message);
-            } else {
-              this.DataBroadcastService.changeMessage('hideLoadding');
-
-              this.alertFailed('Thất bại', resCreate.message);
-            }
-          });
-      } else {
-        this.productsService
-          .editProduct(this.product_id, this.currentData)
-          .subscribe((resCreate) => {
-            if (resCreate.status === 200) {
-              this.DataBroadcastService.changeMessage('hideLoadding');
-              this.dialogRef.close(true);
-              this.alertSuccess('Thành công', resCreate.message);
-            } else {
-              this.DataBroadcastService.changeMessage('hideLoadding');
-
-              this.alertFailed('Thất bại', resCreate.message);
-            }
-          });
-      }
+      
     }
   }
 
@@ -254,4 +367,46 @@ export class AddOrEditProductComponent {
     let reader = e.target;
     this.currentData.avatar = reader.result;
   }
+
+  removeGallery(id:string){
+    this.tempGallery = this.tempGallery.filter((x:any)=>{
+      return x.id !== id
+    })
+
+    this.currentData.gallery = this.tempGallery.filter((x:any)=>{
+      if(x.img.substring(0,10) !== "data:image"){
+        return x
+      }
+    }).map((z:any)=>{
+      return z.img
+    })
+  }
+
+  addGallery(e: any) {
+
+    for (let i = 0; i < e.target.files.length; i++) {
+
+      var file = e.dataTransfer ? e.dataTransfer.files[i] : e.target.files[i];
+      var pattern = /image-*/;
+      var reader = new FileReader();
+      if (!file.type.match(pattern)) {
+        alert('invalid format');
+        return;
+      }
+      this.imgGalleryUpload.push(e.target.files[i])
+
+      reader.onload = this._handleReaderLoadedImageGallery.bind(this);
+      reader.readAsDataURL(file);
+    }
+  }
+  _handleReaderLoadedImageGallery(e: any):void {
+    let reader = e.target;
+    this.tempGallery.push({img: reader.result, id: (Math.random() + 1).toString(36).substring(7)})
+  }
+
+  showLightBox($event:string){
+    this.lightBoxImgURL = $event
+    this.lightBoxImg =true
+  }
+
 }

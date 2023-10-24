@@ -31,6 +31,12 @@ export class ProductsComponent implements OnInit {
 
   showColumns = false;
 
+  optionCustomize:any = {
+    dropdownCategory: [],
+    dropdownSize: [],
+    dropdownColor: []
+  }
+
   constructor(
     public dialog: MatDialog,
     private productsService: productsService,
@@ -73,23 +79,35 @@ export class ProductsComponent implements OnInit {
     this.DataBroadcastService.changeMessage('showLoadding');
 
     this.productsService.getListCategory().subscribe((resCategory) => {
-      this.listCategory = resCategory;
+      this.optionCustomize.dropdownCategory = []
+      this.optionCustomize.dropdownCategory.push({label: "Tất cả", value: null})
+      resCategory.map((x:any)=>{
+        this.optionCustomize.dropdownCategory.push({label: x.name, value: x.name, id: x.id})
+      })
 
       this.productsService.getListSize().subscribe((resSize) => {
-        this.listSize = resSize;
+        this.optionCustomize.dropdownSize = []
+        this.optionCustomize.dropdownSize.push({label: "Tất cả", value: null})
+        resSize.map((x:any)=>{
+          this.optionCustomize.dropdownSize.push({label: x.name, value: x.name, id: x.id})
+        })
 
         this.productsService.getListColor().subscribe((resColor) => {
-          this.listColor = resColor;
+          this.optionCustomize.dropdownColor = []
+          this.optionCustomize.dropdownColor.push({label: "Tất cả", value: null})
+          resColor.map((x:any)=>{
+            this.optionCustomize.dropdownColor.push({label: x.name, value: x.name, id: x.id})
+          })
 
           this.productsService.getListProduct().subscribe((res) => {
             this.dataTable = res;
 
             this.dataTable.map((x: any) => {
               let temp: any = [];
-              this.listCategory.map((category: any) => {
+              this.optionCustomize.dropdownCategory.map((category: any) => {
                 x.category.split(',').map((z: any) => {
                   if (z === category.id) {
-                    temp.push(category.name);
+                    temp.push(category.label);
                   }
                   return z;
                 });
@@ -102,10 +120,10 @@ export class ProductsComponent implements OnInit {
 
             this.dataTable.map((x: any) => {
               let temp: any = [];
-              this.listSize.map((size: any) => {
+              this.optionCustomize.dropdownSize.map((size: any) => {
                 x.size.split(',').map((z: any) => {
                   if (z === size.id) {
-                    temp.push(size.name);
+                    temp.push(size.label);
                   }
                   return z;
                 });
@@ -118,10 +136,10 @@ export class ProductsComponent implements OnInit {
 
             this.dataTable.map((x: any) => {
               let temp: any = [];
-              this.listColor.map((color: any) => {
+              this.optionCustomize.dropdownColor.map((color: any) => {
                 x.color.split(',').map((z: any) => {
                   if (z === color.id) {
-                    temp.push(color.name);
+                    temp.push(color.label);
                   }
                   return z;
                 });
@@ -132,11 +150,12 @@ export class ProductsComponent implements OnInit {
               return x;
             });
 
+
+
             this.dataTable = this.dataTable.filter((x: any) => {
               if (x.status === '1' || x.status === '0') {
                 x.status = x.status === '1' ? true : false;
                 x.sale = x.sale === '1' ? true : false;
-
                 return x;
               }
             });
@@ -157,7 +176,7 @@ export class ProductsComponent implements OnInit {
         this.addNew(event.data, event.type);
         break;
       case 'delete':
-        this.removeItems(event.data.product_id);
+        this.removeItems(event.data.id);
         break;
       case 'status':
       case 'sale':
@@ -171,8 +190,13 @@ export class ProductsComponent implements OnInit {
   changeStatus(type:string, id: string, data: any) {
     this.DataBroadcastService.changeMessage('showLoadding');
 
+    let payload = {
+      [type]: data,
+      type: type
+    }
+
     this.productsService
-      .changeStatusProduct(id, { [type]: data })
+      .changeStatusProduct(id, payload)
       .subscribe((res: any) => {
         if (res.status === 200) {
           this.alertSuccess('Thành công', res.message);
@@ -196,10 +220,10 @@ export class ProductsComponent implements OnInit {
             ? 'Xem chi tiết'
             : 'Chỉnh sửa',
         data: {
-          id: data.product_id,
-          listSize: this.listSize,
-          listCategory: this.listCategory,
-          listColor: this.listColor,
+          id: data.id,
+          listSize: this.optionCustomize.dropdownSize,
+          listCategory: this.optionCustomize.dropdownCategory,
+          listColor: this.optionCustomize.dropdownColor,
         },
       },
     });

@@ -23,9 +23,11 @@ export class TableBaseLayoutComponent
 {
   @Input() dataTable!: any[];
   @Input() columns!: any[];
+  @Input() optionCustomize!: any;
+
   @Input() config!: IConfigTableBase;
   @Input() showCurrentPageReport = false;
-
+  
   @Output() actionTable = new EventEmitter<any>();
 
   @ViewChild('dt') table: Table;
@@ -48,6 +50,16 @@ export class TableBaseLayoutComponent
       { label: 'Kích hoạt', value: true },
       { label: 'Không kích hoạt', value: false },
     ],
+    dropdownStock: [
+      { label: 'Tất cả', value: null },
+      { label: 'Còn hàng', value: true },
+      { label: 'Hết hàng', value: false },
+    ],
+    dropdownBranch: [
+      { label: 'Tất cả', value: null },
+      { label: 'CNK', value: 'CNK' },
+      { label: 'Shein', value: 'Shein' },
+    ]
   };
 
   constructor() {}
@@ -55,6 +67,9 @@ export class TableBaseLayoutComponent
   ngOnChanges(changes: SimpleChanges) {
     this.handleColumns();
     this.handleDataTable();
+
+    this.objectOption = {...this.objectOption,...this.optionCustomize}
+    console.log(this.objectOption)
   }
 
   ngOnInit() {}
@@ -102,12 +117,6 @@ export class TableBaseLayoutComponent
 
     totalWidthCustom = totalWidthCustom + (this.config.stt ? this.widthStt : 0) + (this.config.checkbox ? this.widthCheckBox : 0) + (this.config.actions ? this.widthActions : 0);
 
-    // totalColumns =
-    //   totalColumns +
-    //   (this.config.stt ? 1 : 0) +
-    //   (this.config.checkbox ? 1 : 0) +
-    //   (this.config.actions ? 1 : 0);
-
     this.minWidthColumn = (document.getElementsByClassName('getWidth')[0].clientWidth - totalWidthCustom) / totalColumns;
 
 
@@ -121,14 +130,6 @@ export class TableBaseLayoutComponent
       }
       return x;
     });
-
-    
-    console.log(document.getElementsByClassName('getWidth')[0].clientWidth)
-
-    console.log("totalColumns",totalColumns)
-    console.log("totalWidthCustom",totalWidthCustom)
-    console.log("minWidthColumn",this.minWidthColumn)
-    console.log("congfigWidthColumns",this.congfigWidthColumns)
   }
 
   handleDataTable() {
