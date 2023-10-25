@@ -1,23 +1,21 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { managementSizeService } from './management-size.service';
+import { Component,OnInit } from '@angular/core';
+import { managementCollabService } from './management-collab.service';
 import { DataBroadcastService } from 'src/app/service/data-broadcast.service';
-import { ConfirmationService, MessageService } from 'primeng';
+import { MessageService } from 'primeng';
 import { IConfigTableBase } from 'src/app/components/admin/table-base-layout/table-base-layout.model';
-import { DialogConfirmSizeComponent } from './dialog-confirm-size/dialog-confirm-size.component';
-import { AddOrEditSizeComponent } from './add-or-edit-size/add-or-edit-size.component';
+import { MatDialog } from '@angular/material/dialog';
+import { AddOrEditCollabComponent } from './add-or-edit-collab/add-or-edit-collab.component';
+import { DialogConfirmCollabComponent } from './dialog-confirm-collab/dialog-confirm-collab.component';
 
 @Component({
-  selector: 'app-management-size',
-  templateUrl: './management-size.component.html',
-  styleUrls: ['./management-size.component.scss'],
+  selector: 'app-management-collab',
+  templateUrl: './management-collab.component.html',
+  styleUrls: ['./management-collab.component.scss']
 })
-export class ManagementSizeComponent implements OnInit {
-  columns: any = [];
-  dataTable: any = [];
+export class ManagementCollabComponent implements OnInit {
+  columns:any = []
 
-  showColumns = false;
-  tableName = 'TABLE_SIZES';
+  dataTable: any = [];
 
   config: IConfigTableBase = {
     checkbox: true,
@@ -25,31 +23,16 @@ export class ManagementSizeComponent implements OnInit {
     actions: ['edit', 'view', 'delete'],
   };
 
+  showColumns = false;
+  tableName = 'TABLE_CUSTOMERS'
+
   constructor(
     public dialog: MatDialog,
-    private managementSizeService: managementSizeService,
-    private DataBroadcastService: DataBroadcastService,
-    private messageService: MessageService,
-    private confirmationService: ConfirmationService
+    private managementCollabService: managementCollabService,
+    private DataBroadcastService: DataBroadcastService
   ) {}
 
-  alertSuccess(title: string, detail: string) {
-    this.messageService.add({
-      severity: 'success',
-      summary: title,
-      detail: detail,
-      life: 5000,
-    });
-  }
-
-  alertFailed(title: string, detail: string) {
-    this.messageService.add({
-      severity: 'error',
-      summary: title,
-      detail: detail,
-      life: 5000,
-    });
-  }
+  
 
   ngOnInit() {
     this.loadData();
@@ -58,7 +41,7 @@ export class ManagementSizeComponent implements OnInit {
   loadData() {
     this.DataBroadcastService.changeMessage('showLoadding');
 
-    this.managementSizeService.getListSize().subscribe((res) => {
+    this.managementCollabService.getListCustomer('collab').subscribe((res) => {
       this.dataTable = res;
 
       this.dataTable = this.dataTable.filter((x: any) => {
@@ -94,9 +77,8 @@ export class ManagementSizeComponent implements OnInit {
   changeStatus(id: string, data: any) {
     this.DataBroadcastService.changeMessage('showLoadding');
 
-    this.managementSizeService
-      .changeStatusSize(id, { status: data })
-      .subscribe((res: any) => {
+    this.managementCollabService.changeStatusCustomer(id, { status: data }).subscribe(
+      (res) => {
         if (res.status === 200) {
           this.DataBroadcastService.changeAlert({
             type: "success",
@@ -111,12 +93,14 @@ export class ManagementSizeComponent implements OnInit {
           });
         }
         this.DataBroadcastService.changeMessage('hideLoadding');
-      });
+      }
+    );
   }
 
   addNew(data: any, type: string): void {
-    const dialogRef = this.dialog.open(AddOrEditSizeComponent, {
+    const dialogRef = this.dialog.open(AddOrEditCollabComponent, {
       width: '70%',
+      height: '90vh',
       data: {
         type: type,
         header:
@@ -125,7 +109,9 @@ export class ManagementSizeComponent implements OnInit {
             : type === 'view'
             ? 'Xem chi tiết'
             : 'Chỉnh sửa',
-        data: data,
+        data: {
+          id: data.id
+        },
       },
     });
 
@@ -134,14 +120,15 @@ export class ManagementSizeComponent implements OnInit {
         this.loadData();
       }
     });
+
   }
 
   removeItems(id: string): void {
-    const dialogRef = this.dialog.open(DialogConfirmSizeComponent, {
+    const dialogRef = this.dialog.open(DialogConfirmCollabComponent, {
       width: '400px',
       data: {
-        title: 'Xóa size',
-        message: 'Bạn có muốn xóa size này?',
+        title: 'Xóa CTV',
+        message: 'Bạn có muốn xóa CTV này?',
         id: id,
       },
     });
@@ -159,13 +146,15 @@ export class ManagementSizeComponent implements OnInit {
     }
     this.handleColumns($event.data);
   }
+
   handleColumns(columns: any) {
     this.columns = columns.map((x: any) => {
       if (x.field === 'name') {
-        x.customWidth = 100;
+        x.customWidth = 200;
       }
 
       return x;
     });
   }
+
 }

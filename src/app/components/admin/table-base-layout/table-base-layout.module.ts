@@ -12,13 +12,13 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { DropdownModule, InputSwitchModule, InputTextModule, TableModule, TooltipModule } from 'primeng';
-import { DateCustomPipe } from 'src/app/pipes/dataPipe.pipe';
+import {  DateCustomPipePipesModule } from 'src/app/pipes/dataPipe.pipe';
 import { PriceCustomPipe } from 'src/app/pipes/pricePipe.pipe';
+import { DateActiveCustomPipesModule } from 'src/app/pipes/dataActivePipe.pipe';
 
 @NgModule({
   declarations: [
-    TableBaseLayoutComponent,
-    DateCustomPipe,PriceCustomPipe
+    TableBaseLayoutComponent,PriceCustomPipe
   ],
   imports: [
     CommonModule,
@@ -35,7 +35,9 @@ import { PriceCustomPipe } from 'src/app/pipes/pricePipe.pipe';
     TableModule,
     TooltipModule,
     InputTextModule,
-    DropdownModule
+    DropdownModule,
+    DateCustomPipePipesModule,
+    DateActiveCustomPipesModule
   ],
   exports: [TableBaseLayoutComponent],
   // providers: [DateCustomPipe,PriceCustomPipe]

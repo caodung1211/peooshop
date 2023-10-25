@@ -52,6 +52,8 @@ export class LibraryComponent implements OnInit {
 
     this.libraryService.getListLibrary().subscribe((res) => {
       this.library = res.url;
+
+
       this.DataBroadcastService.changeMessage('hideLoadding');
     });
   }
@@ -82,13 +84,21 @@ export class LibraryComponent implements OnInit {
           })
           .subscribe((res) => {
             if (res.status === 200) {
-              this.alertSuccess('Thành công', res.message);
+              this.DataBroadcastService.changeAlert({
+                type: "success",
+                title:"Thành công",
+                message: res.message
+              });
               this.loadData();
               this.DataBroadcastService.changeMessage('hideLoadding');
             } else {
               this.DataBroadcastService.changeMessage('hideLoadding');
 
-              this.alertFailed('Thất bại', res.message);
+              this.DataBroadcastService.changeAlert({
+                type: "error",
+                title:"Thất bại",
+                message: res.message
+              });
             }
 
             this.DataBroadcastService.changeMessage('hideLoadding');
@@ -131,9 +141,32 @@ export class LibraryComponent implements OnInit {
     this.productsService
       .uploadImageMulti(formdataImgGalleryUpload)
       .subscribe((res) => {
-        this.alertSuccess('Thành công', res.message);
+        this.DataBroadcastService.changeAlert({
+          type: "success",
+          title:"Thành công",
+          message: res.message
+        });
         this.loadData();
         this.DataBroadcastService.changeMessage('hideLoadding');
       });
   }
 }
+
+
+
+
+// console.log(res.split('<h1 class="product-name   product-name--xl_large js-product-name" itemprop="name">')[1].split('<span class="product-color"> ')[0])
+
+// let countImg = res.split('<div class="carousel-inner js-carousel-inner" role="listbox" data-images-count="')[1].split('"')[0]
+
+
+// let tempImg:any = []
+
+// let string = res.split('<div class="carousel-inner js-carousel-inner" role="listbox"')[1].split('<a class="carousel-control-prev carousel-control carousel-prev js-carousel-control')[0]
+
+// for (let i = 1; i <= countImg; i++) {
+// tempImg.push(string.split('<img src="')[i].split("?")[0])
+// }
+// console.log(tempImg)
+
+// console.log(res.split('content=\"SGD\" \/>\n<span class=\"sales \">\n')[1].split('</span>')[0])

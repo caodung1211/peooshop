@@ -7,11 +7,11 @@ import { MainLayoutModule } from './layouts/main-layout/main-layout.module';
 import { AuthLayoutModule } from './layouts/auth-layout/auth-layout.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TableBaseLayoutModule } from './components/admin/table-base-layout/table-base-layout.module';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { AuthInterceptor } from './shared/interceptor/auth.interceptor';
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -19,12 +19,14 @@ import { HttpClientModule } from '@angular/common/http';
     AuthLayoutModule,
     BrowserAnimationsModule,
     TableBaseLayoutModule,
-    HttpClientModule
+    HttpClientModule,
   ],
-  schemas: [
-    CUSTOM_ELEMENTS_SCHEMA
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+
+  providers: [
+    MatDatepickerModule,
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

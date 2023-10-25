@@ -44,6 +44,7 @@ export class TableNameConfigComponent implements OnInit, OnChanges {
       .subscribe((res: any) => {
         this.columns = JSON.parse(res.config_table);
         this.close.emit({
+        reload: true,
           hide: false,
           data: JSON.parse(res.config_table),
         });
@@ -62,6 +63,7 @@ export class TableNameConfigComponent implements OnInit, OnChanges {
     this.tableConfigService.editTableConfig(payload).subscribe((res: any) => {
       // this.columns = this.columns;
       this.close.emit({
+      reload: true,
         hide: false,
         data: this.columns,
       });
@@ -72,6 +74,7 @@ export class TableNameConfigComponent implements OnInit, OnChanges {
 
   handleHideDialog($event: any) {
     this.close.emit({
+      reload: false,
       hide: true,
       data: this.columns,
     });

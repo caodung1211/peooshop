@@ -50,9 +50,17 @@ export class DialogConfirmCategoryComponent {
 
     this.CategoriesService.deleteCategory(this.id).subscribe((res) => {
       if (res.status === 200) {
-        this.alertSuccess('Thành công', res.message);
+        this.DataBroadcastService.changeAlert({
+          type: "success",
+          title:"Thành công",
+          message: res.message
+        });
       } else {
-        this.alertFailed('Thất bại', res.message);
+        this.DataBroadcastService.changeAlert({
+          type: "error",
+          title:"Thất bại",
+          message: res.message
+        });
       }
       this.DataBroadcastService.changeMessage('hideLoadding');
     });

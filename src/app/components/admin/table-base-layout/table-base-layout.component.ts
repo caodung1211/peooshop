@@ -69,7 +69,6 @@ export class TableBaseLayoutComponent
     this.handleDataTable();
 
     this.objectOption = {...this.objectOption,...this.optionCustomize}
-    console.log(this.objectOption)
   }
 
   ngOnInit() {}

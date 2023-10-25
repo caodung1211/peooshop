@@ -52,10 +52,18 @@ export class DialogConfirmProductComponent {
     this.productsService.deleteProduct(this.id).subscribe((res) => {
       if (res.status === 200) {
         this.dialogRef.close(true);
-        this.alertSuccess('Thành công', res.message);
+        this.DataBroadcastService.changeAlert({
+          type: "success",
+          title:"Thành công",
+          message: res.message
+        });
         this.DataBroadcastService.changeMessage('hideLoadding');
       } else {
-        this.alertFailed('Thất bại', res.message);
+        this.DataBroadcastService.changeAlert({
+          type: "error",
+          title:"Thất bại",
+          message: res.message
+        });
         this.DataBroadcastService.changeMessage('hideLoadding');
       }
     });

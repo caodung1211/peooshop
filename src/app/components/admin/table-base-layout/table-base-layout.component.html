@@ -170,6 +170,16 @@
               </div>
             </ng-container>
 
+            <ng-container *ngIf="column.type === 'last_active'">
+              <div
+                [ngClass]="{ 'text-center': column.center }"
+                class="peoTooltip"
+                [pTooltip]="data[column.field] | dateActivePipe"
+              >
+                {{ data[column.field] | dateActivePipe }}
+              </div>
+            </ng-container>
+
             <ng-container *ngIf="column.type === 'image'">
               <div [ngClass]="{ 'text-center': column.center }">
                 <img [src]="data[column.field]" alt="" />

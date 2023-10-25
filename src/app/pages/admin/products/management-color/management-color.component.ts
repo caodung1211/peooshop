@@ -98,9 +98,17 @@ export class ManagementColorComponent implements OnInit {
       .changeStatusSize(id, { status: data })
       .subscribe((res: any) => {
         if (res.status === 200) {
-          this.alertSuccess('Thành công', res.message);
+          this.DataBroadcastService.changeAlert({
+            type: "error",
+            title:"Thành công",
+            message: res.message
+          });
         } else {
-          this.alertFailed('Thất bại', res.message);
+          this.DataBroadcastService.changeAlert({
+            type: "error",
+            title:"Thất bại",
+            message: res.message
+          });
         }
         this.DataBroadcastService.changeMessage('hideLoadding');
       });
