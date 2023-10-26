@@ -37,8 +37,8 @@ export class AuthInterceptor implements HttpInterceptor {
         if (response instanceof HttpErrorResponse) {
           if(response.error?.code === 'rest_forbidden'){
             this.DataBroadcastService.changeAlert({
-              type: "success",
-              title:"Thành công",
+              type: "error",
+              title:"Thất bại",
               message: response.error?.message
             });
 
