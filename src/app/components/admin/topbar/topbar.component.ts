@@ -13,10 +13,13 @@ export class TopbarComponent {
     private DataBroadcastService: DataBroadcastService,
     private AdminLoginService: AdminLoginService
   ) {
-    let id = localStorage.getItem('user_id')!;
+    let id = JSON.parse(localStorage.getItem('user_id')!);
+    console.log(id)
     if (id) {
       this.loadUserDetail(id);
     } else {
+    console.log("--")
+
       this.DataBroadcastService.changeMessage('logout');
     }
   }

@@ -53,7 +53,7 @@ export class AdminLoginComponent {
           this.AdminLoginService.getUserDetail(res?.data?.id).subscribe(
             resUser=>{
             this.isShowLoadding = false
-            localStorage.setItem('user',JSON.stringify(resUser.message))
+            localStorage.setItem('user_id',JSON.stringify(resUser.message.id))
 
               this.alertMessage({
                 type: "success",

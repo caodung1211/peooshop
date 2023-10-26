@@ -79,7 +79,7 @@ export class LibraryComponent implements OnInit {
         this.libraryService
           .removeLibrary({
             image: name.split(
-              'http://peooshop.top/wp/wp-content/themes/peooshop/images/'
+              'http://api.peooshop.top/wp/wp-content/themes/peooshop/images/'
             )[1],
           })
           .subscribe((res) => {

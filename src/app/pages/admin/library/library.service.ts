@@ -10,11 +10,11 @@ export class libraryService {
   constructor(private http: HttpClient) { }
 
   getListLibrary(): Observable<any> {
-    return this.http.get('http://peooshop.top/wp/wp-json/api/v1/library')
+    return this.http.get('http://api.peooshop.top/wp/wp-json/api/v1/library')
   }
 
   removeLibrary(body:any): Observable<any> {
-    return this.http.post('http://peooshop.top/wp/wp-json/api/v1/library',body)
+    return this.http.post('http://api.peooshop.top/wp/wp-json/api/v1/library',body)
   }
  
 }

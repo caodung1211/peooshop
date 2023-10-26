@@ -11,27 +11,27 @@ export class CategoriesService {
 
 
   uploadImage(body:any): Observable<any> {
-    return this.http.post('http://peooshop.top/wp/wp-json/api/v1/upload_image',body)
+    return this.http.post('http://api.peooshop.top/wp/wp-json/api/v1/upload_image',body)
   }
 
   createCategory(body:any): Observable<any> {
-    return this.http.post('http://peooshop.top/wp/wp-json/api/v1/category',body)
+    return this.http.post('http://api.peooshop.top/wp/wp-json/api/v1/category',body)
   }
 
   editCategory(id:string,body:any): Observable<any> {
-    return this.http.put(`http://peooshop.top/wp/wp-json/api/v1/category/${id}` ,body)
+    return this.http.put(`http://api.peooshop.top/wp/wp-json/api/v1/category/${id}` ,body)
   }
 
   deleteCategory(id:string,body?:any): Observable<any> {
-    return this.http.post(`http://peooshop.top/wp/wp-json/api/v1/category/${id}`,'')
+    return this.http.post(`http://api.peooshop.top/wp/wp-json/api/v1/category/${id}`,'')
   }
 
   changeStatusCategory(id:string,body:any): Observable<any> {
-    return this.http.post(`http://peooshop.top/wp/wp-json/api/v1/category/status/${id}` ,body)
+    return this.http.post(`http://api.peooshop.top/wp/wp-json/api/v1/category/status/${id}` ,body)
   }
 
   getListCategory(): Observable<any> {
-    return this.http.get('http://peooshop.top/wp/wp-json/api/v1/category')
+    return this.http.get('http://api.peooshop.top/wp/wp-json/api/v1/category')
   }
 
  

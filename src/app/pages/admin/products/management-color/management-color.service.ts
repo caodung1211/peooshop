@@ -10,23 +10,23 @@ export class managementColorService {
   constructor(private http: HttpClient) { }
 
   createSize(body:any): Observable<any> {
-    return this.http.post('http://peooshop.top/wp/wp-json/api/v1/color',body)
+    return this.http.post('http://api.peooshop.top/wp/wp-json/api/v1/color',body)
   }
 
   editSize(id:string,body:any): Observable<any> {
-    return this.http.put(`http://peooshop.top/wp/wp-json/api/v1/color/${id}` ,body)
+    return this.http.put(`http://api.peooshop.top/wp/wp-json/api/v1/color/${id}` ,body)
   }
 
   deleteSize(id:string,body?:any): Observable<any> {
-    return this.http.post(`http://peooshop.top/wp/wp-json/api/v1/color/${id}`,'')
+    return this.http.post(`http://api.peooshop.top/wp/wp-json/api/v1/color/${id}`,'')
   }
 
   changeStatusSize(id:string,body:any): Observable<any> {
-    return this.http.post(`http://peooshop.top/wp/wp-json/api/v1/color/status/${id}` ,body)
+    return this.http.post(`http://api.peooshop.top/wp/wp-json/api/v1/color/status/${id}` ,body)
   }
 
   getListSize(): Observable<any> {
-    return this.http.get('http://peooshop.top/wp/wp-json/api/v1/color')
+    return this.http.get('http://api.peooshop.top/wp/wp-json/api/v1/color')
   }
 
  
