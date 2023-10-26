@@ -69,7 +69,10 @@ export class TableNameConfigComponent implements OnInit, OnChanges {
       });
       this.showColumns = false
       this.DataBroadcastService.changeMessage('hideLoadding');
-    });
+    },err=>{
+      this.DataBroadcastService.changeMessage('hideLoadding');
+    }
+    );
   }
 
   handleHideDialog($event: any) {

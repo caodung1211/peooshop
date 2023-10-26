@@ -44,24 +44,6 @@ export class ProductsComponent implements OnInit {
     private messageService: MessageService
   ) {}
 
-  alertSuccess(title: string, detail: string) {
-    this.messageService.add({
-      severity: 'success',
-      summary: title,
-      detail: detail,
-      life: 5000,
-    });
-  }
-
-  alertFailed(title: string, detail: string) {
-    this.messageService.add({
-      severity: 'error',
-      summary: title,
-      detail: detail,
-      life: 5000,
-    });
-  }
-
   ngOnInit() {
     this.loadData();
   }

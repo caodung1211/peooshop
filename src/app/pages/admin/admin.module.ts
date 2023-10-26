@@ -27,7 +27,6 @@ const routes: Routes = [
       { path: 'collab', loadChildren: () => import('./customer/management-collab/management-collab.module').then(m => m.ManagementCollabModule), },
 
       
-      
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: '**', loadChildren: () => import('../page404/page404.module').then(m => m.Page404Module) }
     ]

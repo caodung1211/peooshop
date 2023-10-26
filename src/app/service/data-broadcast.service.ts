@@ -3,10 +3,10 @@ import { BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class DataBroadcastService {
-  private messageSource = new BehaviorSubject('Default message');
+  private messageSource = new BehaviorSubject('');
   currentMessage = this.messageSource.asObservable();
 
-  private messageAlert = new BehaviorSubject('Default message');
+  private messageAlert = new BehaviorSubject('');
   currentAlert = this.messageAlert.asObservable();
 
   constructor() { }

@@ -70,7 +70,10 @@ export class CategoriesComponent implements OnInit {
       });
 
       this.DataBroadcastService.changeMessage('hideLoadding');
-    });
+    },err=>{
+      this.DataBroadcastService.changeMessage('hideLoadding');
+    }
+    );
   }
 
   handleActionTable(event: any) {

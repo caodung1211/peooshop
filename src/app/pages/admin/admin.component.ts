@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { MessageService } from 'primeng';
 import { DataBroadcastService } from 'src/app/service/data-broadcast.service';
 
@@ -17,11 +18,15 @@ export class AdminComponent {
 
   widthSideBar = 300
   loadding = false
-  constructor(private DataBroadcastService: DataBroadcastService,private messageService:MessageService) {}
+  constructor(private DataBroadcastService: DataBroadcastService,private messageService:MessageService,private router: Router) {}
 
   ngOnInit () {
     this.DataBroadcastService.currentMessage.subscribe((res:any) => {
       switch (res) {
+        case 'logout':
+          localStorage.removeItem("token");
+          this.router.navigate([`/admin-login`]);
+          break;
         case 'showLoadding':
           this.loadding = true
           break;
