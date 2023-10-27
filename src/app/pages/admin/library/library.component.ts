@@ -146,6 +146,7 @@ export class LibraryComponent implements OnInit {
           title:"Thành công",
           message: res.message
         });
+        formdataImgGalleryUpload.delete('image[]')
         this.loadData();
         this.DataBroadcastService.changeMessage('hideLoadding');
       });

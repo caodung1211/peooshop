@@ -22,7 +22,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     // add custom header
-    const token = localStorage.getItem('token')! || '';
+    const token = localStorage.getItem('token') || '';
     const authReq = request.clone({ headers: request.headers.append('Authorization', token) });
     
     // pass on the modified request object
@@ -35,12 +35,14 @@ export class AuthInterceptor implements HttpInterceptor {
       })
       .catch(response => {
         if (response instanceof HttpErrorResponse) {
-          if(response.error?.code === 'rest_forbidden'){
+          if(response.error?.code === 'not_authenticated' || response.error?.code === 'login_timed_out' ){
+            
             this.DataBroadcastService.changeAlert({
               type: "error",
               title:"Thất bại",
               message: response.error?.message
             });
+            // this.DataBroadcastService.changeMessage('hideLoading');
 
             this.DataBroadcastService.changeMessage('logout');
             

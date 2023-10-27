@@ -25,35 +25,15 @@ export class MainLayoutComponent implements OnInit,AfterViewInit{
   }
 
   ngOnInit () {
-    // this.DataBroadcastService.currentMessage.subscribe((res:any) => {
-    //   switch (res) {
-    //     case 'logout':
-    //       localStorage.removeItem("token");
-    //       this.router.navigate([`/admin-login`]);
-    //       break;
-    //     case 'showLoadding':
-    //       this.loadding = true
-    //       break;
-    //     case 'hideLoadding':
-    //       this.loadding = false
-    //       break;  
-    //     default:
-    //       break;
-    //   }
-    // });
-
-    // this.DataBroadcastService.currentAlert.subscribe((alertMessage:any) => {
-    //   this.alertMessage(alertMessage)
-    // });
-
-  }
-
-  ngAfterViewInit() {
     this.DataBroadcastService.currentMessage.subscribe((res:any) => {
       switch (res) {
         case 'logout':
           localStorage.removeItem("token");
-          this.router.navigate([`/admin-login`]);
+          localStorage.removeItem("users");
+          this.router.navigate([`/admin-login`]); 
+          // setTimeout(() => {
+          //   window.location.reload();
+          // }, 100);
           break;
         default:
           break;
@@ -63,5 +43,10 @@ export class MainLayoutComponent implements OnInit,AfterViewInit{
     this.DataBroadcastService.currentAlert.subscribe((alertMessage:any) => {
       if(alertMessage) this.alertMessage(alertMessage)
     });
+
+  }
+
+  ngAfterViewInit() {
+
   }
 }

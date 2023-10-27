@@ -8,6 +8,7 @@ import { BreadcrumbModule } from 'src/app/components/admin/breadcrumb/breadcrumb
 import {MessageService} from 'primeng/api';
 import { ToastModule } from 'primeng';
 import { DataBroadcastService } from 'src/app/service/data-broadcast.service';
+import { WelcomeModule } from '../welcome/welcome.module';
 
 const routes: Routes = [
   {
@@ -47,7 +48,8 @@ const routes: Routes = [
     CommonModule,
     BreadcrumbModule,
     RouterModule.forChild(routes),
-    ToastModule 
+    ToastModule,
+    WelcomeModule
   ]
 })
 export class AdminModule { }

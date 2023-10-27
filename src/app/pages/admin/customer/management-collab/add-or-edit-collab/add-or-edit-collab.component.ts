@@ -6,6 +6,7 @@ import { Inject } from '@angular/core';
 import moment from 'moment';
 import 'moment/locale/vi';
 import { cloneDeep } from 'lodash';
+import * as CryptoJS from 'crypto-js';
 
 @Component({
   selector: 'app-add-or-edit-collab',
@@ -39,6 +40,8 @@ export class AddOrEditCollabComponent {
       this.currentData = {
         name: '',
         role: 'collab',
+        password: '',
+        username: '',
         birthday_date: '',
         avatar: '',
         total_order: null,
@@ -80,6 +83,7 @@ export class AddOrEditCollabComponent {
     let payload = cloneDeep(this.currentData);
     payload.created_date = this.toTimestamp(payload.created_date);
     payload.birthday_date = new Date(payload.birthday_date).getTime();
+    payload.password = this.logMd5(payload.password);
 
     payload.last_active = Date.now();
 
@@ -96,19 +100,12 @@ export class AddOrEditCollabComponent {
             this.managementCollabService
               .createCustomer(payload)
               .subscribe((resCreate) => {
-                if (resCreate.status === 200) {
-                  this.DataBroadcastService.changeAlert({
-                    type: 'success',
-                    title: 'Thành công',
-                    message: res.message,
-                  });
-                } else {
-                  this.DataBroadcastService.changeAlert({
-                    type: 'error',
-                    title: 'Thất bại',
-                    message: res.message,
-                  });
-                }
+                this.DataBroadcastService.changeAlert({
+                  type: 'success',
+                  title: 'Thành công',
+                  message: res.message,
+                });
+
                 this.DataBroadcastService.changeMessage('hideLoadding');
 
                 this.dialogRef.close(true);
@@ -153,47 +150,52 @@ export class AddOrEditCollabComponent {
         : 'https://peooshop.top/wp/wp-content/themes/peooshop/images/no_image.png';
 
       if (type === 'add') {
-        this.managementCollabService
-          .createCustomer(payload)
-          .subscribe((resCreate) => {
-            if (resCreate.status === 200) {
-              this.DataBroadcastService.changeAlert({
-                type: 'success',
-                title: 'Thành công',
-                message: resCreate.message,
-              });
-            } else {
-              this.DataBroadcastService.changeAlert({
-                type: 'error',
-                title: 'Thất bại',
-                message: resCreate.message,
-              });
-            }
+        this.managementCollabService.createCustomer(payload).subscribe(
+          (resCreate) => {
+            this.DataBroadcastService.changeAlert({
+              type: 'success',
+              title: 'Thành công',
+              message: resCreate.message,
+            });
             this.DataBroadcastService.changeMessage('hideLoadding');
 
             this.dialogRef.close(true);
-          });
+          },
+          (error) => {
+            console.log(error);
+            this.DataBroadcastService.changeAlert({
+              type: 'error',
+              title: 'Thất bại',
+              message: error.error.message,
+            });
+            this.DataBroadcastService.changeMessage('hideLoadding');
+          }
+        );
       } else {
         this.managementCollabService
           .editCustomer(payload.id, payload)
-          .subscribe((resCreate) => {
-            if (resCreate.status === 200) {
+          .subscribe(
+            (resCreate) => {
               this.DataBroadcastService.changeAlert({
                 type: 'success',
                 title: 'Thành công',
                 message: resCreate.message,
               });
-            } else {
+
+              this.DataBroadcastService.changeMessage('hideLoadding');
+
+              this.dialogRef.close(true);
+            },
+            (error) => {
+              console.log(error);
               this.DataBroadcastService.changeAlert({
                 type: 'error',
                 title: 'Thất bại',
-                message: resCreate.message,
+                message: error.error.message,
               });
+              this.DataBroadcastService.changeMessage('hideLoadding');
             }
-            this.DataBroadcastService.changeMessage('hideLoadding');
-
-            this.dialogRef.close(true);
-          });
+          );
       }
     }
   }
@@ -229,5 +231,10 @@ export class AddOrEditCollabComponent {
     let newDate: any = new Date(myDate[2], myDate[1] - 1, myDate[0]);
     var datum = Date.parse(newDate);
     return datum / 1000;
+  }
+
+  private logMd5(data: string) {
+    const hash = CryptoJS.MD5(CryptoJS.enc.Latin1.parse(data));
+    return hash.toString(CryptoJS.enc.Hex);
   }
 }

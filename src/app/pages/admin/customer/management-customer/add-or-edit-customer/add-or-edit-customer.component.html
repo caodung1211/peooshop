@@ -85,6 +85,45 @@
       <div class="col-12 d-flex mb-3">
         <div class="col-6" style="padding-right: 10px">
           <mat-form-field class="example-full-width">
+            <mat-label>Tên đăng nhập</mat-label>
+            <input
+              matInput
+              type="text"
+              name="username"
+              #username="ngModel"
+              [readonly]="data.type !== 'add'"
+              [(ngModel)]="currentData.username"
+              placeholder="Tên đăng nhập" required
+            />
+          </mat-form-field>
+          <app-errors-message
+            [control]="username.control"
+            [name]="'Tên đăng nhập'"
+          ></app-errors-message>
+        </div>
+        <div class="col-6" style="padding-left: 10px">
+          <mat-form-field class="example-full-width">
+            <mat-label>Mật khẩu</mat-label>
+            <input
+              matInput
+              type="text"
+              name="password"
+              #password="ngModel"
+              [readonly]="data.type !== 'add'"
+              [(ngModel)]="currentData.password"
+              placeholder="Mật khẩu" required
+            />
+          </mat-form-field>
+          <app-errors-message
+            [control]="password.control"
+            [name]="'Mật khẩu'"
+          ></app-errors-message>
+        </div>
+      </div>
+
+      <div class="col-12 d-flex mb-3">
+        <div class="col-6" style="padding-right: 10px">
+          <mat-form-field class="example-full-width">
             <mat-label>Tổng đơn hàng</mat-label>
             <input
               matInput

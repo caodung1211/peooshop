@@ -39,7 +39,7 @@ export class AdminLoginComponent {
 
   login(){
     this.isShowLoadding = true
-    this.currentData.password
+    // this.currentData.password
     this.AdminLoginService.login({
       username: this.currentData.username,
       password: this.logMd5(this.currentData.password)
@@ -47,24 +47,30 @@ export class AdminLoginComponent {
       res=>{
         if(res.status === 200){
           localStorage.setItem('token',res?.data?.token)
-  
-          
+          // this.router.navigate(['path/to']).then(() => {
+          //   window.location.reload();
+          // });
+          // console.log(window.location.href)
+          this.isShowLoadding = false
+
+        this.alertMessage({
+          type: "success",
+          title:"Thành công",
+          message: res.data.message
+        });
 
           this.AdminLoginService.getUserDetail(res?.data?.id).subscribe(
             resUser=>{
+            localStorage.setItem('user_id',resUser.message.id)
+            //  setTimeout(() => {
+            this.router.navigate([`admin/dashboard`]);
             this.isShowLoadding = false
-            localStorage.setItem('user_id',JSON.stringify(resUser.message.id))
+          // }, 1000);
 
-              this.alertMessage({
-                type: "success",
-                title:"Thành công",
-                message: res.data.message
-              });
-              setTimeout(() => {
-                this.router.navigate([`/admin`]);
-              }, 1000);
             }
           )
+         
+
 
           
         }else{

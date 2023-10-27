@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component,OnInit,AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng';
 import { DataBroadcastService } from 'src/app/service/data-broadcast.service';
@@ -14,18 +14,32 @@ export interface IAlertMessage {
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.scss']
 })
-export class AdminComponent {
+export class AdminComponent implements OnInit,AfterViewInit {
 
   widthSideBar = 300
   loadding = false
+
+  showWelcome = true
   constructor(private DataBroadcastService: DataBroadcastService,private messageService:MessageService,private router: Router) {}
 
   ngOnInit () {
+    setTimeout(() => {
+      this.showWelcome = false
+    }, 3500);
+
+  }
+
+  ngAfterViewInit() {
     this.DataBroadcastService.currentMessage.subscribe((res:any) => {
       switch (res) {
         case 'logout':
           localStorage.removeItem("token");
-          this.router.navigate([`/admin-login`]);
+          localStorage.removeItem("users");
+          this.router.navigateByUrl('/admin-login');
+          // this.router.navigate([`/admin-login`]); 
+          // // setTimeout(() => {
+          //   window.location.reload();
+          // }, 100);
           break;
         case 'showLoadding':
           this.loadding = true
@@ -39,9 +53,8 @@ export class AdminComponent {
     });
 
     this.DataBroadcastService.currentAlert.subscribe((alertMessage:any) => {
-      this.alertMessage(alertMessage)
+      if(alertMessage) this.alertMessage(alertMessage)
     });
-
   }
 
   getWidth(data:any){

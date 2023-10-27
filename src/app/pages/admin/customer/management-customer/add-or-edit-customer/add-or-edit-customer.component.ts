@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import * as CryptoJS from "crypto-js";
 
 import { DataBroadcastService } from 'src/app/service/data-broadcast.service';
 import { Inject } from '@angular/core';
@@ -40,6 +41,8 @@ export class AddOrEditCustomerComponent {
       this.currentData = {
         name: '',
         role: 'customer',
+        password: '',
+        username: '',
         birthday_date: '',
         avatar: '',
         total_order: null,
@@ -66,9 +69,6 @@ export class AddOrEditCustomerComponent {
       this.currentData.created_date = moment(
         Number(this.currentData.created_date)
       ).format('DD/MM/YYYY');
-
-      console.log(this.currentData);
-
       this.currentData.status = this.currentData.status === '1' ? true : false;
 
       this.DataBroadcastService.changeMessage('hideLoadding');
@@ -81,7 +81,7 @@ export class AddOrEditCustomerComponent {
     let payload = cloneDeep(this.currentData);
     payload.created_date = this.toTimestamp(payload.created_date);
     payload.birthday_date = new Date(payload.birthday_date).getTime();
-
+    payload.password = this.logMd5(payload.password)
     payload.last_active = Date.now();
 
     // console.log( payload )
@@ -97,22 +97,24 @@ export class AddOrEditCustomerComponent {
             this.managementCollabService
               .createCustomer(payload)
               .subscribe((resCreate) => {
-                if (resCreate.status === 200) {
+      
                   this.DataBroadcastService.changeAlert({
                     type: 'success',
                     title: 'Thành công',
                     message: res.message,
                   });
-                } else {
-                  this.DataBroadcastService.changeAlert({
-                    type: 'error',
-                    title: 'Thất bại',
-                    message: res.message,
-                  });
-                }
+
                 this.DataBroadcastService.changeMessage('hideLoadding');
 
                 this.dialogRef.close(true);
+              },error=>{
+                console.log(error)
+                this.DataBroadcastService.changeAlert({
+                  type: 'error',
+                  title: 'Thất bại',
+                  message: error.error.message,
+                });
+                this.DataBroadcastService.changeMessage('hideLoadding');
               });
           } else {
             this.managementCollabService
@@ -157,22 +159,24 @@ export class AddOrEditCustomerComponent {
         this.managementCollabService
           .createCustomer(payload)
           .subscribe((resCreate) => {
-            if (resCreate.status === 200) {
+     
               this.DataBroadcastService.changeAlert({
                 type: 'success',
                 title: 'Thành công',
                 message: resCreate.message,
               });
-            } else {
-              this.DataBroadcastService.changeAlert({
-                type: 'error',
-                title: 'Thất bại',
-                message: resCreate.message,
-              });
-            }
+
             this.DataBroadcastService.changeMessage('hideLoadding');
 
             this.dialogRef.close(true);
+          },error=>{
+            console.log(error)
+            this.DataBroadcastService.changeAlert({
+              type: 'error',
+              title: 'Thất bại',
+              message: error.error.message,
+            });
+            this.DataBroadcastService.changeMessage('hideLoadding');
           });
       } else {
         this.managementCollabService
@@ -230,5 +234,10 @@ export class AddOrEditCustomerComponent {
     let newDate: any = new Date(myDate[2], myDate[1] - 1, myDate[0]);
     var datum = Date.parse(newDate);
     return datum / 1000;
+  }
+
+  private logMd5(data:string) {
+    const hash = CryptoJS.MD5(CryptoJS.enc.Latin1.parse(data));
+    return(hash.toString(CryptoJS.enc.Hex))
   }
 }

@@ -126,8 +126,8 @@ export class ManagementCustomerComponent {
     const dialogRef = this.dialog.open(DialogConfirmCollabComponent, {
       width: '400px',
       data: {
-        title: 'Xóa CTV',
-        message: 'Bạn có muốn xóa CTV này?',
+        title: 'Xóa khách hàng',
+        message: 'Bạn có muốn xóa khách hàng này?',
         id: id,
       },
     });

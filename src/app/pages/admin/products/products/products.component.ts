@@ -146,6 +146,8 @@ export class ProductsComponent implements OnInit {
           });
         });
       });
+    },errCate=>{
+      this.DataBroadcastService.changeMessage('hideLoadding');
     });
   }
 
