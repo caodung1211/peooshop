@@ -88,7 +88,7 @@ export class ProductsComponent implements OnInit {
               let temp: any = [];
               this.optionCustomize.dropdownCategory.map((category: any) => {
                 x.category.split(',').map((z: any) => {
-                  if (z === category.id) {
+                  if (Number(z) === category.id) {
                     temp.push(category.label);
                   }
                   return z;
@@ -104,7 +104,7 @@ export class ProductsComponent implements OnInit {
               let temp: any = [];
               this.optionCustomize.dropdownSize.map((size: any) => {
                 x.size.split(',').map((z: any) => {
-                  if (z === size.id) {
+                  if (Number(z) === size.id) {
                     temp.push(size.label);
                   }
                   return z;
@@ -120,7 +120,7 @@ export class ProductsComponent implements OnInit {
               let temp: any = [];
               this.optionCustomize.dropdownColor.map((color: any) => {
                 x.color.split(',').map((z: any) => {
-                  if (z === color.id) {
+                  if (Number(z) === color.id) {
                     temp.push(color.label);
                   }
                   return z;
@@ -135,11 +135,9 @@ export class ProductsComponent implements OnInit {
 
 
             this.dataTable = this.dataTable.filter((x: any) => {
-              if (x.status === '1' || x.status === '0') {
-                x.status = x.status === '1' ? true : false;
-                x.sale = x.sale === '1' ? true : false;
+                x.status = x.status === 1 ? true : false;
+                x.sale = x.sale === 1 ? true : false;
                 return x;
-              }
             });
 
             this.DataBroadcastService.changeMessage('hideLoadding');

@@ -34,15 +34,15 @@ export class productsService {
   }
 
   getListProduct(): Observable<any> {
-    return this.http.get(`${environment.BASE_URL_BE}/login`)
+    return this.http.get(`${environment.BASE_URL_BE}/products`)
   }
 
   getListSize(): Observable<any> {
-    return this.http.get('http://api.peooshop.top/wp/wp-json/api/v1/size')
+    return this.http.get(`${environment.BASE_URL_BE}/sizes`)
   }
 
   getListColor(): Observable<any> {
-    return this.http.get('http://api.peooshop.top/wp/wp-json/api/v1/color')
+    return this.http.get(`${environment.BASE_URL_BE}/colors`)
   }
 
   getListCategory(): Observable<any> {
@@ -50,7 +50,7 @@ export class productsService {
   }
 
   getDetailProduct(id:string): Observable<any> {
-    return this.http.get(`http://api.peooshop.top/wp/wp-json/api/v1/product/${id}`)
+    return this.http.get(`${environment.BASE_URL_BE}/products/${id}`)
   }
  
 }

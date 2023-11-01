@@ -52,8 +52,8 @@ export class TableBaseLayoutComponent
     ],
     dropdownStock: [
       { label: 'Tất cả', value: null },
-      { label: 'Còn hàng', value: true },
-      { label: 'Hết hàng', value: false },
+      { label: 'Còn hàng', value: 1 },
+      { label: 'Hết hàng', value: 0 },
     ],
     dropdownBranch: [
       { label: 'Tất cả', value: null },
@@ -135,7 +135,7 @@ export class TableBaseLayoutComponent
     this.columns.map((x: any) => {
       if (x.field === 'stock_status') {
         this.dataTable.map((z) => {
-          z.stock_status = z.stock_status === '1' ? 'Còn hàng' : 'Hết hàng';
+          z.stock_status = z.stock_status === 1 ? 'Còn hàng' : 'Hết hàng';
           return z;
         });
       }

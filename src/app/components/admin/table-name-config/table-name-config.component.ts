@@ -42,11 +42,11 @@ export class TableNameConfigComponent implements OnInit, OnChanges {
     this.tableConfigService
       .getTableConfig(this.group_name)
       .subscribe((res: any) => {
-        this.columns = JSON.parse(res.data);
+        this.columns = JSON.parse(res.data.config_table);
         this.close.emit({
         reload: true,
           hide: false,
-          data: JSON.parse(res.data),
+          data: JSON.parse(res.data.config_table),
         });
         this.DataBroadcastService.changeMessage('hideLoadding');
       });
