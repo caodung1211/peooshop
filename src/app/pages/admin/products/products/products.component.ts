@@ -63,26 +63,26 @@ export class ProductsComponent implements OnInit {
     this.productsService.getListCategory().subscribe((resCategory) => {
       this.optionCustomize.dropdownCategory = []
       this.optionCustomize.dropdownCategory.push({label: "Tất cả", value: null})
-      resCategory.map((x:any)=>{
+      resCategory.data.map((x:any)=>{
         this.optionCustomize.dropdownCategory.push({label: x.name, value: x.name, id: x.id})
       })
 
       this.productsService.getListSize().subscribe((resSize) => {
         this.optionCustomize.dropdownSize = []
         this.optionCustomize.dropdownSize.push({label: "Tất cả", value: null})
-        resSize.map((x:any)=>{
+        resSize.data.map((x:any)=>{
           this.optionCustomize.dropdownSize.push({label: x.name, value: x.name, id: x.id})
         })
 
         this.productsService.getListColor().subscribe((resColor) => {
           this.optionCustomize.dropdownColor = []
           this.optionCustomize.dropdownColor.push({label: "Tất cả", value: null})
-          resColor.map((x:any)=>{
+          resColor.data.map((x:any)=>{
             this.optionCustomize.dropdownColor.push({label: x.name, value: x.name, id: x.id})
           })
 
           this.productsService.getListProduct().subscribe((res) => {
-            this.dataTable = res;
+            this.dataTable = res.data;
 
             this.dataTable.map((x: any) => {
               let temp: any = [];

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -33,7 +34,7 @@ export class productsService {
   }
 
   getListProduct(): Observable<any> {
-    return this.http.get('http://api.peooshop.top/wp/wp-json/api/v1/product')
+    return this.http.get(`${environment.BASE_URL_BE}/login`)
   }
 
   getListSize(): Observable<any> {
@@ -45,7 +46,7 @@ export class productsService {
   }
 
   getListCategory(): Observable<any> {
-    return this.http.get('http://api.peooshop.top/wp/wp-json/api/v1/category')
+    return this.http.get(`${environment.BASE_URL_BE}/categories`)
   }
 
   getDetailProduct(id:string): Observable<any> {

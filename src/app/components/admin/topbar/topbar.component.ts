@@ -21,7 +21,6 @@ export class TopbarComponent implements OnInit{
   ngOnInit() {
     this._router.events.subscribe(event => {
       if(event instanceof NavigationEnd) {
-         console.log(event)
         if(event.url === "/admin-login"){
             localStorage.clear()
         }
@@ -29,10 +28,8 @@ export class TopbarComponent implements OnInit{
     })
 
     let id = localStorage.getItem('user_id');
-    console.log(id)
    
     if (id) {
-    console.log(id)
       this.loadUserDetail(id);
     } else {
     console.log("--")
@@ -43,7 +40,7 @@ export class TopbarComponent implements OnInit{
 
   loadUserDetail(id: string) {
     this.AdminLoginService.getUserDetail(id).subscribe((res) => {
-      this.currentUser = res?.message;
+      this.currentUser = res?.data;
     });
   }
 }

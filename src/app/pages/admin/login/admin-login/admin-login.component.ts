@@ -45,7 +45,6 @@ export class AdminLoginComponent {
       password: this.logMd5(this.currentData.password)
     }).subscribe(
       res=>{
-        if(res.status === 200){
           localStorage.setItem('token',res?.data?.token)
           // this.router.navigate(['path/to']).then(() => {
           //   window.location.reload();
@@ -53,15 +52,15 @@ export class AdminLoginComponent {
           // console.log(window.location.href)
           this.isShowLoadding = false
 
-        this.alertMessage({
-          type: "success",
-          title:"Thành công",
-          message: res.data.message
-        });
+          this.alertMessage({
+            type: "success",
+            title:"Thành công",
+            message: res.message
+          });
 
           this.AdminLoginService.getUserDetail(res?.data?.id).subscribe(
             resUser=>{
-            localStorage.setItem('user_id',resUser.message.id)
+            localStorage.setItem('user_id',resUser.data.id)
             //  setTimeout(() => {
             this.router.navigate([`admin/dashboard`]);
             this.isShowLoadding = false
@@ -69,26 +68,13 @@ export class AdminLoginComponent {
 
             }
           )
-         
-
-
-          
-        }else{
-          this.isShowLoadding = false
-          this.alertMessage({
-          type: "error",
-          title:"Thất bại",
-          message: res.message
-        });
-        }
-       
-      },
+        },
       err=>{
         this.isShowLoadding = false
         this.alertMessage({
           type: "error",
-          title:"Thất bại",
-          message: err.message
+          title:"Đăng nhập",
+          message: err.error.message
         });
       }
     )

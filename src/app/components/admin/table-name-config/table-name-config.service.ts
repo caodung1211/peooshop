@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,6 @@ export class tableConfigService {
   }
 
   getTableConfig(group_name:string): Observable<any> {
-    return this.http.get(`http://api.peooshop.top/wp/wp-json/api/v1/table_config?group_name=${group_name}`)
+    return this.http.get(`${environment.BASE_URL_BE}/table_config?group_name=${group_name}`)
   }
 }
