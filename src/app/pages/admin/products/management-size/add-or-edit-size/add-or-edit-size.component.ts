@@ -67,24 +67,22 @@ export class AddOrEditSizeComponent implements OnInit {
     if (type === 'add') {
       this.managementSizeService.createSize(this.dataCategory).subscribe(
         (resCreate) => {
-          if (resCreate.status === 200) {
             this.alertSuccess('Thành công',resCreate.message)
-          } else {
-            this.alertFailed('Thất bại',resCreate.message)
+          } ,err=> {
+            this.alertFailed('Thất bại',err.error.message)
           }
-        }
+    
       );
     } else {
       this.managementSizeService.editSize(
         this.dataCategory.id,
         this.dataCategory
       ).subscribe((resCreate) => {
-        if (resCreate.status === 200) {
           this.alertSuccess('Thành công',resCreate.message)
-        } else {
-          this.alertFailed('Thất bại',resCreate.message)
+        } ,err=> {
+          this.alertFailed('Thất bại',err.error.message)
         }
-      });
+      );
     }
 
     this.dialogRef.close(true);

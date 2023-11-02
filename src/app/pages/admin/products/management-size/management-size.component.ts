@@ -59,14 +59,13 @@ export class ManagementSizeComponent implements OnInit {
     this.DataBroadcastService.changeMessage('showLoadding');
 
     this.managementSizeService.getListSize().subscribe((res) => {
-      this.dataTable = res;
+      this.dataTable = res.data;
 
       this.dataTable = this.dataTable.filter((x: any) => {
-        if (x.status === '1' || x.status === '0') {
-          x.status = x.status === '1' ? true : false;
+          x.status = x.status === 1 ? true : false;
           return x;
         }
-      });
+      );
 
       this.DataBroadcastService.changeMessage('hideLoadding');
     });
@@ -97,21 +96,22 @@ export class ManagementSizeComponent implements OnInit {
     this.managementSizeService
       .changeStatusSize(id, { status: data })
       .subscribe((res: any) => {
-        if (res.status === 200) {
           this.DataBroadcastService.changeAlert({
             type: "success",
             title:"Thành công",
             message: res.message
           });
-        } else {
+          this.DataBroadcastService.changeMessage('hideLoadding');
+
+        } ,err=> {
           this.DataBroadcastService.changeAlert({
             type: "error",
             title:"Thất bại",
-            message: res.message
+            message: err.error.message
           });
+          this.DataBroadcastService.changeMessage('hideLoadding');
         }
-        this.DataBroadcastService.changeMessage('hideLoadding');
-      });
+      );
   }
 
   addNew(data: any, type: string): void {

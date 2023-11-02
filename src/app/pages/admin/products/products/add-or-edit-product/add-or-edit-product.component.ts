@@ -132,7 +132,7 @@ export class AddOrEditProductComponent {
 console.log(this.optionDropdow)
     this.productsService.getDetailProduct(id).subscribe((res) => {
       this.currentData = res.data;
-      JSON.parse(res.data.gallery).map((x:any,index:number)=>{
+      res.data.gallery.map((x:any,index:number)=>{
         this.tempGallery.push({img: x, id: index})
       })
       // this.tempCategory = [12,13,14]
@@ -160,196 +160,195 @@ console.log(this.optionDropdow)
     this.currentData.category = this.tempCategory.toString();
     this.currentData.size = this.tempSize.toString();
     this.currentData.color = this.tempColor.toString();
-console.log(this.currentData.category)
-    // if (this.imgFile) {
-    //   const formdata = new FormData();
-    //   formdata.append('image', this.imgFile);
-    //   this.productsService.uploadImage(formdata).subscribe((res) => {
-    //     if (res.status === 200) {
-    //       this.currentData.avatar = res.url;
+    
+    if (this.imgFile) {
+      const formdata = new FormData();
+      formdata.append('image', this.imgFile);
+      this.productsService.uploadImage(formdata).subscribe(
+        (res) => {
+          this.currentData.avatar = res.url;
 
-    //       if(this.imgGalleryUpload && this.imgGalleryUpload.length > 0){
+          if(this.imgGalleryUpload && this.imgGalleryUpload.length > 0){
 
-    //         this.currentData.gallery = []
+            this.currentData.gallery = []
 
-    //         this.currentData.gallery = this.tempGallery.filter((x:any)=>{
-    //           if(x.img.substring(0,10) !== "data:image"){
-    //             return x
-    //           }
-    //         }).map((z:any)=>{
-    //           return z.img
-    //         })
+            this.currentData.gallery = this.tempGallery.filter((x:any)=>{
+              if(x.img.substring(0,10) !== "data:image"){
+                return x
+              }
+            }).map((z:any)=>{
+              return z.img
+            })
 
-    //           const formdataImgGalleryUpload = new FormData();
+              const formdataImgGalleryUpload = new FormData();
 
-    //           for(var i = 0; i <  this.imgGalleryUpload.length; i++)  {  
-    //             formdataImgGalleryUpload.append("image[]",  this.imgGalleryUpload[i]);
-    //           } 
+              for(var i = 0; i <  this.imgGalleryUpload.length; i++)  {  
+                formdataImgGalleryUpload.append("image[]",  this.imgGalleryUpload[i]);
+              } 
 
-    //           this.productsService.uploadImageMulti(formdataImgGalleryUpload).subscribe((resImgGalleryUpload) => {
-    //             this.currentData.gallery = this.currentData.gallery.concat(resImgGalleryUpload.url)
+              this.productsService.uploadImageMulti(formdataImgGalleryUpload).subscribe((resImgGalleryUpload) => {
+                this.currentData.gallery = this.currentData.gallery.concat(resImgGalleryUpload.url)
 
-    //               if (type === 'add') {
-    //                 this.productsService
-    //                   .createProduct(this.currentData)
-    //                   .subscribe((resCreate) => {
-    //                     if (resCreate.status === 200) {
-    //                       this.dialogRef.close(true);
-    //                       this.alertSuccess('Thành công', resCreate.message);
-    //                       this.DataBroadcastService.changeMessage('hideLoadding');
-    //                     } else {
-    //                       this.DataBroadcastService.changeMessage('hideLoadding');
+                  if (type === 'add') {
+                    this.productsService
+                      .createProduct(this.currentData)
+                      .subscribe((resCreate) => {
+                          this.dialogRef.close(true);
+                          this.alertSuccess('Thành công', resCreate.message);
+                          this.DataBroadcastService.changeMessage('hideLoadding');
+                        }, err=> {
+                          this.DataBroadcastService.changeMessage('hideLoadding');
         
-    //                       this.alertFailed('Thất bại', resCreate.message);
-    //                     }
-    //                   });
-    //               } else {
-    //                 this.productsService
-    //                   .editProduct(this.id, this.currentData)
-    //                   .subscribe((resCreate) => {
-    //                     if (resCreate.status === 200) {
-    //                       this.DataBroadcastService.changeMessage('hideLoadding');
-    //                       this.dialogRef.close(true);
-    //                       this.alertSuccess('Thành công', resCreate.message);
-    //                     } else {
-    //                       this.DataBroadcastService.changeMessage('hideLoadding');
-        
-    //                       this.alertFailed('Thất bại', resCreate.message);
-    //                     }
-    //                   });
-    //               }
+                          this.alertFailed('Thất bại', 'Thất bại');
+                        }
+                      );
+                  } else {
+                    this.productsService
+                      .editProduct(this.id, this.currentData)
+                      .subscribe((resCreate) => {
+                 
+                          this.DataBroadcastService.changeMessage('hideLoadding');
+                          this.dialogRef.close(true);
+                          this.alertSuccess('Thành công', resCreate.message);
+                        }, err=> {
+                          this.DataBroadcastService.changeMessage('hideLoadding');
+                          this.alertFailed('Thất bại', 'Thất bại');
+                          ;
+                        }
+                      );
+                  }
 
-    //           }) 
-    //       }else{
+              }) 
+          }else{
          
-    //         if (type === 'add') {
-    //           this.productsService
-    //             .createProduct(this.currentData)
-    //             .subscribe((resCreate) => {
-    //               if (resCreate.status === 200) {
-    //                 this.dialogRef.close(true);
-    //                 this.alertSuccess('Thành công', resCreate.message);
-    //                 this.DataBroadcastService.changeMessage('hideLoadding');
-    //               } else {
-    //                 this.DataBroadcastService.changeMessage('hideLoadding');
+            if (type === 'add') {
+              this.productsService
+                .createProduct(this.currentData)
+                .subscribe((resCreate) => {
+               
+                    this.dialogRef.close(true);
+                    this.alertSuccess('Thành công', resCreate.message);
+                    this.DataBroadcastService.changeMessage('hideLoadding');
+                  },err=> {
+                    this.DataBroadcastService.changeMessage('hideLoadding');
   
-    //                 this.alertFailed('Thất bại', resCreate.message);
-    //               }
-    //             });
-    //         } else {
-    //           this.productsService
-    //             .editProduct(this.id, this.currentData)
-    //             .subscribe((resCreate) => {
-    //               if (resCreate.status === 200) {
-    //                 this.DataBroadcastService.changeMessage('hideLoadding');
-    //                 this.dialogRef.close(true);
-    //                 this.alertSuccess('Thành công', resCreate.message);
-    //               } else {
-    //                 this.DataBroadcastService.changeMessage('hideLoadding');
+                    this.alertFailed('Thất bại', 'Thất bại');
+
+                  }
+                );
+            } else {
+              this.productsService
+                .editProduct(this.id, this.currentData)
+                .subscribe((resCreate) => {
+               
+                    this.DataBroadcastService.changeMessage('hideLoadding');
+                    this.dialogRef.close(true);
+                    this.alertSuccess('Thành công', resCreate.message);
+                  }, err=> {
+                    this.DataBroadcastService.changeMessage('hideLoadding');
   
-    //                 this.alertFailed('Thất bại', resCreate.message);
-    //               }
-    //             });
-    //         }
-    //       }
+                    this.alertFailed('Thất bại', 'Thất bại');
+                  }
+                );
+            }
+          }
 
-    //     } else {
-    //       this.DataBroadcastService.changeMessage('hideLoadding');
+        }, err=> {
+          this.DataBroadcastService.changeMessage('hideLoadding');
+          this.alertFailed('Thất bại', 'Upload ảnh thất bại!');
+        }
+      );
+    } else {
+      this.currentData.avatar = this.currentData.avatar
+        ? this.currentData.avatar
+        : 'https://peooshop.top/wp/wp-content/themes/peooshop/images/no_image.png';
 
-    //       this.alertFailed('Thất bại', res.message);
-    //     }
-    //   });
-    // } else {
-    //   this.currentData.avatar = this.currentData.avatar
-    //     ? this.currentData.avatar
-    //     : 'https://peooshop.top/wp/wp-content/themes/peooshop/images/no_image.png';
+        if(this.imgGalleryUpload && this.imgGalleryUpload.length > 0){
 
-    //     if(this.imgGalleryUpload && this.imgGalleryUpload.length > 0){
+          this.currentData.gallery = []
 
-    //       this.currentData.gallery = []
+          this.currentData.gallery = this.tempGallery.filter((x:any)=>{
+            if(x.img.substring(0,10) !== "data:image"){
+              return x
+            }
+          }).map((z:any)=>{
+            return z.img
+          })
 
-    //       this.currentData.gallery = this.tempGallery.filter((x:any)=>{
-    //         if(x.img.substring(0,10) !== "data:image"){
-    //           return x
-    //         }
-    //       }).map((z:any)=>{
-    //         return z.img
-    //       })
+            const formdataImgGalleryUpload = new FormData();
 
-    //         const formdataImgGalleryUpload = new FormData();
+            for(var i = 0; i <  this.imgGalleryUpload.length; i++)  {  
+              formdataImgGalleryUpload.append("image[]",  this.imgGalleryUpload[i]);
+            } 
+            this.productsService.uploadImageMulti(formdataImgGalleryUpload).subscribe((resImgGalleryUpload) => {
+              this.currentData.gallery = this.currentData.gallery.concat(resImgGalleryUpload.url)
 
-    //         for(var i = 0; i <  this.imgGalleryUpload.length; i++)  {  
-    //           formdataImgGalleryUpload.append("image[]",  this.imgGalleryUpload[i]);
-    //         } 
-    //         this.productsService.uploadImageMulti(formdataImgGalleryUpload).subscribe((resImgGalleryUpload) => {
-    //           this.currentData.gallery = this.currentData.gallery.concat(resImgGalleryUpload.url)
-
-    //             if (type === 'add') {
-    //               this.productsService
-    //                 .createProduct(this.currentData)
-    //                 .subscribe((resCreate) => {
-    //                   if (resCreate.status === 200) {
-    //                     this.dialogRef.close(true);
-    //                     this.alertSuccess('Thành công', resCreate.message);
-    //                     this.DataBroadcastService.changeMessage('hideLoadding');
-    //                   } else {
-    //                     this.DataBroadcastService.changeMessage('hideLoadding');
+                if (type === 'add') {
+                  this.productsService
+                    .createProduct(this.currentData)
+                    .subscribe((resCreate) => {
+                     
+                        this.dialogRef.close(true);
+                        this.alertSuccess('Thành công', resCreate.message);
+                        this.DataBroadcastService.changeMessage('hideLoadding');
+                      } ,err=> {
+                        this.DataBroadcastService.changeMessage('hideLoadding');
       
-    //                     this.alertFailed('Thất bại', resCreate.message);
-    //                   }
-    //                 });
-    //             } else {
-    //               this.productsService
-    //                 .editProduct(this.id, this.currentData)
-    //                 .subscribe((resCreate) => {
-    //                   if (resCreate.status === 200) {
-    //                     this.DataBroadcastService.changeMessage('hideLoadding');
-    //                     this.dialogRef.close(true);
-    //                     this.alertSuccess('Thành công', resCreate.message);
-    //                   } else {
-    //                     this.DataBroadcastService.changeMessage('hideLoadding');
+                        this.alertFailed('Thất bại', 'Thất bại');
+                      }
+                    );
+                } else {
+                  this.productsService
+                    .editProduct(this.id, this.currentData)
+                    .subscribe((resCreate) => {
+                    
+                        this.DataBroadcastService.changeMessage('hideLoadding');
+                        this.dialogRef.close(true);
+                        this.alertSuccess('Thành công', resCreate.message);
+                      } ,err=> {
+                        this.DataBroadcastService.changeMessage('hideLoadding');
       
-    //                     this.alertFailed('Thất bại', resCreate.message);
-    //                   }
-    //                 });
-    //             }
+                        this.alertFailed('Thất bại', 'Thất bại');
+                      }
+                    );
+                }
 
-    //         }) 
-    //     }else{
+            }) 
+        }else{
        
-    //       if (type === 'add') {
-    //         this.productsService
-    //           .createProduct(this.currentData)
-    //           .subscribe((resCreate) => {
-    //             if (resCreate.status === 200) {
-    //               this.dialogRef.close(true);
-    //               this.alertSuccess('Thành công', resCreate.message);
-    //               this.DataBroadcastService.changeMessage('hideLoadding');
-    //             } else {
-    //               this.DataBroadcastService.changeMessage('hideLoadding');
+          if (type === 'add') {
+            this.productsService
+              .createProduct(this.currentData)
+              .subscribe((resCreate) => {
+                
+                  this.dialogRef.close(true);
+                  this.alertSuccess('Thành công', resCreate.message);
+                  this.DataBroadcastService.changeMessage('hideLoadding');
+                } ,err=> {
+                  this.DataBroadcastService.changeMessage('hideLoadding');
 
-    //               this.alertFailed('Thất bại', resCreate.message);
-    //             }
-    //           });
-    //       } else {
-    //         this.productsService
-    //           .editProduct(this.id, this.currentData)
-    //           .subscribe((resCreate) => {
-    //             if (resCreate.status === 200) {
-    //               this.DataBroadcastService.changeMessage('hideLoadding');
-    //               this.dialogRef.close(true);
-    //               this.alertSuccess('Thành công', resCreate.message);
-    //             } else {
-    //               this.DataBroadcastService.changeMessage('hideLoadding');
+                  this.alertFailed('Thất bại', 'Thất bại');
+                }
+              );
+          } else {
+            this.productsService
+              .editProduct(this.id, this.currentData)
+              .subscribe((resCreate) => {
+            
+                  this.DataBroadcastService.changeMessage('hideLoadding');
+                  this.dialogRef.close(true);
+                  this.alertSuccess('Thành công', resCreate.message);
+                } ,err=> {
+                  this.DataBroadcastService.changeMessage('hideLoadding');
 
-    //               this.alertFailed('Thất bại', resCreate.message);
-    //             }
-    //           });
-    //       }
-    //     }
+                  this.alertFailed('Thất bại', 'Thất bại');
+                }
+              );
+          }
+        }
 
       
-    // }
+    }
   }
 
   cancel() {

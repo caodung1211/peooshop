@@ -180,21 +180,23 @@ export class ProductsComponent implements OnInit {
     this.productsService
       .changeStatusProduct(id, payload)
       .subscribe((res: any) => {
-        if (res.status === 200) {
+        this.DataBroadcastService.changeMessage('hideLoadding');
+
           this.DataBroadcastService.changeAlert({
             type: "success",
             title:"Thành công",
             message: res.message
           });
-        } else {
+        }, err=> {
+          this.DataBroadcastService.changeMessage('hideLoadding');
+
           this.DataBroadcastService.changeAlert({
             type: "error",
             title:"Thất bại",
-            message: res.message
+            message: err.error.message
           });
         }
-        this.DataBroadcastService.changeMessage('hideLoadding');
-      });
+      );
   }
 
   addNew(data: any, type: string): void {

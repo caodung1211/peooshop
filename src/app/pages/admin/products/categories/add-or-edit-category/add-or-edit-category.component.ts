@@ -69,35 +69,31 @@ export class AddOrEditCategoryComponent implements OnInit {
       const formdata = new FormData();
       formdata.append('image', this.imgFile);
       this.CategoriesService.uploadImage(formdata).subscribe((res) => {
-        if (res.status === 200) {
           this.dataCategory.avatar = res.url;
 
           if (type === 'add') {
             this.CategoriesService.createCategory(this.dataCategory).subscribe(
               (resCreate) => {
-                if (resCreate.status === 200) {
                   this.alertSuccess('Thành công',resCreate.message)
-                } else {
-                  this.alertFailed('Thất bại',resCreate.message)
+                } ,err=>{
+                  this.alertFailed('Thất bại',err.error.message)
                 }
-              }
             );
           } else {
             this.CategoriesService.editCategory(
               this.dataCategory.id,
               this.dataCategory
             ).subscribe((resCreate) => {
-              if (resCreate.status === 200) {
                 this.alertSuccess('Thành công',resCreate.message)
-              } else {
-                this.alertFailed('Thất bại',resCreate.message)
+              }, err =>{
+                this.alertFailed('Thất bại',err.error.message)
               }
-            });
+            );
           }
-        } else {
-          this.alertFailed('Thất bại',res.message)
+        } ,err=> {
+          this.alertFailed('Thất bại',err.error.message)
         }
-      });
+      );
     } else {
       this.dataCategory.avatar = this.dataCategory.avatar
         ? this.dataCategory.avatar
@@ -106,24 +102,21 @@ export class AddOrEditCategoryComponent implements OnInit {
       if (type === 'add') {
         this.CategoriesService.createCategory(this.dataCategory).subscribe(
           (resCreate) => {
-            if (resCreate.status === 200) {
               this.alertSuccess('Thành công',resCreate.message)
-            } else {
-              this.alertFailed('Thất bại',resCreate.message)
+            } ,err=> {
+              this.alertFailed('Thất bại',err.error.message)
             }
-          }
         );
       } else {
         this.CategoriesService.editCategory(
           this.dataCategory.id,
           this.dataCategory
         ).subscribe((resCreate) => {
-          if (resCreate.status === 200) {
             this.alertSuccess('Thành công',resCreate.message)
-          } else {
-            this.alertFailed('Thất bại',resCreate.message)
+          } ,err=> {
+            this.alertFailed('Thất bại',err.error.message)
           }
-        });
+        );
       }
     }
 

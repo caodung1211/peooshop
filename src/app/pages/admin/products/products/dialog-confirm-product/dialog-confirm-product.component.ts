@@ -50,7 +50,6 @@ export class DialogConfirmProductComponent {
     this.DataBroadcastService.changeMessage('showLoadding');
 
     this.productsService.deleteProduct(this.id).subscribe((res) => {
-      if (res.status === 200) {
         this.dialogRef.close(true);
         this.DataBroadcastService.changeAlert({
           type: "success",
@@ -58,15 +57,15 @@ export class DialogConfirmProductComponent {
           message: res.message
         });
         this.DataBroadcastService.changeMessage('hideLoadding');
-      } else {
+      },err=> {
         this.DataBroadcastService.changeAlert({
           type: "error",
           title:"Thất bại",
-          message: res.message
+          message: err.error.message
         });
         this.DataBroadcastService.changeMessage('hideLoadding');
       }
-    });
+    );
   }
 
   onDismiss(): void {

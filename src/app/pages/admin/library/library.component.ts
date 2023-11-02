@@ -51,7 +51,7 @@ export class LibraryComponent implements OnInit {
     this.DataBroadcastService.changeMessage('showLoadding');
 
     this.libraryService.getListLibrary().subscribe((res) => {
-      this.library = res.url;
+      this.library = res.data;
 
 
       this.DataBroadcastService.changeMessage('hideLoadding');
@@ -79,11 +79,10 @@ export class LibraryComponent implements OnInit {
         this.libraryService
           .removeLibrary({
             image: name.split(
-              'http://api.peooshop.top/wp/wp-content/themes/peooshop/images/'
+              'images/'
             )[1],
           })
           .subscribe((res) => {
-            if (res.status === 200) {
               this.DataBroadcastService.changeAlert({
                 type: "success",
                 title:"Thành công",
@@ -91,18 +90,17 @@ export class LibraryComponent implements OnInit {
               });
               this.loadData();
               this.DataBroadcastService.changeMessage('hideLoadding');
-            } else {
+            } ,err=> {
               this.DataBroadcastService.changeMessage('hideLoadding');
 
               this.DataBroadcastService.changeAlert({
                 type: "error",
                 title:"Thất bại",
-                message: res.message
+                message: err.error.message
               });
             }
 
-            this.DataBroadcastService.changeMessage('hideLoadding');
-          });
+          );
       },
       reject: () => {},
     });

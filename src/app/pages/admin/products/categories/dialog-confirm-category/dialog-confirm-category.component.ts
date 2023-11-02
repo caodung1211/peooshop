@@ -49,21 +49,23 @@ export class DialogConfirmCategoryComponent {
     this.DataBroadcastService.changeMessage('showLoadding');
 
     this.CategoriesService.deleteCategory(this.id).subscribe((res) => {
-      if (res.status === 200) {
         this.DataBroadcastService.changeAlert({
           type: "success",
           title:"Thành công",
           message: res.message
         });
-      } else {
+      this.DataBroadcastService.changeMessage('hideLoadding');
+
+      } ,err=> {
         this.DataBroadcastService.changeAlert({
           type: "error",
           title:"Thất bại",
-          message: res.message
+          message: err.error.message
         });
-      }
       this.DataBroadcastService.changeMessage('hideLoadding');
-    });
+
+      }
+    );
 
     // Close the dialog, return true
     this.dialogRef.close(true);

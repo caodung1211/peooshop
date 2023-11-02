@@ -11,26 +11,26 @@ export class productsService {
   constructor(private http: HttpClient) { }
 
   uploadImage(body:any): Observable<any> {
-    return this.http.post('http://api.peooshop.top/wp/wp-json/api/v1/upload_image',body)
+    return this.http.post(`${environment.BASE_URL_BE}/upload_image`,body)
   }
   uploadImageMulti(body:any): Observable<any> {
-    return this.http.post('http://api.peooshop.top/wp/wp-json/api/v1/upload_image/multi',body)
+    return this.http.post(`${environment.BASE_URL_BE}/upload_image/multi`,body)
   }
   
   createProduct(body:any): Observable<any> {
-    return this.http.post('http://api.peooshop.top/wp/wp-json/api/v1/product',body)
+    return this.http.post(`${environment.BASE_URL_BE}/products`,body)
   }
 
   editProduct(id:string,body:any): Observable<any> {
-    return this.http.put(`http://api.peooshop.top/wp/wp-json/api/v1/product/${id}` ,body)
+    return this.http.put(`${environment.BASE_URL_BE}/products/${id}` ,body)
   }
 
   deleteProduct(id:string,body?:any): Observable<any> {
-    return this.http.post(`http://api.peooshop.top/wp/wp-json/api/v1/product/${id}`,'')
+    return this.http.post(`${environment.BASE_URL_BE}/products/${id}`,'')
   }
 
   changeStatusProduct(id:string,body:any): Observable<any> {
-    return this.http.post(`http://api.peooshop.top/wp/wp-json/api/v1/product/status/${id}` ,body)
+    return this.http.post(`${environment.BASE_URL_BE}/products/status/${id}` ,body)
   }
 
   getListProduct(): Observable<any> {
