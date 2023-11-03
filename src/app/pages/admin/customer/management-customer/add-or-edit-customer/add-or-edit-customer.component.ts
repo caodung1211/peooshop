@@ -61,7 +61,7 @@ export class AddOrEditCustomerComponent {
     this.DataBroadcastService.changeMessage('showLoadding');
 
     this.managementCollabService.getDetailCustomer(id).subscribe((res) => {
-      this.currentData = res;
+      this.currentData = res.data;
 
       this.currentData.birthday_date = moment(
         Number(this.currentData.birthday_date)
@@ -89,7 +89,6 @@ export class AddOrEditCustomerComponent {
       const formdata = new FormData();
       formdata.append('image', this.imgFile);
       this.managementCollabService.uploadImage(formdata).subscribe((res) => {
-        if (res.status === 200) {
           this.currentData.avatar = res.url;
           payload.avatar = res.url;
 
@@ -108,7 +107,6 @@ export class AddOrEditCustomerComponent {
 
                 this.dialogRef.close(true);
               },error=>{
-                console.log(error)
                 this.DataBroadcastService.changeAlert({
                   type: 'error',
                   title: 'Thất bại',
@@ -120,31 +118,28 @@ export class AddOrEditCustomerComponent {
             this.managementCollabService
               .editCustomer(payload.id, payload)
               .subscribe((resCreate) => {
-                if (resCreate.status === 200) {
                   this.DataBroadcastService.changeAlert({
                     type: 'success',
                     title: 'Thành công',
                     message: res.message,
                   });
-                } else {
+                  this.DataBroadcastService.changeMessage('hideLoadding');
+
+                this.dialogRef.close(true);
+                } ,err=> {
                   this.DataBroadcastService.changeAlert({
                     type: 'error',
                     title: 'Thất bại',
-                    message: res.message,
+                    message: err.error.message,
                   });
-                }
-                this.DataBroadcastService.changeMessage('hideLoadding');
+                  this.DataBroadcastService.changeMessage('hideLoadding');
 
                 this.dialogRef.close(true);
-              });
+                }
+                
+              );
           }
-        } else {
-          this.DataBroadcastService.changeAlert({
-            type: 'error',
-            title: 'Thất bại',
-            message: res.message,
-          });
-        }
+
       });
     } else {
       this.currentData.avatar = this.currentData.avatar
@@ -170,7 +165,6 @@ export class AddOrEditCustomerComponent {
 
             this.dialogRef.close(true);
           },error=>{
-            console.log(error)
             this.DataBroadcastService.changeAlert({
               type: 'error',
               title: 'Thất bại',
@@ -182,23 +176,31 @@ export class AddOrEditCustomerComponent {
         this.managementCollabService
           .editCustomer(payload.id, payload)
           .subscribe((resCreate) => {
-            if (resCreate.status === 200) {
+        
               this.DataBroadcastService.changeAlert({
                 type: 'success',
                 title: 'Thành công',
                 message: resCreate.message,
               });
-            } else {
+
+              this.DataBroadcastService.changeMessage('hideLoadding');
+
+            this.dialogRef.close(true);
+
+            } ,errCreate=> {
               this.DataBroadcastService.changeAlert({
                 type: 'error',
                 title: 'Thất bại',
-                message: resCreate.message,
+                message: errCreate.error.message,
               });
-            }
-            this.DataBroadcastService.changeMessage('hideLoadding');
+
+              this.DataBroadcastService.changeMessage('hideLoadding');
 
             this.dialogRef.close(true);
-          });
+
+            }
+            
+          );
       }
     }
   }
