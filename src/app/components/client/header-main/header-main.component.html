@@ -1,0 +1,65 @@
+
+
+<header>
+    <div class="peo-container">
+        <div class="header-main">
+            <!-- <div class="nav-left">
+                
+                
+            </div> -->
+
+            <div class="nav-left">
+                <div id="logo">
+                    Peoo Shop
+                </div>
+            </div>
+            
+
+            
+            <div class="nav-right">
+                <!-- <div class="cart cursor-pointer">
+                    <i class="pi pi-shopping-cart"></i>
+                    <span class="number" *ngIf="cart.number > 0">{{cart.number}}</span>
+                </div>
+                <div class="like cursor-pointer">
+                    <i class="pi pi-heart" ></i>
+                    <span class="number" *ngIf="like.number > 0">{{cart.number}}</span>
+                </div> -->
+                <div class="user cursor-pointer">
+                    <span>Dang nhap</span>
+                    <i class="pi pi-user"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="header-footer">
+            <div class="menu">
+                <div class="menu-item" *ngFor="let menu of menus">
+                    <a [routerLink]="menu.routerLink" [routerLinkActive]="['active']" class="pl-2 menu-title d-flex justify-content-between align-items-center">
+                         {{menu.label}}
+                    </a>
+                </div>
+            </div>
+            <div class="nav-right">
+                <div class="search">
+                    <div class="box-search">
+                        <i class="pi pi-search"></i>
+                        <input type="text" placeholder="Tim kiem...">
+                    </div>
+                </div>
+                <div class="cart cursor-pointer">
+                    <i class="pi pi-shopping-cart"></i>
+                    <span class="number" *ngIf="cart.number > 0">{{cart.number}}</span>
+                </div>
+                <div class="like cursor-pointer">
+                    <i class="pi pi-heart" ></i>
+                    <span class="number" *ngIf="like.number > 0">{{cart.number}}</span>
+                </div>
+                <!-- <div class="user cursor-pointer">
+                    <i class="pi pi-user"></i>
+                </div> -->
+            </div>
+        </div>
+    </div>
+    
+</header>

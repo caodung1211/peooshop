@@ -35,7 +35,7 @@ export class AuthInterceptor implements HttpInterceptor {
       })
       .catch(response => {
         if (response instanceof HttpErrorResponse) {
-          if(response.error?.code === 'not_authenticated' || response.error?.code === 'login_timed_out' ){
+          if(response.status === 403){
             
             this.DataBroadcastService.changeAlert({
               type: "error",

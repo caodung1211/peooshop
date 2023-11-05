@@ -19,6 +19,12 @@ export class SidebarComponent {
             ]
         },
         {
+            label: 'Bán hàng',
+            items: [
+                { label: 'Thêm đơn hàng', icon: 'pi pi-fw pi-home', routerLink: ['/admin/sales'] }
+            ]
+        },
+        {
             label: 'Sản phẩm',
             items: [
                 {

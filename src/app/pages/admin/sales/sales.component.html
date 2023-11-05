@@ -1,0 +1,42 @@
+<div (click)="addItems()" class="cursor-pointer">
+    <i class="pi pi-plus-circle" style="font-size: 2em"></i>
+  </div>
+
+<form #userForm="ngForm">
+
+        <div class="row">
+
+            <div class="col-12 mb-3">
+                <mat-form-field class="example-full-width">
+                    <mat-label>Địa chỉ</mat-label>
+                    <input matInput type="text" name="address" required #address="ngModel" [readonly]="isType === 'view'" [(ngModel)]="dataOrder.address" placeholder="Địa chỉ" required>
+                </mat-form-field>
+                <app-errors-message [control]="address.control" [name]="'Địa chỉ'"></app-errors-message>
+            </div>
+            <div class="col-12 mb-3">
+                <mat-form-field class="example-full-width">
+                    <mat-label>Số điện thoại</mat-label>
+                    <input matInput type="text" name="phone" required #phone="ngModel" [readonly]="isType === 'view'" [(ngModel)]="dataOrder.phone" placeholder="Số điện thoại" required>
+                </mat-form-field>
+                <app-errors-message [control]="phone.control" [name]="'Số điện thoại'"></app-errors-message>
+            </div>
+            <div class="col-12 mb-3">
+                <mat-form-field class="example-full-width">
+                    <mat-label>Ghi chú đơn hàng</mat-label>
+                    <textarea matInput name="note" [readonly]="isType === 'view'" [(ngModel)]="dataOrder.note"  #note="ngModel" placeholder="Ghi chú đơn hàng"></textarea>
+                </mat-form-field>
+                <!-- <app-errors-message [control]="description.control" [name]="'Mô tả'"></app-errors-message> -->
+            </div>
+
+            <!-- <div class="col-12 d-flex gap-3">
+                <mat-label>Trạng thái</mat-label>
+                <mat-slide-toggle [checked]="dataOrder.status" name="status" [(ngModel)]="dataOrder.status" [disabled]="isType === 'view'"></mat-slide-toggle>
+            </div> -->
+            <!-- <div class="col-12 d-flex gap-3 mt-4 justify-content-center" *ngIf="isType !== 'view'">
+                <button mat-flat-button color="primary" (click)="cancel()">Hủy</button>
+                <button mat-raised-button color="primary" [disabled]="!userForm.valid" (click)="onSubmit(isType)">Lưu</button>
+            </div> -->
+
+        </div>
+
+    </form>

@@ -26,7 +26,9 @@ const routes: Routes = [
       { path: 'library', loadChildren: () => import('./library/library.module').then(m => m.LibraryModule), },
       { path: 'customer', loadChildren: () => import('./customer/management-customer/management-customer.module').then(m => m.ManagementCustomerModule), },
       { path: 'collab', loadChildren: () => import('./customer/management-collab/management-collab.module').then(m => m.ManagementCollabModule), },
+      { path: 'sales', loadChildren: () => import('./sales/sales.module').then(m => m.SalesModule), },
 
+      
       
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: '**', loadChildren: () => import('../page404/page404.module').then(m => m.Page404Module) }
