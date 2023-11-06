@@ -4,12 +4,13 @@ import { PageHomeComponent } from './page-home.component';
 import { RouterModule } from '@angular/router';
 import { TopbarClientModule } from 'src/app/components/client/topbar-client/topbar-client.module';
 import { HeaderMainModule } from 'src/app/components/client/header-main/header-main.module';
-import { CarouselModule } from 'primeng';
+import { CarouselModule, TooltipModule } from 'primeng';
+import { PriceCustomPipe } from 'src/app/pipes/pricePipe.pipe';
 
 
 @NgModule({
   declarations: [
-    PageHomeComponent
+    PageHomeComponent,PriceCustomPipe
   ],
   imports: [
     CommonModule,
@@ -20,7 +21,8 @@ import { CarouselModule } from 'primeng';
       }
     ]),
 
-    CarouselModule
+    CarouselModule,
+    TooltipModule
   ],
   exports: [PageHomeComponent]
 })

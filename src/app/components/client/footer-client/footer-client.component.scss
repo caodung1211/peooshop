@@ -1,0 +1,19 @@
+footer{
+    background: #333;
+    color: #fff;
+    padding: 50px 0;
+    p.title{
+        font-size: 25px;
+    }
+    .social{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 25px;
+        font-size: 25px;
+        margin: 20px 0;
+        a{
+            color: #fff;
+        }
+    }
+}

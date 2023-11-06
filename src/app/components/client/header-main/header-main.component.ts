@@ -17,10 +17,12 @@ like:any = {
 menus:any = [
   { label: 'Trang chủ', routerLink: ['/'] },
   { label: 'Giới thiệu', routerLink: ['/gioi-thieu'] },
-  { label: 'Sản phẩm', routerLink: ['/san-pham'] },
-  { label: 'Tin tức', routerLink: ['/post'] },
-  { label: 'CTV', routerLink: ['/collab'] },
-  { label: 'Liên hệ', routerLink: ['/contact'] }
+  { label: 'Charles & Keith', routerLink: ['/charles-keith'] },
+  { label: 'Local brand', routerLink: ['/local-brand'] },
+
+  { label: 'Bộ sưu tập', routerLink: ['/bo-suu-tap'] },
+  { label: 'CTV', routerLink: ['/ctv'] },
+  { label: 'Liên hệ', routerLink: ['/lien-he'] }
 
 ]
 

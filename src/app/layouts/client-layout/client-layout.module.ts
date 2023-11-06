@@ -5,6 +5,7 @@ import { ToastModule } from 'primeng';
 import { RouterModule, Routes } from '@angular/router';
 import { HeaderMainModule } from 'src/app/components/client/header-main/header-main.module';
 import { TopbarClientModule } from 'src/app/components/client/topbar-client/topbar-client.module';
+import { FooterClientModule } from 'src/app/components/client/footer-client/footer-client.module';
 
 const routes: Routes = [
   { 
@@ -32,7 +33,8 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     ToastModule,
     TopbarClientModule,
-    HeaderMainModule
+    HeaderMainModule,
+    FooterClientModule
   ],
   exports: [ClientLayoutComponent]
 })

@@ -51,9 +51,16 @@ listProductSale:any = []
 
           this.productsService.getListProduct().subscribe((res) => {
             this.listProduct = res.data;
-            this.listProductSale = res.data.filter((x:any)=>{
+            this.listProductSale = this.listProduct.filter((x:any)=>{
               return x.sale === 1
             })
+
+            this.listProductSale.map((x:any)=>{
+              x.discount = (((x.price -  x.price_sale) / x.price) * 100).toFixed(1)
+              x.gallery = JSON.parse(x.gallery)
+return x
+            })
+
             // this.listProduct.map((x: any) => {
             //   let temp: any = [];
             //   this.optionCustomize.dropdownCategory.map((category: any) => {
