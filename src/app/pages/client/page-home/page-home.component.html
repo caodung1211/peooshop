@@ -1,11 +1,58 @@
-<app-topbar-client></app-topbar-client>
+<!-- <app-topbar-client></app-topbar-client>
 
-<app-header-main></app-header-main>
+<app-header-main></app-header-main> -->
 
 
 <div class="banner-home">
-
-
     <img [src]="banner_url" alt="Peo Shop">
 </div>
 
+
+<div class="peo-container category mb-4 mt-4">
+    <h2 class="title text-center">Danh mục sản phẩm</h2>
+    <p-carousel [value]="listCategory" styleClass="custom-carousel" [circular]="true" [autoplayInterval]="3000" [numVisible]="5" [numScroll]="5" [circular]="false" [responsiveOptions]="responsiveOptions">
+        <ng-template let-item pTemplate="item">
+            <div class="cursor-pointer">
+                <div class="mb-3">
+                    <img [src]="item.avatar" [alt]="item.name" class="w-6 shadow-2" />
+                </div>
+                <div>
+                    <h4 class="mb-1 text-center">{{ item.name }}</h4>
+                
+                </div>
+            </div>
+        </ng-template>
+    </p-carousel>
+</div>
+
+<div class="peo-container product-sale mb-4 mt-4">
+    <h2 class="title text-center">Sản phẩm khuyến mãi</h2>
+    <p-carousel [value]="listProductSale" styleClass="custom-carousel" [circular]="true" [autoplayInterval]="3000" [numVisible]="5" [numScroll]="5" [circular]="false" [responsiveOptions]="responsiveOptions">
+        <ng-template let-item pTemplate="item">
+            <div class="cursor-pointer">
+                <div class="mb-3">
+                    <img [src]="item.avatar" [alt]="item.name" class="w-6 shadow-2" />
+                </div>
+                <div>
+                    <h4 class="mb-1 text-center">{{ item.name }}</h4>
+                
+                </div>
+            </div>
+        </ng-template>
+    </p-carousel>
+</div>
+  
+<div class="peo-container list-product mb-4 mt-4">
+    <h2 class="title text-center">Danh sách sản phẩm</h2>
+    <div class="products">
+        <div class="product-item cursor-pointer" *ngFor="let item of listProduct">
+            <div class="box-img">
+                <img [src]="item.avatar" [alt]="item.name" class="w-6 shadow-2" />
+            </div>
+            <div class="box-text">
+                <h4 class="mb-1 text-center">{{ item.name }}</h4>
+            </div>
+        </div>
+    </div>
+</div>
+  

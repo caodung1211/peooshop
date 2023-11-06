@@ -16,8 +16,8 @@ like:any = {
 
 menus:any = [
   { label: 'Trang chủ', routerLink: ['/'] },
-  { label: 'Giới thiệu', routerLink: ['/about'] },
-  { label: 'Sản phẩm', routerLink: ['/products'] },
+  { label: 'Giới thiệu', routerLink: ['/gioi-thieu'] },
+  { label: 'Sản phẩm', routerLink: ['/san-pham'] },
   { label: 'Tin tức', routerLink: ['/post'] },
   { label: 'CTV', routerLink: ['/collab'] },
   { label: 'Liên hệ', routerLink: ['/contact'] }

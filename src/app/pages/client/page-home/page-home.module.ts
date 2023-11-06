@@ -4,6 +4,7 @@ import { PageHomeComponent } from './page-home.component';
 import { RouterModule } from '@angular/router';
 import { TopbarClientModule } from 'src/app/components/client/topbar-client/topbar-client.module';
 import { HeaderMainModule } from 'src/app/components/client/header-main/header-main.module';
+import { CarouselModule } from 'primeng';
 
 
 @NgModule({
@@ -18,8 +19,8 @@ import { HeaderMainModule } from 'src/app/components/client/header-main/header-m
         component: PageHomeComponent
       }
     ]),
-    TopbarClientModule,
-    HeaderMainModule
+
+    CarouselModule
   ],
   exports: [PageHomeComponent]
 })

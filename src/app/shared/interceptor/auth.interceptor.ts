@@ -36,13 +36,12 @@ export class AuthInterceptor implements HttpInterceptor {
       .catch(response => {
         if (response instanceof HttpErrorResponse) {
           if(response.status === 403){
-            
             this.DataBroadcastService.changeAlert({
               type: "error",
               title:"Thất bại",
               message: response.error?.message
             });
-            // this.DataBroadcastService.changeMessage('hideLoading');
+            this.DataBroadcastService.changeMessage('hideLoading');
 
             this.DataBroadcastService.changeMessage('logout');
             

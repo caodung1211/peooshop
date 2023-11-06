@@ -6,6 +6,7 @@ import { ClientLayoutComponent } from './layouts/client-layout/client-layout.com
 
 const routes: Routes = [
   { path: 'admin', loadChildren: () => import('./../app/layouts/main-layout/main-layout.module').then(m => m.MainLayoutModule) },
+  { path: 'admin-login', loadChildren: () => import('../app/pages/admin/login/admin-login/admin-login.module').then(m => m.AdminLoginModule) },
   { path: 'auth', component: AuthLayoutComponent },
   { path: '', loadChildren: () => import('./../app/layouts/client-layout/client-layout.module').then(m => m.ClientLayoutModule) },
 

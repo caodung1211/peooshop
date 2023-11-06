@@ -10,8 +10,9 @@ import { TableBaseLayoutModule } from './components/admin/table-base-layout/tabl
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { AuthInterceptor } from './shared/interceptor/auth.interceptor';
+import { SidebarCatgoryComponent } from './components/client/sidebar-catgory/sidebar-catgory.component';
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, SidebarCatgoryComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

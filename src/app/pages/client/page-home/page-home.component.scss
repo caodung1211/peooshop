@@ -1,5 +1,25 @@
-.banner-home{
+// .banner-home{
+//     img{
+//         width: 100%;
+//     }
+// }
+img{
+    width: 100%;
+}
+::ng-deep .ui-carousel-item{
     img{
         width: 100%;
+        max-height: 200px;
+        object-fit: contain;
+    }
+}
+
+.products{
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    grid-gap: 20px;
+    img{
+        max-height: 200px;
+        object-fit: contain;
     }
 }
