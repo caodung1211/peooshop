@@ -1,1 +1,11 @@
-<p>Danh mục sản phẩm</p>
+<div class="side-bar">
+    <div class="sidebar-item">
+        <p class="sidebar-item_title">Danh mục</p>
+        <ul>
+            <li *ngFor="let item of listCategory">
+                <input type="checkbox" [name]="item.id">
+                <span>{{item.name}}</span>
+            </li>
+        </ul>
+    </div>
+</div>

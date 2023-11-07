@@ -1,0 +1,25 @@
+
+<div class="products">
+    <div class="product-item cursor-pointer" *ngFor="let item of products">
+        <div class="box-img" [ngClass]="{'has-gallery': (item.gallery.length > 0 && item.gallery[0] )}">
+            <img [src]="item.avatar" [alt]="item.name" class="w-6 shadow-2" />
+            <img [src]="item.gallery[0]" [alt]="item.name" class="w-6 shadow-2 on-hover"
+                *ngIf="item.gallery.length > 0 && item.gallery[0]" />
+            <div class="add-to-cart">
+                Thêm vào giỏ hàng
+            </div>
+        </div>
+        <div class="box-text">
+            <h4 class="mb-1 text-center" class="peoTooltip" [pTooltip]="item.name">{{ item.name }}</h4>
+            <div class="box-price">
+                <span class="price" [ngClass]="{'sale':  ( item.price_sale && item.sale === 1)}">{{item.price |
+                    pricePipe}}</span>
+                <span class="price_sale" *ngIf="item.price_sale && item.sale === 1">{{item.price_sale |
+                    pricePipe}}</span>
+            </div>
+            <span class="discount" *ngIf="item.price_sale && item.sale === 1">
+                -{{item.discount}}%
+            </span>
+        </div>
+    </div>
+</div>

@@ -5,12 +5,13 @@ import { RouterModule } from '@angular/router';
 import { TopbarClientModule } from 'src/app/components/client/topbar-client/topbar-client.module';
 import { HeaderMainModule } from 'src/app/components/client/header-main/header-main.module';
 import { CarouselModule, TooltipModule } from 'primeng';
-import { PriceCustomPipe } from 'src/app/pipes/pricePipe.pipe';
+import { SharedPipeModule } from 'src/app/shared/sharedPipe.module';
+import { ListProductClientModule } from 'src/app/components/client/list-product-client/list-product-client.module';
 
 
 @NgModule({
   declarations: [
-    PageHomeComponent,PriceCustomPipe
+    PageHomeComponent
   ],
   imports: [
     CommonModule,
@@ -22,7 +23,7 @@ import { PriceCustomPipe } from 'src/app/pipes/pricePipe.pipe';
     ]),
 
     CarouselModule,
-    TooltipModule
+    ListProductClientModule
   ],
   exports: [PageHomeComponent]
 })

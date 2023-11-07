@@ -1,6 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PageProductsComponent } from './page-products.component';
+import { RouterModule } from '@angular/router';
+import { ListProductClientModule } from 'src/app/components/client/list-product-client/list-product-client.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SidebarCatgoryModule } from 'src/app/components/client/sidebar-catgory/sidebar-catgory.module';
 
 
 
@@ -9,7 +13,16 @@ import { PageProductsComponent } from './page-products.component';
     PageProductsComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    RouterModule.forChild([
+      {
+        component: PageProductsComponent,
+        path: ''
+      }
+    ]),
+    ListProductClientModule,
+    FormsModule,
+    SidebarCatgoryModule
   ],
   exports: [PageProductsComponent]
 })
