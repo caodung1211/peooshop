@@ -1,11 +1,53 @@
 <div class="side-bar">
+    
     <div class="sidebar-item">
         <p class="sidebar-item_title">Danh mục</p>
-        <ul>
-            <li *ngFor="let item of listCategory">
-                <input type="checkbox" [name]="item.id">
-                <span>{{item.name}}</span>
-            </li>
-        </ul>
+        <div class="filter">
+            <ul>
+                <li *ngFor="let item of listCategory">
+                    <p-checkbox [(ngModel)]="item.checked" [binary]="true" [inputId]="item.id" (ngModelChange)="onChangeFilter('category')"></p-checkbox>
+                    <label [for]="item.id">{{item.name}}</label>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="sidebar-item">
+        <p class="sidebar-item_title">Màu</p>
+        <div class="filter">
+            <ul>
+                <li *ngFor="let item of listCategory">
+                    <p-checkbox [(ngModel)]="item.checked" [binary]="true" [inputId]="item.id" (ngModelChange)="onChangeFilter('category')"></p-checkbox>
+                    <label [for]="item.id">{{item.name}}</label>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="sidebar-item">
+        <p class="sidebar-item_title">Kích thước</p>
+        <div class="filter">
+            <ul>
+                <li *ngFor="let item of listCategory">
+                    <p-checkbox [(ngModel)]="item.checked" [binary]="true" [inputId]="item.id" (ngModelChange)="onChangeFilter('category')"></p-checkbox>
+                    <label [for]="item.id">{{item.name}}</label>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="sidebar-item">
+        <p class="sidebar-item_title">Giá</p>
+        <div class="filter filter_price">
+            <p-slider [(ngModel)]="rangeValues" [range]="true" (ngModelChange)="onChangeFilter('price')"></p-slider>
+            <div class="box-price d-flex mb-4 mt-4" style="justify-content: space-between;">
+                <span class="min">
+                    {{objectFilter.price.min | pricePipe}}
+                </span>
+                <span class="max">
+                    {{objectFilter.price.max | pricePipe}}
+                </span>
+            </div>
+        </div>
     </div>
 </div>
