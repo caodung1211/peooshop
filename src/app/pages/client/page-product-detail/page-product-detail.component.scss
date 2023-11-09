@@ -1,0 +1,113 @@
+h1.product-name {
+  font-size: 25px !important;
+  letter-spacing: 1px !important;
+  margin-bottom: 20px;
+}
+.box-price {
+    display: grid;
+    gap: 10px;
+  .price {
+    font-size: 33px;
+    &.sale {
+      text-decoration: line-through;
+      font-size: 23px;
+      opacity: 0.8;
+    }
+  }
+  .price_sale {
+    color: #c00;
+    font-size: 33px;
+    margin-bottom: 10px;
+    .discount{
+        background: #cc000036;
+        color: #c00;
+        font-size: 18px;
+        padding: 5px 10px;
+        border-radius: 5px;
+        position: relative;
+        top: -6px;
+    }
+  }
+}
+
+.quantity {
+  display: inline-flex;
+  align-items: center;
+  gap: 20px;
+  background: hsl(223, 64%, 98%);
+  box-shadow: 0px 10px 25px 3px rgb(141 141 141 / 50%);
+  border-radius: 9px;
+  padding: 10px;
+  margin: 32px 0;
+  input {
+    border: none;
+    background: hsl(223, 64%, 98%);
+    width: 40px;
+    text-align: center;
+    padding: 0 !important;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    display: none;
+  }
+  span {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.btn-buy{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: space-between;
+    button {
+        transition: all 0.5s;
+
+        width: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1.5rem;
+        border: none;
+        background: #000;
+        color: #fff;
+        padding: 23px 0;
+        // border-radius: 15px;
+        font-size: 20px;
+        &:hover{
+        box-shadow: 0px 10px 25px 3px rgb(0 0 0 / 50%);
+
+        }
+    }
+}
+
+.box-img {
+  img {
+    width: 100%;
+    border-radius: 5%;
+    cursor: pointer;
+  }
+}
+
+.box-gallery {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 5px;
+  img {
+    width: 100%;
+    width: 100%;
+    max-height: 300px;
+    object-fit: contain;
+  }
+}
+
+.light-box {
+  img {
+    width: 100%;
+  }
+}

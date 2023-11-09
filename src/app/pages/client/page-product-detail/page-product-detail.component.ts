@@ -1,0 +1,56 @@
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-page-product-detail',
+  templateUrl: './page-product-detail.component.html',
+  styleUrls: ['./page-product-detail.component.scss']
+})
+export class PageProductDetailComponent {
+currentData = {
+  "id": 12,
+  "name": "Túi đeo vai hình thang Cressida Quilted Trapeze",
+  "description": "Túi Cressida nổi bật với phom dáng hình thang độc đáo, kết cấu chần bông trang nhã và tông màu be tuyệt đẹp. Việc bổ sung dây đeo chuỗi xích giúp tạo thêm vẻ quyến rũ, khiến túi vừa phù hợp để sử dụng ban ngày vừa hoàn hảo cho những buổi tiệc tối sang trọng. Ngoài ra, túi còn có khóa cài kim loại cao cấp và an toàn, mở ra bên trong kích thước rộng rãi giúp lưu trữ được nhiều vật dụng cần thiết của bạn.",
+  "category": "12,13",
+  "branch": "Shein",
+  "avatar": "http://peooshop.top/wp/wp-content/themes/peooshop/images/1697863676868LmdQhWCstA.png",
+  "sale": 1,
+  "status": 1,
+  "stock_status": 1,
+  "quantity": 2022,
+  "color": "15,16,17",
+  "size": "15,16,17",
+  "price_cost": 2350000,
+  "price": 2650000,
+  "price_collab": 2450000,
+  "price_sale": 2500000,
+  "gallery": [
+    "http://peooshop.top/wp/wp-content/themes/peooshop/images/1697863676868LmdQhWCstA.png",
+    "https://venkateshbaddela.github.io/ecommerce-main-page/images/image-product-1.jpg",
+    "http://peooshop.top/wp/wp-content/themes/peooshop/images/1697863676868LmdQhWCstA.png",
+    "https://venkateshbaddela.github.io/ecommerce-main-page/images/image-product-1.jpg",
+    "http://peooshop.top/wp/wp-content/themes/peooshop/images/1697863676868LmdQhWCstA.png",
+    "https://venkateshbaddela.github.io/ecommerce-main-page/images/image-product-1.jpg",
+    "http://peooshop.top/wp/wp-content/themes/peooshop/images/1697863676868LmdQhWCstA.png",
+    "https://venkateshbaddela.github.io/ecommerce-main-page/images/image-product-1.jpg",
+    "http://peooshop.top/wp/wp-content/themes/peooshop/images/1697863676868LmdQhWCstA.png",
+    "https://venkateshbaddela.github.io/ecommerce-main-page/images/image-product-1.jpg",
+    "http://peooshop.top/wp/wp-content/themes/peooshop/images/1697863676868LmdQhWCstA.png",
+    "https://venkateshbaddela.github.io/ecommerce-main-page/images/image-product-1.jpg",
+  ],
+  "date_update": 1698138300596,
+  "discount": "5.7"
+}
+
+quantity = 1
+
+imgLightBox = ''
+isShowLightBox = false
+
+
+
+setLightBox(item:any){
+  this.imgLightBox = item
+  this.isShowLightBox = true
+}
+
+}

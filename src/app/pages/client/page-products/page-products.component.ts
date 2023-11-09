@@ -1,4 +1,6 @@
 import { Component, OnInit} from '@angular/core';
+import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-page-products',
@@ -16,18 +18,51 @@ export class PageProductsComponent implements OnInit{
     { label: 'Giá ( từ thấp đến cao )', value: 'price_asc' },
   ]
 
+  configProduct = {
+    columns: 4,
+    total: 100,
+  }
+
   sortBy = ''
 
-  constructor(){
+  objectFilter:any = {}
 
+  constructor(private router:Router,private route: ActivatedRoute){
+
+ this.route.queryParams.subscribe((params:any) => {
+    params = {...params,...{page: params?.page ? params?.page  : 0}}
+    this.objectFilter = params
+  });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    for (let i = 0; i < 5; i++) {
+      this.dataFake = this.dataFake.concat(this.dataFake)
+      
+    }
+    this.loadData()
+  }
 
+  loadData(){
+    console.log(this.objectFilter)
+  }
 
   changeSortBy(){
+    this.objectFilter.sortBy = this.sortBy
+    this.router.navigate(['/charles-keith'], { queryParams: this.objectFilter });
 
   }
 
+
+  handleFilter($event:any){
+    this.objectFilter = {...this.objectFilter,...$event}
+    this.router.navigate(['/charles-keith'], { queryParams: this.objectFilter });
+  }
+
+  handlePaginator($event:any){
+    this.objectFilter["page"] = $event?.page
+    this.router.navigate(['/charles-keith'], { queryParams: this.objectFilter });
+  }
+  
 
 }

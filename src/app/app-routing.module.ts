@@ -9,9 +9,6 @@ const routes: Routes = [
   { path: 'admin-login', loadChildren: () => import('../app/pages/admin/login/admin-login/admin-login.module').then(m => m.AdminLoginModule) },
   { path: 'auth', component: AuthLayoutComponent },
   { path: '', loadChildren: () => import('./../app/layouts/client-layout/client-layout.module').then(m => m.ClientLayoutModule) },
-
-  
-
 ];
 
 @NgModule({

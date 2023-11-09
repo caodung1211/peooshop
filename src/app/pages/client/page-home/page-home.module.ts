@@ -7,6 +7,7 @@ import { HeaderMainModule } from 'src/app/components/client/header-main/header-m
 import { CarouselModule, TooltipModule } from 'primeng';
 import { SharedPipeModule } from 'src/app/shared/sharedPipe.module';
 import { ListProductClientModule } from 'src/app/components/client/list-product-client/list-product-client.module';
+import { BlockProductClientModule } from 'src/app/components/client/block-product-client/block-product-client.module';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { ListProductClientModule } from 'src/app/components/client/list-product-
     ]),
 
     CarouselModule,
-    ListProductClientModule
+    ListProductClientModule,
+    BlockProductClientModule
   ],
   exports: [PageHomeComponent]
 })

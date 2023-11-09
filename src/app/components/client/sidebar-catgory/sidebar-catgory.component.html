@@ -39,13 +39,13 @@
     <div class="sidebar-item">
         <p class="sidebar-item_title">Giá</p>
         <div class="filter filter_price">
-            <p-slider [(ngModel)]="rangeValues" [range]="true" (ngModelChange)="onChangeFilter('price')"></p-slider>
+            <p-slider [(ngModel)]="rangeValues" [range]="true" (onSlideEnd)="onChangeFilter('price')"></p-slider>
             <div class="box-price d-flex mb-4 mt-4" style="justify-content: space-between;">
                 <span class="min">
-                    {{objectFilter.price.min | pricePipe}}
+                    {{objectListFilter.price.min | pricePipe}}
                 </span>
                 <span class="max">
-                    {{objectFilter.price.max | pricePipe}}
+                    {{objectListFilter.price.max | pricePipe}}
                 </span>
             </div>
         </div>

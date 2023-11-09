@@ -44,7 +44,7 @@
                 <div class="search">
                     <div class="box-search">
                         <i class="pi pi-search"></i>
-                        <input type="text" placeholder="Tim kiem...">
+                        <input type="text" [(ngModel)]="keySearch" placeholder="Tìm kiếm..." (keyup.enter)="search()">
                     </div>
                 </div>
                 <div class="cart cursor-pointer">

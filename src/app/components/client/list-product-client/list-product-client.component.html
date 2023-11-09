@@ -1,6 +1,5 @@
-
 <div class="products">
-    <div class="product-item cursor-pointer" *ngFor="let item of products">
+    <div class="product-item cursor-pointer" *ngFor="let item of products" [ngStyle]="{'flex-basis': this.maxWidth,'max-width': this.maxWidth}">
         <div class="box-img" [ngClass]="{'has-gallery': (item.gallery.length > 0 && item.gallery[0] )}">
             <img [src]="item.avatar" [alt]="item.name" class="w-6 shadow-2" />
             <img [src]="item.gallery[0]" [alt]="item.name" class="w-6 shadow-2 on-hover"
@@ -23,3 +22,14 @@
         </div>
     </div>
 </div>
+
+<div class="pagination">
+    <mat-paginator [length]="configProduct.total"
+    [pageSize]="10"
+    [pageIndex]="configProduct.pageIndex"
+    (page)="handlePaginator($event)"
+>
+</mat-paginator>
+</div>
+
+<p-paginator [rows]="10" [totalRecords]="configProduct.total" (onPageChange)="handlePaginator($event)"></p-paginator>

@@ -1,0 +1,20 @@
+<div class="peo-container">
+    <h2 class="title-page">Local Brand</h2>
+
+    <div class="wrap-content d-flex">
+        <div class="sidebar col-3">
+            <app-sidebar-catgory (callback)="handleFilter($event)"></app-sidebar-catgory>
+        </div>
+        <div class="content col-9">
+            <div class="sort mb-4">
+                <span style="margin-right: 10px;">SẮP XẾP THEO:</span>
+                <select [(ngModel)]="sortBy" (ngModelChange)="changeSortBy()">
+                    <option [value]="item.value" *ngFor="let item of list_sort">{{item.label}}</option>
+                </select>
+            </div>
+            <app-list-product-client [products]="dataFake" [configProduct]="configProduct" (pagination)="handlePaginator($event)"></app-list-product-client>
+
+        </div>
+    </div>
+
+</div>

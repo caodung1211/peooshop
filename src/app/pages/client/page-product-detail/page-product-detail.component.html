@@ -1,0 +1,71 @@
+<div class="peo-container row mb-4 mt-4">
+  <div class="col-6">
+    <div class="box-img">
+      <img
+        [src]="currentData.avatar"
+        alt=""
+        (click)="setLightBox(currentData.avatar)"
+      />
+    </div>
+  </div>
+  <div class="col-6">
+    <h1 class="product-name">{{ currentData.name }}</h1>
+    <div class="box-price">
+      <p
+        class="price_sale"
+        *ngIf="currentData.price_sale && currentData.sale === 1"
+      >
+        {{ currentData.price_sale | pricePipe }}
+        <span
+          class="discount"
+          *ngIf="currentData.price_sale && currentData.sale === 1"
+        >
+          -{{ currentData.discount }}%
+        </span>
+      </p>
+      <span
+        class="price"
+        [ngClass]="{ sale: currentData.price_sale && currentData.sale === 1 }"
+        >{{ currentData.price | pricePipe }}</span
+      >
+    </div>
+
+    <div class="quantity">
+      <span class="cursor-pointer"><i class="pi pi-minus"></i></span>
+      <input type="number" name="quantity" [(ngModel)]="quantity" />
+      <span class="cursor-pointer"><i class="pi pi-plus"></i></span>
+    </div>
+
+    <div class="btn-buy">
+      <button>Thêm vào giỏ hàng</button>
+      <button>Mua ngay</button>
+    </div>
+  </div>
+</div>
+
+<div class="peo-container">
+  <div class="col-12"><hr /></div>
+  <h2 class="title-page mb-4 mt-4">Album ảnh</h2>
+
+  <div class="box-gallery">
+    <img
+      *ngFor="let item of currentData.gallery"
+      [src]="item"
+      (click)="setLightBox(item)"
+      class="cursor-pointer"
+    />
+  </div>
+</div>
+
+<p-dialog
+  [(visible)]="isShowLightBox"
+  [modal]="true"
+  [showHeader]="false"
+  [style]="{ width: '90vw' }"
+  [baseZIndex]="10000"
+  [dismissableMask]="true"
+>
+  <div class="light-box">
+    <img [src]="imgLightBox" />
+  </div>
+</p-dialog>

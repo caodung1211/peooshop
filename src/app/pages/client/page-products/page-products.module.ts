@@ -7,7 +7,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SidebarCatgoryModule } from 'src/app/components/client/sidebar-catgory/sidebar-catgory.module';
 
 
-
 @NgModule({
   declarations: [
     PageProductsComponent
@@ -17,12 +16,16 @@ import { SidebarCatgoryModule } from 'src/app/components/client/sidebar-catgory/
     RouterModule.forChild([
       {
         component: PageProductsComponent,
-        path: ''
+        path: '',
+        data: {
+          breadcrumb: "Charles & Keith",
+          path: '/charles-keith'
+        }
       }
     ]),
     ListProductClientModule,
     FormsModule,
-    SidebarCatgoryModule
+    SidebarCatgoryModule,
   ],
   exports: [PageProductsComponent]
 })

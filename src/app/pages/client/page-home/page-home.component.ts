@@ -31,6 +31,7 @@ listColor:any = []
 listProduct:any = []
 listProductSale:any = []
 
+columns = 5
   constructor(public productsService:productsService) {}
 
   ngOnInit() {

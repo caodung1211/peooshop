@@ -88,6 +88,8 @@ header {
             left: 10px;
             transform: translate(0,-50%);
             color: #ccc;
+            cursor: pointer;
+            z-index: 111;
         }
         input{
             padding: 5px 10px 5px 35px;

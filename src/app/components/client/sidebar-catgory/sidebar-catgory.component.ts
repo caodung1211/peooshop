@@ -1,4 +1,4 @@
-import { Component , OnInit} from '@angular/core';
+import { Component , EventEmitter, OnInit, Output} from '@angular/core';
 
 @Component({
   selector: 'app-sidebar-catgory',
@@ -6,6 +6,8 @@ import { Component , OnInit} from '@angular/core';
   styleUrls: ['./sidebar-catgory.component.scss']
 })
 export class SidebarCatgoryComponent implements OnInit {
+
+  @Output() callback = new EventEmitter<any>()
 
   listCategory:any = [
     {
@@ -48,10 +50,10 @@ export class SidebarCatgoryComponent implements OnInit {
     },
   ]
 
-  // objectFilter
+  objectFilter:any = {}
 
-  objectFilter = {
-    category: '',
+  objectListFilter = {
+    category: [],
     price: {
       min: 0,
       max: 100
@@ -66,7 +68,7 @@ export class SidebarCatgoryComponent implements OnInit {
 
 
   ngOnInit() {
-    this.objectFilter.price.max = this.maxPrice
+    this.objectListFilter.price.max = this.maxPrice
     this.listCategory.map((x:any,index:any)=>{
       x.checked = false
       x.id += index
@@ -77,21 +79,34 @@ export class SidebarCatgoryComponent implements OnInit {
   onChangeFilter(type:any){
     switch (type) {
       case 'category':
-        this.objectFilter.category = this.listCategory.filter((x:any)=>{
+        this.objectListFilter.category = this.listCategory.filter((x:any)=>{
           return x.checked === true
         })
-        console.log(this.objectFilter.category)
+        this.callbackFilter()
         break;
       
       case 'price':
-        this.objectFilter.price.min = Math.floor((this.rangeValues[0] / 100)  * this.maxPrice)
-        this.objectFilter.price.max = Math.floor((this.rangeValues[1] / 100)  * this.maxPrice)
-console.log(this.objectFilter.price)
+        this.objectListFilter.price.min = Math.floor((this.rangeValues[0] / 100)  * this.maxPrice)
+        this.objectListFilter.price.max = Math.floor((this.rangeValues[1] / 100)  * this.maxPrice)
+        this.callbackFilter()
         break;
         
       default:
         break;
     }
+  }
+
+  callbackFilter(){
+    this.objectFilter.category = []
+    this.objectListFilter.category.filter((x:any)=>{
+      this.objectFilter.category.push(x.id)
+    })
+
+    this.objectFilter.minPrice = this.objectListFilter.price.min
+    this.objectFilter.maxPrice = this.objectListFilter.price.max
+
+
+    this.callback.emit(this.objectFilter)
   }
 
 }
