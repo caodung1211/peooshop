@@ -47,13 +47,13 @@
                         <input type="text" [(ngModel)]="keySearch" placeholder="Tìm kiếm..." (keyup.enter)="search()">
                     </div>
                 </div>
-                <div class="cart cursor-pointer">
+                <div class="cart cursor-pointer" [routerLink]="'/gio-hang'">
                     <i class="pi pi-shopping-cart"></i>
                     <span class="number" *ngIf="cart.number > 0">{{cart.number}}</span>
                 </div>
-                <div class="like cursor-pointer">
+                <div class="like cursor-pointer" [routerLink]="'/yeu-thich'">
                     <i class="pi pi-heart" ></i>
-                    <span class="number" *ngIf="like.number > 0">{{cart.number}}</span>
+                    <span class="number" *ngIf="like.number > 0">{{like.number}}</span>
                 </div>
                 <!-- <div class="user cursor-pointer">
                     <i class="pi pi-user"></i>

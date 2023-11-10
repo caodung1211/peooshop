@@ -57,7 +57,7 @@ export class AddOrEditCollabComponent {
   ngOnInit() {}
 
   loadData(id: string) {
-    this.DataBroadcastService.changeMessage('showLoadding');
+    this.DataBroadcastService.changeMessage('showLoadding'); 
 
     this.managementCollabService.getDetailCustomer(id).subscribe((res) => {
       this.currentData = res;

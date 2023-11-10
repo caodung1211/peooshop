@@ -1,5 +1,6 @@
 import { Component ,OnInit} from '@angular/core';
 import { ActivatedRoute,NavigationEnd,Router  } from '@angular/router';
+import { DataBroadcastService } from 'src/app/service/data-broadcast.service';
 
 @Component({
   selector: 'app-header-main',
@@ -11,10 +12,10 @@ export class HeaderMainComponent implements OnInit {
   keySearch = ''
 
 cart:any = {
-  number: 2
+  number: 0
 }
 like:any = {
-  number: 4
+  number: 0
 }
 
 menus:any = [
@@ -29,7 +30,7 @@ menus:any = [
 
 ]
 
-constructor(private router:Router,private route: ActivatedRoute){
+constructor(private router:Router,private route: ActivatedRoute, private DataBroadcastService:DataBroadcastService){
 
 
 }
@@ -40,8 +41,34 @@ ngOnInit() {
       if(!event.url.includes('tim-kiem')) this.keySearch = ''
     }
   });
-}
 
+  this.DataBroadcastService.currentProductId.subscribe((res:any) => {
+    console.log(res)
+    switch (res.type) {
+      case 'addToCart':
+        this.DataBroadcastService.changeAlert({
+          type: 'success',
+          title: 'Thành công',
+          message: 'Thêm sản phẩm thành công!',
+        });
+        this.cart.number +=1
+        break;
+    
+      case 'likeProduct':
+        // this.DataBroadcastService.changeAlert({
+        //   type: 'success',
+        //   title: 'Thành công',
+        //   message: 'Bạn thích sản phẩm này!',
+        // });
+        this.like.number +=1
+        break;
+
+      default:
+        break;
+    }
+  });
+
+}
 
 search(){
   if(this.keySearch){

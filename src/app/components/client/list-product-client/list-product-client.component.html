@@ -1,35 +1,59 @@
 <div class="products">
-    <div class="product-item cursor-pointer" *ngFor="let item of products" [ngStyle]="{'flex-basis': this.maxWidth,'max-width': this.maxWidth}">
-        <div class="box-img" [ngClass]="{'has-gallery': (item.gallery.length > 0 && item.gallery[0] )}">
-            <img [src]="item.avatar" [alt]="item.name" class="w-6 shadow-2" />
-            <img [src]="item.gallery[0]" [alt]="item.name" class="w-6 shadow-2 on-hover"
-                *ngIf="item.gallery.length > 0 && item.gallery[0]" />
-            <div class="add-to-cart">
-                Thêm vào giỏ hàng
-            </div>
-        </div>
-        <div class="box-text">
-            <h4 class="mb-1 text-center" class="peoTooltip" [pTooltip]="item.name">{{ item.name }}</h4>
-            <div class="box-price">
-                <span class="price" [ngClass]="{'sale':  ( item.price_sale && item.sale === 1)}">{{item.price |
-                    pricePipe}}</span>
-                <span class="price_sale" *ngIf="item.price_sale && item.sale === 1">{{item.price_sale |
-                    pricePipe}}</span>
-            </div>
-            <span class="discount" *ngIf="item.price_sale && item.sale === 1">
-                -{{item.discount}}%
-            </span>
-        </div>
+  <div
+    class="product-item cursor-pointer"
+    *ngFor="let item of products"
+    [ngStyle]="{ 'flex-basis': this.maxWidth, 'max-width': this.maxWidth }"
+  >
+    <div
+      class="box-img"
+      [ngClass]="{ 'has-gallery': item.gallery.length > 0 && item.gallery[0] }"
+    >
+      <a [href]="'/san-pham/' + item.id">
+        <img [src]="item.avatar" [alt]="item.name" class="w-6 shadow-2" />
+        <img
+          [src]="item.gallery[0]"
+          [alt]="item.name"
+          class="w-6 shadow-2 on-hover"
+          *ngIf="item.gallery.length > 0 && item.gallery[0]"
+        />
+      </a>
+      <div class="add-to-cart">Thêm vào giỏ hàng</div>
     </div>
+    <a [href]="'/san-pham/' + item.id">
+      <div class="box-text">
+        <h4 class="mb-1 text-center" class="peoTooltip" [pTooltip]="item.name">
+          {{ item.name }}
+        </h4>
+        <div class="box-price">
+          <span
+            class="price"
+            [ngClass]="{ sale: item.price_sale && item.sale === 1 }"
+            >{{ item.price | pricePipe }}</span
+          >
+          <span class="price_sale" *ngIf="item.price_sale && item.sale === 1">{{
+            item.price_sale | pricePipe
+          }}</span>
+        </div>
+        <span class="discount" *ngIf="item.price_sale && item.sale === 1">
+          -{{ item.discount }}%
+        </span>
+      </div>
+    </a>
+  </div>
 </div>
 
 <div class="pagination">
-    <mat-paginator [length]="configProduct.total"
+  <mat-paginator
+    [length]="configProduct.total"
     [pageSize]="10"
     [pageIndex]="configProduct.pageIndex"
     (page)="handlePaginator($event)"
->
-</mat-paginator>
+  >
+  </mat-paginator>
 </div>
 
-<p-paginator [rows]="10" [totalRecords]="configProduct.total" (onPageChange)="handlePaginator($event)"></p-paginator>
+<p-paginator
+  [rows]="10"
+  [totalRecords]="configProduct.total"
+  (onPageChange)="handlePaginator($event)"
+></p-paginator>

@@ -22,6 +22,10 @@ const routes: Routes = [
       { path: 'tim-kiem', loadChildren: () => import('./../../pages/client/page-search-results/page-search-results.module').then(m => m.PageSearchResultsModule) },
       { path: 'san-pham', loadChildren: () => import('./../../pages/client/page-product-detail/page-product-detail.module').then(m => m.PageProductDetailModule) },
       
+      { path: 'gio-hang', loadChildren: () => import('./../../pages/client/page-cart/page-cart.module').then(m => m.PageCartModule) },
+      { path: 'yeu-thich', loadChildren: () => import('./../../pages/client/page-like/page-like.module').then(m => m.PageLikeModule) },
+
+      
 
       { path: '**', loadChildren: () => import('./../../pages/client/page-not-found/page-not-found.module').then(m => m.PageNotFoundModule) },
     ],

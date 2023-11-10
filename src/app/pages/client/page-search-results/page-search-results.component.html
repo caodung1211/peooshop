@@ -1,1 +1,11 @@
-<p>page-search-results works!</p>
+<div class="peo-container">
+    <h2 class="title-page">Kết quả tìm kiếm cho: {{this.objectFilter?.key}}</h2>
+
+    <div class="wrap-content d-flex">
+        <div class="content col-12">
+            <app-list-product-client [products]="dataFake" [configProduct]="configProduct" (pagination)="handlePaginator($event)"></app-list-product-client>
+
+        </div>
+    </div>
+
+</div>

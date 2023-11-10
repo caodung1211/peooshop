@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PageLikeComponent } from './page-like.component';
+import { RouterModule } from '@angular/router';
 
 
 
@@ -9,7 +10,14 @@ import { PageLikeComponent } from './page-like.component';
     PageLikeComponent
   ],
   imports: [
-    CommonModule
-  ]
+    CommonModule,
+    RouterModule.forChild([
+      {
+        component: PageLikeComponent,
+        path: ''
+      }
+    ]),
+  ],
+  exports: [PageLikeComponent]
 })
 export class PageLikeModule { }
