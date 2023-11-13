@@ -1,1 +1,47 @@
-<p>page-login works!</p>
+<div class="screen">
+    <div class="screen__content">
+        <div class="back" *ngIf="type === 'register'" @onOff (click)="type = 'login'; userForm.reset()">
+            <i class="pi pi-chevron-circle-left"></i>
+        </div>
+        <form #userForm="ngForm" class="login">
+            
+            <div class="login__field">
+                <i class="pi pi-user"></i>
+                <input type="text" class="login__input" [(ngModel)]="currentData.username" name="username" placeholder="Email/SĐT" required="true">
+            </div>
+            <div class="login__field">
+                <i class="pi pi-lock"></i>
+                <input [type]="showPassword ? 'text' : 'password' " [(ngModel)]="currentData.password" name="password" class="login__input" placeholder="Mật khẩu" required="true">
+                <div class="eye" (click)="showPassword = !showPassword">
+                    <i class="pi pi-eye" *ngIf="!showPassword"></i>
+                    <i class="pi pi-eye-slash" *ngIf="showPassword"></i>
+                </div>
+            </div>
+            <div class="login__field" *ngIf="type === 'register'">
+                <i class="pi pi-lock"></i>
+                <input [type]="showPassword ? 'text' : 'password' " @onOff class="login__input" name="passwordClone" [(ngModel)]="currentData.passwordClone" placeholder="Nhập lại mật khẩu" [required]="type === 'register'">
+                <div class="eye" (click)="showPassword = !showPassword">
+                    <i class="pi pi-eye" *ngIf="!showPassword"></i>
+                    <i class="pi pi-eye-slash" *ngIf="showPassword"></i>
+                </div>
+            </div>
+            <p class="passError" *ngIf="checkPass()"  @onOff>Mật khẩu không trùng khớp!</p>
+
+            <button class="button login__submit mt-3" [disabled]="!userForm.valid" *ngIf="type === 'login'" @onOff (click)="login()">
+                <span class="button__text">Đăng nhập</span>
+            </button>		
+            <button class="button login__submit mt-3" *ngIf="type === 'login'" @onOff (click)="type = 'register'; userForm.reset()">
+                <span class="button__text" >Đăng ký tài khoản</span>
+            </button>		
+            <button class="button login__submit mt-3" [disabled]="!userForm.valid || checkPass()" *ngIf="type === 'register'" @onOff (click)="register()">
+                <span class="button__text" >Đăng ký</span>
+            </button>		
+        </form>
+    </div>
+    <div class="screen__background">
+        <span class="screen__background__shape screen__background__shape4"></span>
+        <span class="screen__background__shape screen__background__shape3"></span>		
+        <span class="screen__background__shape screen__background__shape2"></span>
+        <span class="screen__background__shape screen__background__shape1"></span>
+    </div>		
+</div>

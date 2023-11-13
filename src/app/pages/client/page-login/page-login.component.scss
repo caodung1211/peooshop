@@ -1,0 +1,247 @@
+@import url('https://fonts.googleapis.com/css?family=Raleway:400,700');
+
+
+.screen {		
+    background: linear-gradient(90deg, #0000008c, #00000070);
+    position: relative;
+    height: 600px;
+    width: 500px;
+    box-shadow: 0px 0px 24px #000;
+    overflow: hidden;
+}
+
+.screen__content {
+	z-index: 1;
+	position: relative;	
+	height: 100%;
+}
+
+.screen__background {		
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 0;
+	-webkit-clip-path: inset(0 0 0 0);
+	clip-path: inset(0 0 0 0);	
+}
+
+.screen__background__shape {
+	transform: rotate(45deg);
+	position: absolute;
+}
+
+.screen__background__shape1 {
+	height: 520px;
+	width: 520px;
+	background: #FFF;	
+	top: -50px;
+	right: 120px;	
+	border-radius: 0 72px 0 0;
+}
+
+.screen__background__shape2 {
+	height: 220px;
+	width: 220px;
+	background: #6C63AC;	
+	top: -172px;
+	right: 0;	
+	border-radius: 32px;
+}
+
+.screen__background__shape3 {
+	height: 540px;
+	width: 190px;
+	background: linear-gradient(270deg, #5D54A4, #6A679E);
+	top: -24px;
+	right: 0;	
+	border-radius: 32px;
+}
+
+.screen__background__shape4 {
+	height: 400px;
+	width: 200px;
+	background: #7E7BB9;	
+	top: 420px;
+	right: 50px;	
+	border-radius: 60px;
+}
+
+.login {
+	width: 420px;
+	padding: 30px;
+	padding-top: 156px;
+    overflow: hidden;
+}
+
+.login__field {
+	padding: 5px 0px;	
+	position: relative;	
+    i {
+        position: absolute;
+        top: 50%;
+        transform: translate(0,-50%);
+    }
+    .eye i {
+        right: 0;
+        cursor: pointer;
+    }
+}
+
+.login__icon {
+	position: absolute;
+	top: 30px;
+	color: #7875B5;
+}
+
+.login__input {
+    border: none;
+    border-bottom: 2px solid #D1D1D4;
+    background: none;
+    padding: 10px;
+    padding-left: 28px;
+    padding-right: 30px;
+    font-weight: 700;
+    width: 100%;
+    transition: 0.2s;
+}
+
+.login__input:active,
+.login__input:focus,
+.login__input:hover {
+	outline: none;
+	border-bottom-color: #6A679E;
+}
+
+.login__submit {
+    background: #fff;
+    font-size: 14px;
+    margin-top: 0px;
+    padding: 10px;
+    border-radius: 26px;
+    border: 1px solid #D4D3E8;
+    text-transform: uppercase;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    width: 270px;
+    color: #4C489D;
+    box-shadow: 0px 2px 2px #5C5696;
+    cursor: pointer;
+    transition: 0.2s;
+    justify-content: center;
+}
+
+.login__register{
+    width: 200px;
+}
+
+.login__submit:active,
+.login__submit:focus,
+.login__submit:hover {
+	border-color: #6A679E;
+	outline: none;
+}
+
+.button__icon {
+	font-size: 24px;
+	margin-left: auto;
+	color: #7875B5;
+}
+
+.social-login {	
+	position: absolute;
+	height: 140px;
+	width: 160px;
+	text-align: center;
+	bottom: 0px;
+	right: 0px;
+	color: #fff;
+}
+
+.social-icons {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.social-login__icon {
+	padding: 20px 10px;
+	color: #fff;
+	text-decoration: none;	
+	text-shadow: 0px 0px 8px #7875B5;
+}
+
+.social-login__icon:hover {
+	transform: scale(1.5);	
+}
+
+.back{
+    position: absolute;
+    top: 80px;
+    left: 30px;
+    font-size: 30px;
+    cursor: pointer;
+}
+p.passError {
+    font-weight: 700;
+    color: red;
+}
+
+
+button:disabled,
+button[disabled]{
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+
+
+
+// =================== Loadding ===================
+.loadding {
+    top: 0;
+    background: #000000ad;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 11111111111111;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.loader {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    animation : rotate 2s linear infinite;
+  }
+  .loader:before,
+  .loader:after {
+    content:"";
+    flex:1;
+    background:#fff;
+    animation: mvx 0.5s infinite linear alternate;
+  }
+  .loader:before {
+    background: #FF3D00;
+    animation-name:mvrx;
+  }
+
+  @keyframes rotate {
+    100% {transform: rotate(360deg)}
+  }
+  @keyframes mvx {
+    0% , 40% {transform: translateX(0px)}
+    20% , 60% {transform: translateX(8px)}
+    100% {transform: translateX(15px)}
+  }
+  @keyframes mvrx {
+    0% , 40% {transform: translateX(0px)}
+    20% , 60% {transform: translateX(-8px)}
+    100% {transform: translateX(-15px)}
+  }
+
+// =================== Loadding ===================

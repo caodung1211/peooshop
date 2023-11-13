@@ -8,7 +8,7 @@ body{
     font-weight: bold;
 }
 .title{
-    margin-bottom: 5vh;
+    margin-bottom: 25px;
 }
 .card{
     margin: 20px auto;
@@ -77,11 +77,11 @@ a{
     font-size: 0.7rem;
 }
 img{
-    width: 3.5rem;
+    width: 100%;
 }
-.back-to-shop{
-    margin-top: 4.5rem;
-}
+// .back-to-shop{
+//     // margin-top: 4.5rem;
+// }
 h5{
     margin-top: 4vh;
 }
@@ -151,4 +151,53 @@ a:hover{
     max-height: 400px;
     overflow-y: scroll;
     overflow-x: hidden;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 3px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+
+  svg{
+    fill: #000 !important;
+  }
+
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    display: none;
+  }
+
+
+  .quantity {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    font-size: 20px;
+    span{
+        cursor: pointer;
+    }
+    input{
+        margin: 0;
+        max-width: 52px;
+        border-radius: 7px;
+        height: 40px;
+        font-size: 14px;
+        text-align: center;
+    }
 }

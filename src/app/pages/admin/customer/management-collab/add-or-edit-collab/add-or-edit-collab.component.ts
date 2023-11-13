@@ -60,7 +60,7 @@ export class AddOrEditCollabComponent {
     this.DataBroadcastService.changeMessage('showLoadding'); 
 
     this.managementCollabService.getDetailCustomer(id).subscribe((res) => {
-      this.currentData = res;
+      this.currentData = res.data;
 
       this.currentData.birthday_date = moment(
         Number(this.currentData.birthday_date)

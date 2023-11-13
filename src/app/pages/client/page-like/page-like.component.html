@@ -1,1 +1,11 @@
-<p>page-like works!</p>
+<div class="peo-container">
+    <h2 class="title-page">Danh sách yêu thích</h2>
+
+    <div class="wrap-content d-flex">
+        <div class="content col-12">
+            <app-list-product-client [products]="dataFake" [configProduct]="configProduct" (pagination)="handlePaginator($event)"></app-list-product-client>
+
+        </div>
+    </div>
+
+</div>

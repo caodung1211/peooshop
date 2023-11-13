@@ -1,11 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { DataBroadcastService } from 'src/app/service/data-broadcast.service';
 
 @Component({
   selector: 'app-page-product-detail',
   templateUrl: './page-product-detail.component.html',
   styleUrls: ['./page-product-detail.component.scss']
 })
-export class PageProductDetailComponent {
+export class PageProductDetailComponent implements OnInit{
 currentData = {
   "id": 12,
   "name": "Túi đeo vai hình thang Cressida Quilted Trapeze",
@@ -46,11 +47,26 @@ quantity = 1
 imgLightBox = ''
 isShowLightBox = false
 
+constructor(private DataBroadcastService:DataBroadcastService){
+
+}
+
+
+ngOnInit(): void {
+  
+}
 
 
 setLightBox(item:any){
   this.imgLightBox = item
   this.isShowLightBox = true
+}
+
+addToCart(){
+  this.DataBroadcastService.addToCart({
+    id: this.currentData.id,
+    type: 'addToCart'
+  });
 }
 
 }

@@ -1,125 +1,65 @@
 <div class="card">
     <div class="row">
-        <div class="col-md-8 cart">
+        <div class="col-12 cart">
             <div class="title">
-                <div class="row justify-content-between">
-                    <div class="col"><h4><b>Giỏ hàng</b></h4></div>
-                    <div class="col align-self-center">3 items</div>
+                <div class="row justify-content-center">
+                    <div class="col-4">
+            <div class="back-to-shop"><a [routerLink]="'/san-pham'">&leftarrow;<span class="text-muted">Quay lại cửa hàng</span></a></div>
+                    </div>
+                    <div class="col-4"><h4 class="text-center m-0" ><b>Giỏ hàng của bạn</b></h4></div>
+                    <div class="col-4 align-self-center"></div>
                 </div>
             </div>    
 
             <div class="box-item">
-                <div class="row border-top border-bottom">
+                <div class="row border-top border-bottom" *ngFor="let item of listCartOrder">
                     <div class="row main align-items-center">
-                        <div class="col-2"><img class="img-fluid" src="https://i.imgur.com/1GrakTl.jpg"></div>
-                        <div class="col">
-                            <div class="row text-muted">Shirt</div>
-                            <div class="row">Cotton T-shirt</div>
+                        <div class="col-2"><img class="img-fluid" [src]="item.avatar"></div>
+                        <div class="col-4">
+                            <div class="row cursor-pointer" [routerLink]="'/san-pham/'+item.id">{{item.name}}</div>
                         </div>
-                        <div class="col">
-                            <a href="#">-</a><a href="#" class="border">1</a><a href="#">+</a>
+                        <div class="col-2">
+                            <p class="text-center">{{item.branch}}</p>
                         </div>
-                        <div class="col">&euro; 44.00 <span class="close">&#10005;</span></div>
+
+                        <div class="col-2">
+                            <div class="quantity">
+                                <span (click)="reduce(item.id)">-</span>
+                            <input type="number" [(ngModel)]="item.quantity"
+                            (ngModelChange)="countOrder()">
+                            <span (click)="increasing(item.id)">+</span>
+                            </div>
+                        </div>
+                        <div class="col-2">{{item.price | pricePipe}} <span class="close cursor-pointer" (click)="removeItem(item.id)">&#10005;</span></div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="row main align-items-center">
-                        <div class="col-2"><img class="img-fluid" src="https://i.imgur.com/ba3tvGm.jpg"></div>
-                        <div class="col">
-                            <div class="row text-muted">Shirt</div>
-                            <div class="row">Cotton T-shirt</div>
-                        </div>
-                        <div class="col">
-                            <a href="#">-</a><a href="#" class="border">1</a><a href="#">+</a>
-                        </div>
-                        <div class="col">&euro; 44.00 <span class="close">&#10005;</span></div>
-                    </div>
-                </div>
-                <div class="row border-top border-bottom">
-                    <div class="row main align-items-center">
-                        <div class="col-2"><img class="img-fluid" src="https://i.imgur.com/pHQ3xT3.jpg"></div>
-                        <div class="col">
-                            <div class="row text-muted">Shirt</div>
-                            <div class="row">Cotton T-shirt</div>
-                        </div>
-                        <div class="col">
-                            <a href="#">-</a><a href="#" class="border">1</a><a href="#">+</a>
-                        </div>
-                        <div class="col">&euro; 44.00 <span class="close">&#10005;</span></div>
-                    </div>
-                </div>
-                <div class="row border-top border-bottom">
-                    <div class="row main align-items-center">
-                        <div class="col-2"><img class="img-fluid" src="https://i.imgur.com/pHQ3xT3.jpg"></div>
-                        <div class="col">
-                            <div class="row text-muted">Shirt</div>
-                            <div class="row">Cotton T-shirt</div>
-                        </div>
-                        <div class="col">
-                            <a href="#">-</a><a href="#" class="border">1</a><a href="#">+</a>
-                        </div>
-                        <div class="col">&euro; 44.00 <span class="close">&#10005;</span></div>
-                    </div>
-                </div>
-                <div class="row border-top border-bottom">
-                    <div class="row main align-items-center">
-                        <div class="col-2"><img class="img-fluid" src="https://i.imgur.com/pHQ3xT3.jpg"></div>
-                        <div class="col">
-                            <div class="row text-muted">Shirt</div>
-                            <div class="row">Cotton T-shirt</div>
-                        </div>
-                        <div class="col">
-                            <a href="#">-</a><a href="#" class="border">1</a><a href="#">+</a>
-                        </div>
-                        <div class="col">&euro; 44.00 <span class="close">&#10005;</span></div>
-                    </div>
-                </div>
-                <div class="row border-top border-bottom">
-                    <div class="row main align-items-center">
-                        <div class="col-2"><img class="img-fluid" src="https://i.imgur.com/pHQ3xT3.jpg"></div>
-                        <div class="col">
-                            <div class="row text-muted">Shirt</div>
-                            <div class="row">Cotton T-shirt</div>
-                        </div>
-                        <div class="col">
-                            <a href="#">-</a><a href="#" class="border">1</a><a href="#">+</a>
-                        </div>
-                        <div class="col">&euro; 44.00 <span class="close">&#10005;</span></div>
-                    </div>
-                </div>
-                <div class="row border-top border-bottom">
-                    <div class="row main align-items-center">
-                        <div class="col-2"><img class="img-fluid" src="https://i.imgur.com/pHQ3xT3.jpg"></div>
-                        <div class="col">
-                            <div class="row text-muted">Shirt</div>
-                            <div class="row">Cotton T-shirt</div>
-                        </div>
-                        <div class="col">
-                            <a href="#">-</a><a href="#" class="border">1</a><a href="#">+</a>
-                        </div>
-                        <div class="col">&euro; 44.00 <span class="close">&#10005;</span></div>
-                    </div>
+                <div class="text-center" *ngIf="listCartOrder.length === 0" >
+                    <svg xmlns="http://www.w3.org/2000/svg" height="5em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M175.9 448c-35-.1-65.5-22.6-76-54.6C67.6 356.8 48 308.7 48 256C48 141.1 141.1 48 256 48s208 93.1 208 208s-93.1 208-208 208c-28.4 0-55.5-5.7-80.1-16zM0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM128 369c0 26 21.5 47 48 47s48-21 48-47c0-20-28.4-60.4-41.6-77.7c-3.2-4.4-9.6-4.4-12.8 0C156.6 308.6 128 349 128 369zm128-65c-13.3 0-24 10.7-24 24s10.7 24 24 24c30.7 0 58.7 11.5 80 30.6c9.9 8.8 25 8 33.9-1.9s8-25-1.9-33.9C338.3 320.2 299 304 256 304zm47.6-96a32 32 0 1 0 64 0 32 32 0 1 0 -64 0zm-128 32a32 32 0 1 0 0-64 32 32 0 1 0 0 64z"/></svg>
+                    <p class="mt-3">Giỏ hàng trống</p>
                 </div>
             </div>
 
-            <div class="back-to-shop"><a href="#">&leftarrow;</a><span class="text-muted">Back to shop</span></div>
-        </div>
-        <div class="col-md-4 summary">
-            <div class="summary-title"><b>Đơn hàng</b></div>
-            <hr>
-            <div class="row">
-                <div class="col" style="padding-left:0;">ITEMS 3</div>
-                <div class="col text-right">&euro; 132.00</div>
-            </div>
-            <form>
-                <p>Mã giảm giá (Nếu có)</p>
-                <input id="code" placeholder="Nhập mã giảm giá">
-            </form>
-            <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
-                <div class="col">Tổng đơn hàng</div>
-                <div class="col text-right">&euro; 137.00</div>
-            </div>
-            <button class="btn">CHECKOUT</button>
+
+            <div class="mt-4" *ngIf="listCartOrder.length > 0">
+       
+                <hr />
+                <div class="d-flex justify-content-between">
+                  <p class="mb-2">Tổng đơn hàng (tạm tính):</p>
+                  <p class="mb-2 fw-bold">{{totalOrder | pricePipe}}</p>
+                </div>
+
+                <div class="d-flex justify-content-end">
+                    <button
+                  class="btn shadow-0 border"
+                  style="background: #000; color: #fff; font-size: 16px; max-width: 300px;"
+                  [routerLink]="'/thanh-toan'"
+                >
+                  Thanh toán
+                </button>
+                  </div>
+              </div>
+
+              
         </div>
     </div>
     

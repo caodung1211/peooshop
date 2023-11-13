@@ -8,7 +8,8 @@
       />
     </div>
   </div>
-  <div class="col-6">
+  <div class="col-6" style="    padding: 40px 20px;">
+    <div class="line"></div>
     <h1 class="product-name">{{ currentData.name }}</h1>
     <div class="box-price">
       <p
@@ -36,9 +37,11 @@
       <span class="cursor-pointer"><i class="pi pi-plus"></i></span>
     </div>
 
+
+
     <div class="btn-buy">
-      <button>Thêm vào giỏ hàng</button>
-      <button>Mua ngay</button>
+      <button (click)="addToCart()">Thêm vào giỏ hàng</button>
+      <button [routerLink]="'/thanh-toan'" [queryParams]="{ id: currentData.id }" >Mua ngay</button>
     </div>
   </div>
 </div>

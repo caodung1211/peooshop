@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PageLikeComponent } from './page-like.component';
 import { RouterModule } from '@angular/router';
+import { ListProductClientModule } from 'src/app/components/client/list-product-client/list-product-client.module';
 
 
 
@@ -17,6 +18,7 @@ import { RouterModule } from '@angular/router';
         path: ''
       }
     ]),
+    ListProductClientModule
   ],
   exports: [PageLikeComponent]
 })

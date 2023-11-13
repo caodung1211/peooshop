@@ -1,13 +1,44 @@
-import { Component, OnInit } from '@angular/core';
+import { Component,OnInit } from '@angular/core';
+import {Router, ActivatedRoute } from '@angular/router';
+
+
+import tinh from '../../../shared/JSON/tinh.json';
+import { checkoutService } from './page-checkout.service';
+
 
 @Component({
-  selector: 'app-page-cart',
-  templateUrl: './page-cart.component.html',
-  styleUrls: ['./page-cart.component.scss']
+  selector: 'app-page-checkout',
+  templateUrl: './page-checkout.component.html',
+  styleUrls: ['./page-checkout.component.scss']
 })
-export class PageCartComponent implements OnInit{
+export class PageCheckoutComponent implements OnInit{
 
-  ids:any = []
+  currentData:any = {
+    name: '',
+    phone: '',
+    address: '',
+    city: '',
+    districts: '',
+    wards: '',
+    isSaveAddress: false,
+    shipping: 'ghtk',
+    note: ''
+  }
+
+  currentOrder:any = {
+    totalPrice: 0,
+    discount: 0,
+    shiping: 0,
+    totalOrder: 0
+  }
+
+  code_discount = ''
+  errCodeDiscount = false
+
+  methodShip = [
+    {value: 'ghtk', id:"ghtk"},
+    {value: 'Trong ngày', id:"trong-ngay"}
+  ]
 
   listCartOrder:any = [
     {
@@ -20,27 +51,7 @@ export class PageCartComponent implements OnInit{
       "sale": 1,
       "status": 1,
       "stock_status": 1,
-      "quantity": 2,
-      "color": "15,16,17",
-      "size": "15,16,17",
-      "price_cost": 2350000,
-      "price": 2650000,
-      "price_collab": 2450000,
-      "price_sale": 2500000,
-      "gallery": "[\"http://peooshop.top/wp/wp-content/themes/peooshop/images/1697863676868LmdQhWCstA.png\"]",
-      "date_update": 1698138300596,
-    },
-    {
-      "id": 12,
-      "name": "Túi đeo vai hình thang Cressida Quilted Trapeze",
-      "description": "Túi Cressida nổi bật với phom dáng hình thang độc đáo, kết cấu chần bông trang nhã và tông màu be tuyệt đẹp. Việc bổ sung dây đeo chuỗi xích giúp tạo thêm vẻ quyến rũ, khiến túi vừa phù hợp để sử dụng ban ngày vừa hoàn hảo cho những buổi tiệc tối sang trọng. Ngoài ra, túi còn có khóa cài kim loại cao cấp và an toàn, mở ra bên trong kích thước rộng rãi giúp lưu trữ được nhiều vật dụng cần thiết của bạn.",
-      "category": "12,13",
-      "branch": "Shein",
-      "avatar": "http://peooshop.top/wp/wp-content/themes/peooshop/images/1697863676868LmdQhWCstA.png",
-      "sale": 1,
-      "status": 1,
-      "stock_status": 1,
-      "quantity": 2,
+      "quantity": 2022,
       "color": "15,16,17",
       "size": "15,16,17",
       "price_cost": 2350000,
@@ -60,7 +71,7 @@ export class PageCartComponent implements OnInit{
       "sale": 1,
       "status": 1,
       "stock_status": 1,
-      "quantity": 2,
+      "quantity": 2022,
       "color": "15,16,17",
       "size": "15,16,17",
       "price_cost": 2350000,
@@ -80,7 +91,7 @@ export class PageCartComponent implements OnInit{
       "sale": 1,
       "status": 1,
       "stock_status": 1,
-      "quantity": 2,
+      "quantity": 2022,
       "color": "15,16,17",
       "size": "15,16,17",
       "price_cost": 2350000,
@@ -100,7 +111,7 @@ export class PageCartComponent implements OnInit{
       "sale": 1,
       "status": 1,
       "stock_status": 1,
-      "quantity": 2,
+      "quantity": 2022,
       "color": "15,16,17",
       "size": "15,16,17",
       "price_cost": 2350000,
@@ -120,7 +131,27 @@ export class PageCartComponent implements OnInit{
       "sale": 1,
       "status": 1,
       "stock_status": 1,
-      "quantity": 2,
+      "quantity": 2022,
+      "color": "15,16,17",
+      "size": "15,16,17",
+      "price_cost": 2350000,
+      "price": 2650000,
+      "price_collab": 2450000,
+      "price_sale": 2500000,
+      "gallery": "[\"http://peooshop.top/wp/wp-content/themes/peooshop/images/1697863676868LmdQhWCstA.png\"]",
+      "date_update": 1698138300596
+    },
+    {
+      "id": 12,
+      "name": "Túi đeo vai hình thang Cressida Quilted Trapeze",
+      "description": "Túi Cressida nổi bật với phom dáng hình thang độc đáo, kết cấu chần bông trang nhã và tông màu be tuyệt đẹp. Việc bổ sung dây đeo chuỗi xích giúp tạo thêm vẻ quyến rũ, khiến túi vừa phù hợp để sử dụng ban ngày vừa hoàn hảo cho những buổi tiệc tối sang trọng. Ngoài ra, túi còn có khóa cài kim loại cao cấp và an toàn, mở ra bên trong kích thước rộng rãi giúp lưu trữ được nhiều vật dụng cần thiết của bạn.",
+      "category": "12,13",
+      "branch": "Shein",
+      "avatar": "http://peooshop.top/wp/wp-content/themes/peooshop/images/1697863676868LmdQhWCstA.png",
+      "sale": 1,
+      "status": 1,
+      "stock_status": 1,
+      "quantity": 2022,
       "color": "15,16,17",
       "size": "15,16,17",
       "price_cost": 2350000,
@@ -132,74 +163,88 @@ export class PageCartComponent implements OnInit{
     },
   ]
 
-  totalOrder = 0
+  listCity:any
+  listDistricts:any
+  listWards:any
 
-  constructor(){
-    this.getListCart()
-  }
-
+  constructor(private checkoutService:checkoutService, private router:Router,private route: ActivatedRoute){
+    this.route.queryParams.subscribe((params:any) => {
+       console.log(params)
+       if(params?.id){
+        alert("buy now")
+       }else{
+        
+       }
+     });
+    }
 
   ngOnInit(): void {
+    this.listCity = tinh
+    this.currentOrder.totalPrice = 1000000
+    this.currentOrder.shiping = 30000
     this.countOrder()
   }
 
   countOrder(){
-    this.listCartOrder.map((x:any)=>{
-      this.totalOrder = this.totalOrder + x.price
-      return x
-    })
+    this.currentOrder.totalOrder = this.currentOrder.totalPrice + this.currentOrder.shiping - this.currentOrder.discount
   }
 
-  removeItem(id:string):void{
-    this.listCartOrder = this.listCartOrder.filter((x:any)=>{
-      return x.id !== id
-    })
+  getListCountry(){
+
+  }
+
+  check(){
+console.log(this.currentData)
+  }
+
+  changeOptionCity(type:string){
+    switch (type) {
+      case 'city':
+        this.listDistricts = []
+        this.listCity.map((x:any)=>{
+          if(x.Id === this.currentData.city){
+            this.listDistricts = x.Districts
+          }
+          return x
+        })
+        this.currentData.districts = null
+        this.currentData.wards = null
+
+        break;
+      case 'districts':
+        this.listWards = []
+        this.currentData.wards = null
+
+        this.listDistricts.map((x:any)=>{
+          if(x.Id === this.currentData.districts){
+            this.listWards = x.Wards
+
+          }
+          return x
+        })
+        
+        break;
+      
+      case 'wards':
+
+        break;
+      default:
+        break;
+    }
   }
 
   onSubmit(){
 
   }
 
-  reduce(id:string){
-    this.listCartOrder.map((x:any)=>{
-      if(x.id === id){
-        if(x.quantity === 1){
-          this.removeItem(id)
-        }else{
-          x.quantity = x.quantity - 1
-        }
-      }
-      return x
-    })
+  ApplyDiscount(){
+    if(this.code_discount === '123'){
+      this.currentOrder.discount = 200000
     this.countOrder()
-
-  }
-
-  increasing(id:string){
-    this.listCartOrder.map((x:any)=>{
-      if(x.id === id){
-        x.quantity = x.quantity + 1
-      }
-      return x
-    })
-    this.countOrder()
-
-  }
-
-  getListCart(){
-    let cartItem = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart') || '') : {
-      number: 0,
-      ids: []
-    }
-    if(cartItem.ids.length > 0){
-      cartItem.ids.map((x:any)=>{
-        this.ids.push(x.id)
-        return x
-      })
+this.errCodeDiscount = false
     }else{
-      this.ids = []
+      this.errCodeDiscount = true
     }
-
-    console.log(this.ids)
   }
+
 }

@@ -6,6 +6,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { HeaderMainModule } from 'src/app/components/client/header-main/header-main.module';
 import { TopbarClientModule } from 'src/app/components/client/topbar-client/topbar-client.module';
 import { FooterClientModule } from 'src/app/components/client/footer-client/footer-client.module';
+import { PageLoginModule } from 'src/app/pages/client/page-login/page-login.module';
+import { MatDialogModule } from '@angular/material/dialog';
 
 const routes: Routes = [
   { 
@@ -24,6 +26,7 @@ const routes: Routes = [
       
       { path: 'gio-hang', loadChildren: () => import('./../../pages/client/page-cart/page-cart.module').then(m => m.PageCartModule) },
       { path: 'yeu-thich', loadChildren: () => import('./../../pages/client/page-like/page-like.module').then(m => m.PageLikeModule) },
+      { path: 'thanh-toan', loadChildren: () => import('./../../pages/client/page-checkout/page-checkout.module').then(m => m.PageCheckoutModule) },
 
       
 
@@ -46,6 +49,8 @@ const routes: Routes = [
     TopbarClientModule,
     HeaderMainModule,
     FooterClientModule,
+    PageLoginModule,
+    MatDialogModule
     
   ],
   exports: [ClientLayoutComponent]
