@@ -1,4 +1,5 @@
 import { Component , EventEmitter, OnInit, Output} from '@angular/core';
+import { clientSidebarService } from './sidebar-catgory.service';
 
 @Component({
   selector: 'app-sidebar-catgory',
@@ -9,46 +10,10 @@ export class SidebarCatgoryComponent implements OnInit {
 
   @Output() callback = new EventEmitter<any>()
 
-  listCategory:any = [
-    {
-      id: 1,
-      name: "Túi đeo chéo"
-    },
-    {
-      id: 1,
-      name: "Túi đeo chéo"
-    },{
-      id: 1,
-      name: "Túi đeo chéo"
-    },{
-      id: 1,
-      name: "Túi đeo chéo"
-    },{
-      id: 1,
-      name: "Túi đeo chéo"
-    },{
-      id: 1,
-      name: "Túi đeo chéo"
-    },{
-      id: 1,
-      name: "Túi đeo chéo"
-    },{
-      id: 1,
-      name: "Túi đeo chéo"
-    },{
-      id: 1,
-      name: "Túi đeo chéo"
-    },{
-      id: 1,
-      name: "Túi đeo chéo"
-    },{
-      id: 1,
-      name: "Túi đeo chéo"
-    },{
-      id: 1,
-      name: "Túi đeo chéo"
-    },
-  ]
+  listCategory:any = []
+  listColor:any = []
+  listSize:any = []
+
 
   objectFilter:any = {}
 
@@ -64,16 +29,13 @@ export class SidebarCatgoryComponent implements OnInit {
 
   maxPrice = 5000000
 
-  constructor() {}
+  constructor(public clientSidebarService:clientSidebarService) {
+    this.loadData()
+  }
 
 
   ngOnInit() {
     this.objectListFilter.price.max = this.maxPrice
-    this.listCategory.map((x:any,index:any)=>{
-      x.checked = false
-      x.id += index
-      return x
-    })
   }
 
   onChangeFilter(type:any){
@@ -107,6 +69,29 @@ export class SidebarCatgoryComponent implements OnInit {
 
 
     this.callback.emit(this.objectFilter)
+  }
+
+  loadData(){
+    this.clientSidebarService.getListCategory().subscribe(res=>{
+      this.listCategory = res.data.map((x:any)=>{
+        x.checked = false
+        return x
+      })
+    })
+
+    this.clientSidebarService.getListColor().subscribe(res=>{
+      this.listColor = res.data.map((x:any)=>{
+        x.checked = false
+        return x
+      })
+    })
+
+    this.clientSidebarService.getListSize().subscribe(res=>{
+      this.listSize = res.data.map((x:any)=>{
+        x.checked = false
+        return x
+      })
+    })
   }
 
 }

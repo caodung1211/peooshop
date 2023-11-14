@@ -16,7 +16,7 @@
         <p class="sidebar-item_title">Màu</p>
         <div class="filter">
             <ul>
-                <li *ngFor="let item of listCategory">
+                <li *ngFor="let item of listColor">
                     <p-checkbox [(ngModel)]="item.checked" [binary]="true" [inputId]="item.id" (ngModelChange)="onChangeFilter('category')"></p-checkbox>
                     <label [for]="item.id">{{item.name}}</label>
                 </li>
@@ -28,7 +28,7 @@
         <p class="sidebar-item_title">Kích thước</p>
         <div class="filter">
             <ul>
-                <li *ngFor="let item of listCategory">
+                <li *ngFor="let item of listSize">
                     <p-checkbox [(ngModel)]="item.checked" [binary]="true" [inputId]="item.id" (ngModelChange)="onChangeFilter('category')"></p-checkbox>
                     <label [for]="item.id">{{item.name}}</label>
                 </li>

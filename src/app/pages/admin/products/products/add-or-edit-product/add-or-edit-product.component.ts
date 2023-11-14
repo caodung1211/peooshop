@@ -157,10 +157,16 @@ console.log(this.optionDropdow)
   onSubmit(type: string) {
     this.DataBroadcastService.changeMessage('showLoadding');
 
-    this.currentData.category = this.tempCategory.toString();
-    this.currentData.size = this.tempSize.toString();
-    this.currentData.color = this.tempColor.toString();
-    
+    this.currentData.category = this.tempCategory.map((x:any)=>{
+      return x = x = x > 10 ? (x > 100 ? x : '0'+ x ) : '00'+x
+    }).toString();
+    this.currentData.size = this.tempSize.map((x:any)=>{
+      return x = x > 10 ? (x > 100 ? x : '0'+ x ) : '00'+x
+    }).toString();
+    this.currentData.color = this.tempColor.map((x:any)=>{
+      return x = x = x > 10 ? (x > 100 ? x : '0'+ x ) : '00'+x
+    }).toString();
+
     if (this.imgFile) {
       const formdata = new FormData();
       formdata.append('image', this.imgFile);
