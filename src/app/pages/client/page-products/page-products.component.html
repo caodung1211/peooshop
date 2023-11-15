@@ -12,7 +12,7 @@
                     <option [value]="item.value" *ngFor="let item of list_sort">{{item.label}}</option>
                 </select>
             </div>
-            <app-list-product-client [products]="dataFake" [configProduct]="configProduct" (pagination)="handlePaginator($event)"></app-list-product-client>
+            <app-list-product-client [products]="currentData" [configProduct]="configProduct" (pagination)="handlePaginator($event)"></app-list-product-client>
 
         </div>
     </div>
