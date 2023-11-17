@@ -57,6 +57,9 @@ export class HeaderMainComponent implements OnInit {
           this.addToLike(res.id);
           break;
 
+        case 'updateCart':
+          this.updateCart(res.id);
+            break;
         default:
           break;
       }
@@ -69,6 +72,22 @@ export class HeaderMainComponent implements OnInit {
         queryParams: { key_search: this.keySearch },
       });
     }
+  }
+
+  updateCart(id:string){
+    this.cart.ids = this.cart.ids.filter((x:any)=>{
+      return x.id !== id
+    })
+console.log(this.cart.ids)
+    this.cart.number = this.cart.ids.reduce(
+      (accumulator: any, currentValue: any) => {
+        return accumulator + currentValue.quantity;
+      },
+      0
+    );
+
+    localStorage.setItem('cart', JSON.stringify(this.cart));
+
   }
 
   addToCart(id: string) {
@@ -142,8 +161,6 @@ export class HeaderMainComponent implements OnInit {
           number: 0,
           ids: [],
         };
-
-    console.log(this.cart);
   }
 
   getListLike() {

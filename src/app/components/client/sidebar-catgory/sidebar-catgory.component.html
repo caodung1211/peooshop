@@ -5,8 +5,8 @@
         <div class="filter">
             <ul>
                 <li *ngFor="let item of listCategory">
-                    <p-checkbox [(ngModel)]="item.checked" [binary]="true" [inputId]="item.id" (ngModelChange)="onChangeFilter('category')"></p-checkbox>
-                    <label [for]="item.id">{{item.name}}</label>
+                    <p-checkbox [(ngModel)]="item.checked" [binary]="true" [inputId]="item.name" (ngModelChange)="onChangeFilter('category')"></p-checkbox>
+                    <label [for]="item.name">{{item.name}}</label>
                 </li>
             </ul>
         </div>
@@ -17,8 +17,8 @@
         <div class="filter">
             <ul>
                 <li *ngFor="let item of listColor">
-                    <p-checkbox [(ngModel)]="item.checked" [binary]="true" [inputId]="item.id" (ngModelChange)="onChangeFilter('color')"></p-checkbox>
-                    <label [for]="item.id">{{item.name}}</label>
+                    <p-checkbox [(ngModel)]="item.checked" [binary]="true" [inputId]="item.name" (ngModelChange)="onChangeFilter('color')"></p-checkbox>
+                    <label [for]="item.name">{{item.name}}</label>
                 </li>
             </ul>
         </div>
@@ -29,8 +29,8 @@
         <div class="filter">
             <ul>
                 <li *ngFor="let item of listSize">
-                    <p-checkbox [(ngModel)]="item.checked" [binary]="true" [inputId]="item.id" (ngModelChange)="onChangeFilter('size')"></p-checkbox>
-                    <label [for]="item.id">{{item.name}}</label>
+                    <p-checkbox [(ngModel)]="item.checked" [binary]="true" [inputId]="item.name" (ngModelChange)="onChangeFilter('size')"></p-checkbox>
+                    <label [for]="item.name">{{item.name}}</label>
                 </li>
             </ul>
         </div>

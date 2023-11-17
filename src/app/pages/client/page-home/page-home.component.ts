@@ -54,10 +54,6 @@ export class PageHomeComponent implements OnInit {
       });
 
       this.listProductSale.map((x: any) => {
-        x.discount = (
-          ((x.price - x.price_sale) / x.price) *
-          100
-        ).toFixed(1);
         x.gallery = JSON.parse(x.gallery);
         return x;
       });

@@ -4,6 +4,7 @@ import { PageCartComponent } from './page-cart.component';
 import { RouterModule } from '@angular/router';
 import { SharedPipeModule } from 'src/app/shared/sharedPipe.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DialogModule } from 'primeng';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
       }
     ]),
     SharedPipeModule,
-    FormsModule
+    FormsModule,
+    DialogModule
   ],
   exports: [PageCartComponent]
 })

@@ -14,6 +14,10 @@ export class clientProductbService {
     return this.http.get(`${environment.BASE_URL_BE_Client}/products`)
   }
 
+  getDetailProduct(id:string): Observable<any> {
+    return this.http.get(`${environment.BASE_URL_BE_Client}/products/${id}`)
+  }
+
   filterProduct(body:any): Observable<any> {
     return this.http.post(`${environment.BASE_URL_BE_Client}/products/filter`,body)
   }

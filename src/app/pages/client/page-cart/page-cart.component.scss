@@ -78,6 +78,7 @@ a{
 }
 img{
     width: 100%;
+    max-width: 111px;
 }
 // .back-to-shop{
 //     // margin-top: 4.5rem;
@@ -199,5 +200,25 @@ a:hover{
         height: 40px;
         font-size: 14px;
         text-align: center;
+    }
+}
+
+
+::ng-deep body .ui-dialog .ui-dialog-titlebar {
+    text-align: center;
+}
+
+
+button {
+    border: none;
+    background: #000;
+    color: #fff;
+    min-width: 100px;
+    padding: 5px 0;
+    text-align: center;
+    cursor: pointer;
+    margin: 0 !important;
+    &.cancel{
+        background: #888;
     }
 }

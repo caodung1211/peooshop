@@ -18,19 +18,24 @@
                         <div class="col-4">
                             <div class="row cursor-pointer" [routerLink]="'/san-pham/'+item.id">{{item.name}}</div>
                         </div>
-                        <div class="col-2">
+                        <div class="col-1">
                             <p class="text-center">{{item.branch}}</p>
                         </div>
-
                         <div class="col-2">
                             <div class="quantity">
-                                <span (click)="reduce(item.id)">-</span>
+                                <span (click)="reduce(item)">-</span>
                             <input type="number" [(ngModel)]="item.quantity"
                             (ngModelChange)="countOrder()">
                             <span (click)="increasing(item.id)">+</span>
                             </div>
                         </div>
-                        <div class="col-2">{{item.price | pricePipe}} <span class="close cursor-pointer" (click)="removeItem(item.id)">&#10005;</span></div>
+                        <div class="col-2">{{item.price | pricePipe}}</div>
+                        <div class="col-1 text-center">
+                            <span class="close cursor-pointer" (click)="openRemove(item)">
+                                <i class="pi pi-trash" style="font-size: 18px"></i>
+                            </span>
+                           
+                        </div>
                     </div>
                 </div>
                 <div class="text-center" *ngIf="listCartOrder.length === 0" >
@@ -64,3 +69,16 @@
     </div>
     
 </div>
+
+
+
+<p-dialog header="Xóa sản phẩm" [(visible)]="isShowDelete" (onHide)="closeRemove()" [style]="{width: '50vw'}" [modal]="true" [dismissableMask]="true">
+    <p style="padding-top: 20px;padding-bottom: 20px;" [innerHTML]="messageRemove"></p>
+    <p-footer>
+        <div class="d-flex align-items-center justify-content-center" style="gap: 10px">
+            <button class="cancel" (click)="closeRemove()">Không</button>
+            <button (click)="removeItem(idRemove)">Có</button>
+        </div>
+    </p-footer>
+
+</p-dialog>

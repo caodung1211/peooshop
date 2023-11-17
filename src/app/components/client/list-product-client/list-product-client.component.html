@@ -1,5 +1,6 @@
 <div class="products">
-  <div
+  <ng-container *ngIf="products.length > 0 else noData">
+    <div
     class="product-item cursor-pointer"
     *ngFor="let item of products"
     [ngStyle]="{ 'flex-basis': this.maxWidth, 'max-width': this.maxWidth }"
@@ -45,10 +46,15 @@
       </div>
     </a>
   </div>
+  </ng-container>
 </div>
 
+<ng-template #noData>
+<p class="text-center w-100">Không có sản phẩm phù hợp</p>
+</ng-template>
 
 <p-paginator
+*ngIf="configProduct.total > 10"
   [rows]="10"
   [totalRecords]="configProduct.total"
   (onPageChange)="handlePaginator($event)"

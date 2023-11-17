@@ -4,6 +4,7 @@ import {Router, ActivatedRoute } from '@angular/router';
 
 import tinh from '../../../shared/JSON/tinh.json';
 import { checkoutService } from './page-checkout.service';
+import { clientCartService } from 'src/app/service/client/cart.service';
 
 
 @Component({
@@ -40,135 +41,17 @@ export class PageCheckoutComponent implements OnInit{
     {value: 'Trong ngày', id:"trong-ngay"}
   ]
 
-  listCartOrder:any = [
-    {
-      "id": 12,
-      "name": "Túi đeo vai hình thang Cressida Quilted Trapeze",
-      "description": "Túi Cressida nổi bật với phom dáng hình thang độc đáo, kết cấu chần bông trang nhã và tông màu be tuyệt đẹp. Việc bổ sung dây đeo chuỗi xích giúp tạo thêm vẻ quyến rũ, khiến túi vừa phù hợp để sử dụng ban ngày vừa hoàn hảo cho những buổi tiệc tối sang trọng. Ngoài ra, túi còn có khóa cài kim loại cao cấp và an toàn, mở ra bên trong kích thước rộng rãi giúp lưu trữ được nhiều vật dụng cần thiết của bạn.",
-      "category": "12,13",
-      "branch": "Shein",
-      "avatar": "http://peooshop.top/wp/wp-content/themes/peooshop/images/1697863676868LmdQhWCstA.png",
-      "sale": 1,
-      "status": 1,
-      "stock_status": 1,
-      "quantity": 2022,
-      "color": "15,16,17",
-      "size": "15,16,17",
-      "price_cost": 2350000,
-      "price": 2650000,
-      "price_collab": 2450000,
-      "price_sale": 2500000,
-      "gallery": "[\"http://peooshop.top/wp/wp-content/themes/peooshop/images/1697863676868LmdQhWCstA.png\"]",
-      "date_update": 1698138300596
-    },
-    {
-      "id": 12,
-      "name": "Túi đeo vai hình thang Cressida Quilted Trapeze",
-      "description": "Túi Cressida nổi bật với phom dáng hình thang độc đáo, kết cấu chần bông trang nhã và tông màu be tuyệt đẹp. Việc bổ sung dây đeo chuỗi xích giúp tạo thêm vẻ quyến rũ, khiến túi vừa phù hợp để sử dụng ban ngày vừa hoàn hảo cho những buổi tiệc tối sang trọng. Ngoài ra, túi còn có khóa cài kim loại cao cấp và an toàn, mở ra bên trong kích thước rộng rãi giúp lưu trữ được nhiều vật dụng cần thiết của bạn.",
-      "category": "12,13",
-      "branch": "Shein",
-      "avatar": "http://peooshop.top/wp/wp-content/themes/peooshop/images/1697863676868LmdQhWCstA.png",
-      "sale": 1,
-      "status": 1,
-      "stock_status": 1,
-      "quantity": 2022,
-      "color": "15,16,17",
-      "size": "15,16,17",
-      "price_cost": 2350000,
-      "price": 2650000,
-      "price_collab": 2450000,
-      "price_sale": 2500000,
-      "gallery": "[\"http://peooshop.top/wp/wp-content/themes/peooshop/images/1697863676868LmdQhWCstA.png\"]",
-      "date_update": 1698138300596
-    },
-    {
-      "id": 12,
-      "name": "Túi đeo vai hình thang Cressida Quilted Trapeze",
-      "description": "Túi Cressida nổi bật với phom dáng hình thang độc đáo, kết cấu chần bông trang nhã và tông màu be tuyệt đẹp. Việc bổ sung dây đeo chuỗi xích giúp tạo thêm vẻ quyến rũ, khiến túi vừa phù hợp để sử dụng ban ngày vừa hoàn hảo cho những buổi tiệc tối sang trọng. Ngoài ra, túi còn có khóa cài kim loại cao cấp và an toàn, mở ra bên trong kích thước rộng rãi giúp lưu trữ được nhiều vật dụng cần thiết của bạn.",
-      "category": "12,13",
-      "branch": "Shein",
-      "avatar": "http://peooshop.top/wp/wp-content/themes/peooshop/images/1697863676868LmdQhWCstA.png",
-      "sale": 1,
-      "status": 1,
-      "stock_status": 1,
-      "quantity": 2022,
-      "color": "15,16,17",
-      "size": "15,16,17",
-      "price_cost": 2350000,
-      "price": 2650000,
-      "price_collab": 2450000,
-      "price_sale": 2500000,
-      "gallery": "[\"http://peooshop.top/wp/wp-content/themes/peooshop/images/1697863676868LmdQhWCstA.png\"]",
-      "date_update": 1698138300596
-    },
-    {
-      "id": 12,
-      "name": "Túi đeo vai hình thang Cressida Quilted Trapeze",
-      "description": "Túi Cressida nổi bật với phom dáng hình thang độc đáo, kết cấu chần bông trang nhã và tông màu be tuyệt đẹp. Việc bổ sung dây đeo chuỗi xích giúp tạo thêm vẻ quyến rũ, khiến túi vừa phù hợp để sử dụng ban ngày vừa hoàn hảo cho những buổi tiệc tối sang trọng. Ngoài ra, túi còn có khóa cài kim loại cao cấp và an toàn, mở ra bên trong kích thước rộng rãi giúp lưu trữ được nhiều vật dụng cần thiết của bạn.",
-      "category": "12,13",
-      "branch": "Shein",
-      "avatar": "http://peooshop.top/wp/wp-content/themes/peooshop/images/1697863676868LmdQhWCstA.png",
-      "sale": 1,
-      "status": 1,
-      "stock_status": 1,
-      "quantity": 2022,
-      "color": "15,16,17",
-      "size": "15,16,17",
-      "price_cost": 2350000,
-      "price": 2650000,
-      "price_collab": 2450000,
-      "price_sale": 2500000,
-      "gallery": "[\"http://peooshop.top/wp/wp-content/themes/peooshop/images/1697863676868LmdQhWCstA.png\"]",
-      "date_update": 1698138300596
-    },
-    {
-      "id": 12,
-      "name": "Túi đeo vai hình thang Cressida Quilted Trapeze",
-      "description": "Túi Cressida nổi bật với phom dáng hình thang độc đáo, kết cấu chần bông trang nhã và tông màu be tuyệt đẹp. Việc bổ sung dây đeo chuỗi xích giúp tạo thêm vẻ quyến rũ, khiến túi vừa phù hợp để sử dụng ban ngày vừa hoàn hảo cho những buổi tiệc tối sang trọng. Ngoài ra, túi còn có khóa cài kim loại cao cấp và an toàn, mở ra bên trong kích thước rộng rãi giúp lưu trữ được nhiều vật dụng cần thiết của bạn.",
-      "category": "12,13",
-      "branch": "Shein",
-      "avatar": "http://peooshop.top/wp/wp-content/themes/peooshop/images/1697863676868LmdQhWCstA.png",
-      "sale": 1,
-      "status": 1,
-      "stock_status": 1,
-      "quantity": 2022,
-      "color": "15,16,17",
-      "size": "15,16,17",
-      "price_cost": 2350000,
-      "price": 2650000,
-      "price_collab": 2450000,
-      "price_sale": 2500000,
-      "gallery": "[\"http://peooshop.top/wp/wp-content/themes/peooshop/images/1697863676868LmdQhWCstA.png\"]",
-      "date_update": 1698138300596
-    },
-    {
-      "id": 12,
-      "name": "Túi đeo vai hình thang Cressida Quilted Trapeze",
-      "description": "Túi Cressida nổi bật với phom dáng hình thang độc đáo, kết cấu chần bông trang nhã và tông màu be tuyệt đẹp. Việc bổ sung dây đeo chuỗi xích giúp tạo thêm vẻ quyến rũ, khiến túi vừa phù hợp để sử dụng ban ngày vừa hoàn hảo cho những buổi tiệc tối sang trọng. Ngoài ra, túi còn có khóa cài kim loại cao cấp và an toàn, mở ra bên trong kích thước rộng rãi giúp lưu trữ được nhiều vật dụng cần thiết của bạn.",
-      "category": "12,13",
-      "branch": "Shein",
-      "avatar": "http://peooshop.top/wp/wp-content/themes/peooshop/images/1697863676868LmdQhWCstA.png",
-      "sale": 1,
-      "status": 1,
-      "stock_status": 1,
-      "quantity": 2022,
-      "color": "15,16,17",
-      "size": "15,16,17",
-      "price_cost": 2350000,
-      "price": 2650000,
-      "price_collab": 2450000,
-      "price_sale": 2500000,
-      "gallery": "[\"http://peooshop.top/wp/wp-content/themes/peooshop/images/1697863676868LmdQhWCstA.png\"]",
-      "date_update": 1698138300596
-    },
-  ]
+  listCartOrder:any = []
 
   listCity:any
   listDistricts:any
   listWards:any
 
-  constructor(private checkoutService:checkoutService, private router:Router,private route: ActivatedRoute){
+  ids:any = []
+
+  constructor(private checkoutService:checkoutService, private router:Router,private route: ActivatedRoute, public clientCartService:clientCartService){
     this.route.queryParams.subscribe((params:any) => {
+      this.getListCart()
        console.log(params)
        if(params?.id){
         alert("buy now")
@@ -180,12 +63,21 @@ export class PageCheckoutComponent implements OnInit{
 
   ngOnInit(): void {
     this.listCity = tinh
-    this.currentOrder.totalPrice = 1000000
-    this.currentOrder.shiping = 30000
+   
+    this.currentOrder.shiping = 0
     this.countOrder()
   }
 
   countOrder(){
+    this.listCartOrder.map((x:any)=>{
+      this.currentOrder.totalPrice += x.total
+      if(x.sale === 1){
+      }else{
+        this.currentOrder.totalPrice += x.total
+      }
+      return x
+    })
+
     this.currentOrder.totalOrder = this.currentOrder.totalPrice + this.currentOrder.shiping - this.currentOrder.discount
   }
 
@@ -245,6 +137,44 @@ this.errCodeDiscount = false
     }else{
       this.errCodeDiscount = true
     }
+  }
+
+  getListCart(){
+    let cartItem = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart') || '') : {
+      number: 0,
+      ids: []
+    }
+    if(cartItem.ids.length > 0){
+      cartItem.ids.map((x:any)=>{
+        this.ids.push(x.id)
+        return x
+      })
+    }else{
+      this.ids = []
+    }
+
+
+    this.clientCartService.getListProduct({ids:this.ids}).subscribe(res=>{
+      this.listCartOrder = res.data.map((x:any)=>{
+        cartItem.ids.map((z:any)=>{
+          if(x.id === z.id){
+            x.quantity = z.quantity
+          }
+          return z
+        })
+
+          if(x.sale === 1){
+            x.total = x.price_sale*x.quantity
+
+          }else{
+            x.total = x.price*x.quantity
+          }
+
+        return x
+      })
+
+      this.countOrder()
+    })
   }
 
 }

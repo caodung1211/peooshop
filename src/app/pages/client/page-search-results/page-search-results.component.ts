@@ -26,8 +26,8 @@ export class PageSearchResultsComponent implements OnInit{
        this.objectFilter = params
        console.log(this.objectFilter)
        this.loadData(this.objectFilter)
-     });
-     }
+    });
+  }
 
   ngOnInit() {
   }
