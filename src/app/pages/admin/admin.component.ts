@@ -47,6 +47,14 @@ export class AdminComponent implements OnInit,AfterViewInit {
         case 'hideLoadding':
           this.loadding = false
           break;  
+        case 'toggle':
+          if(this.widthSideBar === 300){
+            this.widthSideBar = 40
+          }else{
+            this.widthSideBar = 300
+          }
+          console.log(this.widthSideBar)
+          break;  
         default:
           break;
       }

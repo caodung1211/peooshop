@@ -40,3 +40,25 @@ ul {
 .pl-6 {
   padding: 10px 10px 10px 40px;
 }
+
+
+.toggle {
+  background: #ccc;
+  position: absolute;
+  top: 50%;
+  right: -15px;
+  display: inline-flex;
+  z-index: 111111;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  i{
+    transition: all 0.5s;
+  }
+  &.active i{
+    transform: scaleX(-1)
+  }
+}

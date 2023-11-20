@@ -8,6 +8,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatButtonModule } from '@angular/material/button';
 import { ErrorsMessageModule } from 'src/app/components/admin/errors-message/errors-message.module';
 import { RouterModule } from '@angular/router';
+import { SharedPipeModule } from 'src/app/shared/sharedPipe.module';
 
 
 
@@ -29,7 +30,8 @@ import { RouterModule } from '@angular/router';
     MatInputModule,
     MatSlideToggleModule,
     MatButtonModule,
-    ErrorsMessageModule
+    ErrorsMessageModule,
+    SharedPipeModule
   ],
   exports: [SalesComponent]
 })

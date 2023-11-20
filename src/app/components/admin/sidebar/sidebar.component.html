@@ -45,4 +45,8 @@
             </ul>
         </li>
     </ng-container>
+
+    <div class="toggle" [ngClass]="{'active': toggleShow}"  (click)="toggle()">
+        <i class="pi pi-chevron-left" style="font-size: 17px"></i>
+    </div>
 </ul>

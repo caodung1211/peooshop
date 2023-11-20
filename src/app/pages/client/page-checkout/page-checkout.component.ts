@@ -133,7 +133,7 @@ console.log(this.currentData)
     if(this.code_discount === '123'){
       this.currentOrder.discount = 200000
     this.countOrder()
-this.errCodeDiscount = false
+    this.errCodeDiscount = false
     }else{
       this.errCodeDiscount = true
     }

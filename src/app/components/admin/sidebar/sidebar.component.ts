@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { DataBroadcastService } from 'src/app/service/data-broadcast.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -8,7 +9,11 @@ import { Component } from '@angular/core';
 export class SidebarComponent {
   menu: any[] = [];
 
-  constructor() { }
+  toggleShow = false
+
+  constructor(private DataBroadcastService:DataBroadcastService) {
+    this.toggleShow = localStorage.getItem('toggleNav') === 'true' ? true : false
+  }
 
   ngOnInit() {
       this.menu = [
@@ -21,7 +26,7 @@ export class SidebarComponent {
         {
             label: 'Bán hàng',
             items: [
-                { label: 'Thêm đơn hàng', icon: 'pi pi-fw pi-home', routerLink: ['/admin/sales'] }
+                { label: 'Tạo đơn hàng mới', icon: 'pi pi-fw pi-home', routerLink: ['/admin/sales'] }
             ]
         },
         {
@@ -77,5 +82,10 @@ export class SidebarComponent {
             ]
         },
       ];
+  }
+  toggle(){
+    this.toggleShow = !this.toggleShow
+    this.DataBroadcastService.changeMessage('toggle');
+    localStorage.setItem('toggleNav',this.toggleShow.toString())
   }
 }
