@@ -9,6 +9,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { ErrorsMessageModule } from 'src/app/components/admin/errors-message/errors-message.module';
 import { RouterModule } from '@angular/router';
 import { SharedPipeModule } from 'src/app/shared/sharedPipe.module';
+import { EventSourceService } from 'src/app/service/admin/event-source.service';
+import { DropdownModule } from 'primeng';
 
 
 
@@ -31,8 +33,10 @@ import { SharedPipeModule } from 'src/app/shared/sharedPipe.module';
     MatSlideToggleModule,
     MatButtonModule,
     ErrorsMessageModule,
-    SharedPipeModule
+    SharedPipeModule,
+    DropdownModule
   ],
+  providers: [EventSourceService],
   exports: [SalesComponent]
 })
 export class SalesModule { }

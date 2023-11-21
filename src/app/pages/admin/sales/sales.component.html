@@ -46,8 +46,19 @@
                             name="name"
                             #name="ngModel"
                             [(ngModel)]="currentData.name"
+                            (ngModelChange)="onChangeUserName()"
                             required
                           />
+
+                          <p-dropdown [options]="listUser" [(ngModel)]="currentData.name" name="123" [filter]="true" (ngModelChange)="onChangeUserName()" >
+                            <ng-template let-item pTemplate="selectedItem">
+                                <span >{{item.label}}</span>
+                            </ng-template>
+                            <ng-template let-item pTemplate="item">
+                              <span >{{item.label}}</span>
+                            </ng-template>
+                        </p-dropdown>
+
                           <app-errors-message
                             [control]="name.control"
                             [name]="'Tên khách hàng'"

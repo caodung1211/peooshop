@@ -1,12 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,OnDestroy } from '@angular/core';
 import tinh from '../../../shared/JSON/tinh.json';
+import { salesService } from './sales.service';
+import { EventSourceService } from 'src/app/service/admin/event-source.service';
 
 @Component({
   selector: 'app-sales',
   templateUrl: './sales.component.html',
   styleUrls: ['./sales.component.scss']
 })
-export class SalesComponent implements OnInit{
+export class SalesComponent implements OnInit,OnDestroy{
 datafake= [
   {
       "id": 12,
@@ -134,8 +136,11 @@ datafake= [
   listWards:any
 
   ids:any = []
+  messages:any = []
 
-  constructor(){}
+ listUser:any = []
+
+  constructor(public salesService:salesService,private eventSourceService: EventSourceService){}
 
   ngOnInit() {
     this.dataSearch = this.datafake.filter((x:any)=>{
@@ -146,8 +151,39 @@ datafake= [
    
     this.currentOrder.shiping = 0
     this.countOrder()
+
+    this.searchUser(this.currentData.name)
+
   }
 
+  searchUser(name:string){
+    this.eventSourceService.disconnect();
+    this.listUser = []
+    this.eventSourceService.connect(name).subscribe(
+      (message: any) => {
+        // this.messages.push(message);
+        this.listUser = message.map((x:any)=>{
+          return {
+            label: x.name,
+            value: x.id
+          }
+        })
+      },
+      error => {
+        console.error('Error:', error);
+      }
+    );
+  }
+
+  onChangeUserName(){
+    if(this.currentData.name){
+      this.searchUser(this.currentData.name)
+    }else{
+      this.eventSourceService.disconnect();
+    }
+  }
+
+  
 
   countOrder(){
     this.listCartOrder.map((x:any)=>{
@@ -227,5 +263,11 @@ datafake= [
     }else{
       this.errCodeDiscount = true
     }
+  }
+  
+
+  ngOnDestroy() {
+    this.eventSourceService.disconnect();
+
   }
 }
