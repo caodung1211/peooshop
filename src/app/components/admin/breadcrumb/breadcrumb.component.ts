@@ -18,9 +18,7 @@ export class BreadcrumbComponent implements OnInit {
     private breadcrumbService: BreadcrumbService
   ) {
   this.breadcrumbs$ = this.breadcrumbService.breadcrumbs$;
-    console.log(this.breadcrumbs$)
     let d:any = activatedRoute.data
-    console.log(d._value)
   }
 
   ngOnInit() {

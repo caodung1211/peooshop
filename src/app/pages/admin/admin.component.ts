@@ -35,11 +35,7 @@ export class AdminComponent implements OnInit,AfterViewInit {
         case 'logout':
           localStorage.removeItem("token");
           localStorage.removeItem("users");
-          this.router.navigateByUrl('/admin-login');
-          // this.router.navigate([`/admin-login`]); 
-          // // setTimeout(() => {
-          //   window.location.reload();
-          // }, 100);
+          this.router.navigate([`/admin-login`]); 
           break;
         case 'showLoadding':
           this.loadding = true
@@ -53,7 +49,6 @@ export class AdminComponent implements OnInit,AfterViewInit {
           }else{
             this.widthSideBar = 300
           }
-          console.log(this.widthSideBar)
           break;  
         default:
           break;

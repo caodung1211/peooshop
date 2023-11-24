@@ -3,9 +3,9 @@
   </div> -->
 
   <div class="search">
-    <input type="text" name="search" [(ngModel)]="keySearchProduct" (ngModelChange)="searchProduct()" placeholder="Tìm kiếm sản phẩm...">
+    <input type="text" name="search" [(ngModel)]="keySearchProduct" (ngModelChange)="onChangeSearchProduct()" placeholder="Tìm kiếm sản phẩm...">
     <ul class="box-select" id="list-data">
-        <li *ngFor="let item of dataSearch">
+        <li *ngFor="let item of listProductSearch">
             <div class="row">
                 <div class="col-1">
                     <img [src]="item.avatar">

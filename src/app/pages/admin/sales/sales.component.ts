@@ -139,6 +139,7 @@ datafake= [
   messages:any = []
 
  listUser:any = []
+ listProductSearch:any = []
 
   constructor(public salesService:salesService,private eventSourceService: EventSourceService){}
 
@@ -159,7 +160,7 @@ datafake= [
   searchUser(name:string){
     this.eventSourceService.disconnect();
     this.listUser = []
-    this.eventSourceService.connect(name).subscribe(
+    this.eventSourceService.connect(name,'user').subscribe(
       (message: any) => {
         // this.messages.push(message);
         this.listUser = message.map((x:any)=>{
@@ -211,8 +212,26 @@ datafake= [
 
   }
 
-  searchProduct(){
+  searchProduct(name:string){
+    this.eventSourceService.disconnect();
+    this.listProductSearch = []
+    this.eventSourceService.connect(name,'products').subscribe(
+      (message: any) => {
+        // this.messages.push(message);
+        this.listProductSearch = message
+      },
+      error => {
+        console.error('Error:', error);
+      }
+    );
+  }
 
+  onChangeSearchProduct(){
+    if(this.keySearchProduct){
+      this.searchProduct(this.keySearchProduct)
+    }else{
+      this.eventSourceService.disconnect();
+    }
   }
 
   changeOptionCity(type:string){
@@ -253,7 +272,7 @@ datafake= [
 
   check(){
     console.log(this.currentData)
-      }
+  }
 
   ApplyDiscount(){
     if(this.code_discount === '123'){
@@ -268,6 +287,5 @@ datafake= [
 
   ngOnDestroy() {
     this.eventSourceService.disconnect();
-
   }
 }
