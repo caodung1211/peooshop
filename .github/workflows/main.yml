@@ -16,7 +16,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 16  # Sử dụng phiên bản Node.js 16
+          node-version: 18  # Sử dụng phiên bản Node.js 16
 
       - name: Install Angular CLI
         run: npm install -g @angular/cli
