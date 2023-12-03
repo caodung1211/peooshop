@@ -34,7 +34,7 @@ jobs:
       - name: Deploy to cPanel
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
-          cpanel-username: ${{ secrets.FTP_SERVER }}
-          cpanel-password: ${{ secrets.FTP_PASSWORD }}
-          cpanel-domain: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_SERVER }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server: ${{ secrets.FTP_SERVER }}
           repo-directory: /public_html
