@@ -16,7 +16,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 18  # Sử dụng phiên bản Node.js 16
+          node-version: 18
 
       - name: Install Angular CLI
         run: npm install -g @angular/cli
@@ -32,7 +32,7 @@ jobs:
     needs: build
     steps:
       - name: Deploy to cPanel
-        uses: samuelmeuli/cpanel-git-deploy@v1
+        uses: caodung1211/peooshop
         with:
           cpanel-username: ${{ secrets.CPANEL_USERNAME }}
           cpanel-password: ${{ secrets.FTP_PASSWORD }}
