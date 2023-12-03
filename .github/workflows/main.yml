@@ -32,7 +32,7 @@ jobs:
     needs: build
     steps:
       - name: Deploy to cPanel
-        uses: ./.github/path/to/your/action
+        uses: github.com/caodung1211/peooshop/actions
         with:
           cpanel-username: ${{ secrets.CPANEL_USERNAME }}
           cpanel-password: ${{ secrets.FTP_PASSWORD }}
