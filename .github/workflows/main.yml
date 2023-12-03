@@ -32,7 +32,7 @@ jobs:
     needs: build
     steps:
       - name: Deploy to cPanel
-        uses: caodung1211/peooshop@v1
+        uses: caodung1211/peooshop@main
         with:
           cpanel-username: ${{ secrets.CPANEL_USERNAME }}
           cpanel-password: ${{ secrets.FTP_PASSWORD }}
