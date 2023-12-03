@@ -31,10 +31,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - name: ${{ secrets.FTP_USERNAME }} ${{ secrets.FTP_PASSWORD }} ${{ secrets.FTP_SERVER }}
+      - name: DEPLOY
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: /public_html
+          server-dir: /public_html/
