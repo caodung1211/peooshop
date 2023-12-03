@@ -11,12 +11,12 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2.4.3
+        uses: actions/checkout@v2
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3.2.0
+        uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 18  # Sử dụng phiên bản Node.js 16
 
       - name: Install Angular CLI
         run: npm install -g @angular/cli
@@ -32,7 +32,7 @@ jobs:
     needs: build
     steps:
       - name: Deploy to cPanel
-        uses: caodung1211/peooshop@main
+        uses: samuelmeuli/cpanel-git-deploy@v1
         with:
           cpanel-username: ${{ secrets.CPANEL_USERNAME }}
           cpanel-password: ${{ secrets.FTP_PASSWORD }}
