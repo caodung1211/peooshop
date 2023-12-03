@@ -11,8 +11,9 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
-
+        uses: actions/checkout@v2.1.0
+        with:
+                fetch-depth: 2
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
@@ -32,9 +33,8 @@ jobs:
     needs: build
     steps:
       - name: FTP-Deploy-Action
-        uses: SamKirkland/web-deploy@v1
+        uses: SamKirkland/FTP-Deploy-Action@4.3.0
         with:
-          target-server: ${{ secrets.FTP_SERVER }}
-          remote-user: ${{ secrets.FTP_USERNAME }}
-          private-ssh-key: ${{ secrets.FTP_PASSWORD }}
-          destination-path: ~/home/oeitolnh/public_html/
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
