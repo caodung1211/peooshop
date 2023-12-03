@@ -34,7 +34,7 @@ jobs:
       - name: Deploy to cPanel
         uses: caodung1211/peooshop@build
         with:
-          cpanel-username: ${{ secrets.CPANEL_USERNAME }}
+          cpanel-username: ${{ secrets.FTP_SERVER }}
           cpanel-password: ${{ secrets.FTP_PASSWORD }}
           cpanel-domain: ${{ secrets.FTP_SERVER }}
-          repo-directory: dist/peooshop
+          repo-directory: /public_html
