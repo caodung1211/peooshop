@@ -36,5 +36,5 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           protocol: ftps
           port: 21
-          local-dir: /dist/peooshop/
+          local-dir: ./dist/peooshop/
           server-dir: /public_html/
