@@ -22,10 +22,14 @@
         width: 100%;
         z-index: 1111111111;
         li{
-            padding: 0 10px 10px 10px;
-            margin-bottom: 10px;
+            padding: 10px;
             border-bottom: 1px solid #ccc;
             cursor: pointer;
+            transition: all 0.5s;
+            background: #fff;
+            &:hover{
+                background: #88888860;
+            }
         }
         img{
             width: 100%;

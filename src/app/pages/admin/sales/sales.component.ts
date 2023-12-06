@@ -2,6 +2,7 @@ import { Component, OnInit,OnDestroy } from '@angular/core';
 import tinh from '../../../shared/JSON/tinh.json';
 import { salesService } from './sales.service';
 import { EventSourceService } from 'src/app/service/admin/event-source.service';
+import { productsService } from '../products/products/products.service';
 
 @Component({
   selector: 'app-sales',
@@ -140,8 +141,11 @@ datafake= [
 
  listUser:any = []
  listProductSearch:any = []
+ listProduct:any = []
 
-  constructor(public salesService:salesService,private eventSourceService: EventSourceService){}
+ isSearchFocused = false;
+
+  constructor(public salesService:salesService,private productsService: productsService,){}
 
   ngOnInit() {
     this.dataSearch = this.datafake.filter((x:any)=>{
@@ -154,34 +158,44 @@ datafake= [
     this.countOrder()
 
     this.searchUser(this.currentData.name)
+    this.searchProduct(this.keySearchProduct)
+    this.getListProduct()
+  }
 
+  alert(item:any){
+    alert(item)
+  }
+
+  getListProduct(){
+    this.productsService.getListProduct().subscribe(
+      res=>{
+        console.log(res)
+        this.listProduct = res.data
+      }
+    )
   }
 
   searchUser(name:string){
-    this.eventSourceService.disconnect();
-    this.listUser = []
-    this.eventSourceService.connect(name,'user').subscribe(
-      (message: any) => {
-        // this.messages.push(message);
-        this.listUser = message.map((x:any)=>{
-          return {
-            label: x.name,
-            value: x.id
-          }
-        })
-      },
-      error => {
-        console.error('Error:', error);
-      }
-    );
+    // this.eventSourceService.disconnect();
+    // this.listUser = []
+    // this.eventSourceService.connect(name,'user').subscribe(
+    //   (message: any) => {
+    //     // this.messages.push(message);
+    //     this.listUser = message.map((x:any)=>{
+    //       return {
+    //         label: x.name,
+    //         value: x.id
+    //       }
+    //     })
+    //   },
+    //   error => {
+    //     console.error('Error:', error);
+    //   }
+    // );
   }
 
   onChangeUserName(){
-    if(this.currentData.name){
-      this.searchUser(this.currentData.name)
-    }else{
-      this.eventSourceService.disconnect();
-    }
+
   }
 
   
@@ -213,25 +227,15 @@ datafake= [
   }
 
   searchProduct(name:string){
-    this.eventSourceService.disconnect();
-    this.listProductSearch = []
-    this.eventSourceService.connect(name,'products').subscribe(
-      (message: any) => {
-        // this.messages.push(message);
-        this.listProductSearch = message
-      },
-      error => {
-        console.error('Error:', error);
-      }
-    );
+
   }
 
   onChangeSearchProduct(){
-    if(this.keySearchProduct){
-      this.searchProduct(this.keySearchProduct)
-    }else{
-      this.eventSourceService.disconnect();
-    }
+    this.listProductSearch = this.listProduct.filter((x:any)=>{
+      if(x.name.toLowerCase().trim().includes(this.keySearchProduct.toLowerCase().trim())){
+        return x
+      }
+    })
   }
 
   changeOptionCity(type:string){
@@ -286,6 +290,5 @@ datafake= [
   
 
   ngOnDestroy() {
-    this.eventSourceService.disconnect();
   }
 }

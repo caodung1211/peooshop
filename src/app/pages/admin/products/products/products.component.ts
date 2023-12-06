@@ -51,7 +51,7 @@ export class ProductsComponent implements OnInit {
   handleColumns(columns: any) {
     this.columns = columns.map((x: any) => {
       if (x.field === 'name') {
-        x.customWidth = 100;
+        x.customWidth = 300;
       }
       return x;
     });
