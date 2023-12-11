@@ -6,6 +6,7 @@ import { IConfigTableBase } from 'src/app/components/admin/table-base-layout/tab
 import { MatDialog } from '@angular/material/dialog';
 import { AddOrEditCollabComponent } from './add-or-edit-collab/add-or-edit-collab.component';
 import { DialogConfirmCollabComponent } from './dialog-confirm-collab/dialog-confirm-collab.component';
+import tinh from '../../../../shared/JSON/tinh.json';
 
 @Component({
   selector: 'app-management-collab',
@@ -25,6 +26,7 @@ export class ManagementCollabComponent implements OnInit {
 
   showColumns = false;
   tableName = 'TABLE_CUSTOMERS'
+  listCity:any = []
 
   constructor(
     public dialog: MatDialog,
@@ -40,12 +42,18 @@ export class ManagementCollabComponent implements OnInit {
 
   loadData() {
     this.DataBroadcastService.changeMessage('showLoadding');
+    this.listCity = tinh;
 
     this.managementCollabService.getListCustomer('collab').subscribe((res) => {
       this.dataTable = res.data;
-console.log(res.data)
       this.dataTable = this.dataTable.filter((x: any) => {
           x.status = x.status === 1 ? true : false;
+          this.listCity.map((z:any)=>{
+            if (x.city === z.Id) {
+              x.address = z.Name;
+            }
+            return x
+          })
           return x;
       });
 

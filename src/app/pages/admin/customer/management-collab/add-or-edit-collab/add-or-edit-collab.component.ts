@@ -7,6 +7,7 @@ import moment from 'moment';
 import 'moment/locale/vi';
 import { cloneDeep } from 'lodash';
 import * as CryptoJS from 'crypto-js';
+import tinh from '../../../../../shared/JSON/tinh.json';
 
 @Component({
   selector: 'app-add-or-edit-collab',
@@ -23,6 +24,10 @@ export class AddOrEditCollabComponent {
     { label: 'CTV', value: 'collab' },
     { label: 'Khách hàng', value: 'customer' },
   ];
+
+  listCity: any;
+  listDistricts: any;
+  listWards: any;
 
   constructor(
     public dialogRef: MatDialogRef<AddOrEditCollabComponent>,
@@ -50,11 +55,17 @@ export class AddOrEditCollabComponent {
         last_active: '',
         created_date: '',
         status: true,
+        city: '',
+        districts: '',
+        wards: '',
+        phone: ''
       };
     }
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.listCity = tinh;
+  }
 
   loadData(id: string) {
     this.DataBroadcastService.changeMessage('showLoadding'); 
@@ -69,9 +80,10 @@ export class AddOrEditCollabComponent {
         Number(this.currentData.created_date)
       ).format('DD/MM/YYYY');
 
-      console.log(this.currentData);
-
       this.currentData.status = this.currentData.status === '1' ? true : false;
+
+      this.changeOptionCity('city', true)
+      this.changeOptionCity('districts', true)
 
       this.DataBroadcastService.changeMessage('hideLoadding');
     });
@@ -92,7 +104,6 @@ export class AddOrEditCollabComponent {
       const formdata = new FormData();
       formdata.append('image', this.imgFile);
       this.managementCollabService.uploadImage(formdata).subscribe((res) => {
-        if (res.status === 200) {
           this.currentData.avatar = res.url;
           payload.avatar = res.url;
 
@@ -114,31 +125,22 @@ export class AddOrEditCollabComponent {
             this.managementCollabService
               .editCustomer(payload.id, payload)
               .subscribe((resCreate) => {
-                if (resCreate.status === 200) {
                   this.DataBroadcastService.changeAlert({
                     type: 'success',
                     title: 'Thành công',
                     message: res.message,
                   });
-                } else {
+                },err => {
                   this.DataBroadcastService.changeAlert({
                     type: 'error',
                     title: 'Thất bại',
                     message: res.message,
                   });
-                }
                 this.DataBroadcastService.changeMessage('hideLoadding');
 
                 this.dialogRef.close(true);
               });
           }
-        } else {
-          this.DataBroadcastService.changeAlert({
-            type: 'error',
-            title: 'Thất bại',
-            message: res.message,
-          });
-        }
       });
     } else {
       this.currentData.avatar = this.currentData.avatar
@@ -237,4 +239,44 @@ export class AddOrEditCollabComponent {
     const hash = CryptoJS.MD5(CryptoJS.enc.Latin1.parse(data));
     return hash.toString(CryptoJS.enc.Hex);
   }
+
+  changeOptionCity(type: string, loaddata?: boolean) {
+    switch (type) {
+      case 'city':
+        this.listDistricts = [];
+        this.listCity.map((x: any) => {
+          if (x.Id === this.currentData.city) {
+            this.listDistricts = x.Districts;
+          }
+          return x;
+        });
+        if(!loaddata){
+          this.currentData.districts = null;
+          this.currentData.wards = null;
+        }
+
+        break;
+      case 'districts':
+        this.listWards = [];
+
+        if(!loaddata){
+          this.currentData.wards = null;
+        }
+
+        this.listDistricts.map((x: any) => {
+          if (x.Id === this.currentData.districts) {
+            this.listWards = x.Wards;
+          }
+          return x;
+        });
+
+        break;
+
+      case 'wards':
+        break;
+      default:
+        break;
+    }
+  }
+
 }

@@ -102,7 +102,7 @@
           ></app-errors-message>
         </div>
         <div class="col-6" style="padding-left: 10px">
-          <mat-form-field class="example-full-width">
+          <!-- <mat-form-field class="example-full-width">
             <mat-label>Mật khẩu</mat-label>
             <input
               matInput
@@ -113,14 +113,51 @@
               [(ngModel)]="currentData.password"
               placeholder="Mật khẩu" required
             />
+          </mat-form-field> -->
+          <mat-form-field>
+            <mat-label>Tỉnh/Thành phố</mat-label>
+            <mat-select name="city" #city="ngModel" [disabled]="data.type === 'view'" [(ngModel)]="currentData.city" (ngModelChange)="changeOptionCity('city')" required>
+              <mat-option *ngFor="let item of listCity" [value]="item.Id">
+                {{ item.Name }}
+              </mat-option>
+            </mat-select>
           </mat-form-field>
           <app-errors-message
-            [control]="password.control"
-            [name]="'Mật khẩu'"
+            [control]="city.control"
+            [name]="'Tỉnh/Thành phố'"
           ></app-errors-message>
         </div>
       </div>
-
+      <div class="col-12 d-flex mb-3">
+        <div class="col-6" style="padding-right: 10px">
+          <mat-form-field>
+            <mat-label>Quận/Huyện</mat-label>
+            <mat-select name="districts" #districts="ngModel" [disabled]="data.type === 'view'" [(ngModel)]="currentData.districts" (ngModelChange)="changeOptionCity('districts')" required>
+              <mat-option *ngFor="let item of listDistricts" [value]="item.Id">
+                {{ item.Name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <app-errors-message
+            [control]="districts.control"
+            [name]="'Quận/Huyện'"
+          ></app-errors-message>
+        </div>
+        <div class="col-6" style="padding-left: 10px">
+          <mat-form-field>
+            <mat-label>Phường</mat-label>
+            <mat-select name="wards" #wards="ngModel" [disabled]="data.type === 'view'" [(ngModel)]="currentData.wards" required>
+              <mat-option *ngFor="let item of listWards" [value]="item.Id">
+                {{ item.Name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <app-errors-message
+            [control]="wards.control"
+            [name]="'Phường '"
+          ></app-errors-message>
+        </div>
+      </div>
 
       <div class="col-12 d-flex mb-3">
         <div class="col-6" style="padding-right: 10px">
@@ -200,26 +237,50 @@
         </div>
 
         <div class="col-6 d-flex" style="padding-left: 10px">
-            <div class="d-flex align-items-center gap-1 ">
-                <span>Hoạt động: </span>
-            <span>{{currentData?.last_active | dateActivePipe}}</span>
-            </div>
+            <mat-form-field class="example-full-width">
+              <mat-label>Số điện thoại</mat-label>
+              <input
+                matInput
+                type="text"
+                name="phone"
+                #phone="ngModel"
+                [readonly]="data.type === 'view'"
+                [(ngModel)]="currentData.phone"
+                placeholder="Số điện thoại" required
+              />
+            </mat-form-field>
+            <app-errors-message
+              [control]="phone.control"
+              [name]="'Số điện thoại'"
+            ></app-errors-message>
         </div>
       </div>
 
-      <div class="col-12 d-flex gap-3">
-        <mat-label>Trạng thái</mat-label>
-        <p-inputSwitch
-          name="status"
-          [(ngModel)]="currentData.status" 
-                  [disabled]="data.type === 'view'"
-                ></p-inputSwitch>
+      <div class="col-12 d-flex mb-3">
+        <div class="col-6  d-flex gap-3" style="padding-right: 10px">
+          <mat-label>Trạng thái</mat-label>
+          <p-inputSwitch
+            name="status"
+            [(ngModel)]="currentData.status" 
+            [disabled]="data.type === 'view'"
+          ></p-inputSwitch>
+        </div>
+
+        <div class="col-6" style="padding-left: 10px">
+          <div class="d-flex align-items-center gap-1 ">
+            <span>Hoạt động: </span>
+            <span>{{currentData?.last_active | dateActivePipe}}</span>
+          </div>
+        </div>
+        
         <!-- <mat-slide-toggle
           [checked]="currentData.status"
           name="status"
           [(ngModel)]="currentData.status"
           
         ></mat-slide-toggle> -->
+
+        
       </div>
       <div
         class="col-12 d-flex gap-3 mt-4 justify-content-center"

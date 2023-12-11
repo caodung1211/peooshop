@@ -1,181 +1,160 @@
-import { Component, OnInit,OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import tinh from '../../../shared/JSON/tinh.json';
 import { salesService } from './sales.service';
 import { EventSourceService } from 'src/app/service/admin/event-source.service';
 import { productsService } from '../products/products/products.service';
+import { managementCollabService } from '../customer/management-collab/management-collab.service';
+import { DataBroadcastService } from 'src/app/service/data-broadcast.service';
 
 @Component({
   selector: 'app-sales',
   templateUrl: './sales.component.html',
-  styleUrls: ['./sales.component.scss']
+  styleUrls: ['./sales.component.scss'],
 })
-export class SalesComponent implements OnInit,OnDestroy{
-datafake= [
-  {
-      "id": 12,
-      "name": "Túi đeo vai hình thang Cressida Quilted Trapeze",
-      "description": "Túi Cressida nổi bật với phom dáng hình thang độc đáo, kết cấu chần bông trang nhã và tông màu be tuyệt đẹp. Việc bổ sung dây đeo chuỗi xích giúp tạo thêm vẻ quyến rũ, khiến túi vừa phù hợp để sử dụng ban ngày vừa hoàn hảo cho những buổi tiệc tối sang trọng. Ngoài ra, túi còn có khóa cài kim loại cao cấp và an toàn, mở ra bên trong kích thước rộng rãi giúp lưu trữ được nhiều vật dụng cần thiết của bạn.",
-      "category": "12,13",
-      "branch": "Shein",
-      "avatar": "http://peooshop.top/wp/wp-content/themes/peooshop/images/1697863676868LmdQhWCstA.png",
-      "sale": 1,
-      "status": 1,
-      "stock_status": 1,
-      "quantity": 2022,
-      "color": "01,15,16,17",
-      "size": "15,16,17",
-      "price_cost": 2350000,
-      "price": 2650000,
-      "price_collab": 2450000,
-      "price_sale": 2500000,
-      "gallery": "[\"http://peooshop.top/wp/wp-content/themes/peooshop/images/1697863676868LmdQhWCstA.png\"]",
-      "view": 22,
-      "date_update": 1699934519902
-  },
-  {
-      "id": 13,
-      "name": "Túi đeo vai hình thang Cressida Quilted Trapeze 1",
-      "description": "Túi Cressida nổi bật với phom dáng hình thang độc đáo, kết cấu chần bông trang nhã và tông màu be tuyệt đẹp. Việc bổ sung dây đeo chuỗi xích giúp tạo thêm vẻ quyến rũ, khiến túi vừa phù hợp để sử dụng ban ngày vừa hoàn hảo cho những buổi tiệc tối sang trọng. Ngoài ra, túi còn có khóa cài kim loại cao cấp và an toàn, mở ra bên trong kích thước rộng rãi giúp lưu trữ được nhiều vật dụng cần thiết của bạn.",
-      "category": "012",
-      "branch": "Shein",
-      "avatar": "http://peooshop.top/wp/wp-content/themes/peooshop/images/1697863676868LmdQhWCstA.png",
-      "sale": 0,
-      "status": 1,
-      "stock_status": 1,
-      "quantity": 2022,
-      "color": "015,016,017,111,001",
-      "size": "015,016,017",
-      "price_cost": 2350000,
-      "price": 2650000,
-      "price_collab": 2450000,
-      "price_sale": 2500000,
-      "gallery": "[\"http://peooshop.top/wp/wp-content/themes/peooshop/images/1698138246180SyrNtPDQwu0.png\",\"http://peooshop.top/wp/wp-content/themes/peooshop/images/1698138246181GfHVfGH9lm1.png\"]",
-      "view": 5,
-      "date_update": 1699946456666
-  },
-  {
-      "id": 14,
-      "name": "Túi test 123",
-      "description": "mô tả 1",
-      "category": "012,13,15",
-      "branch": "CNK",
-      "avatar": "http://peooshop.top/wp/wp-content/themes/peooshop/images/1698053767863e45IvpLLqV.png",
-      "sale": 0,
-      "status": 1,
-      "stock_status": 0,
-      "quantity": 12333,
-      "color": "015,16,017,111,001",
-      "size": "18,19",
-      "price_cost": 2,
-      "price": 3,
-      "price_collab": 4,
-      "price_sale": 5,
-      "gallery": "[\"http://peooshop.top/wp/wp-content/themes/peooshop/images/1697863676868LmdQhWCstA.png\",\"http://peooshop.top/wp/wp-content/themes/peooshop/images/1698138126835DZhFzqNigk0.png\",\"http://peooshop.top/wp/wp-content/themes/peooshop/images/1698138344730inEZHQmvmU0.png\"]",
-      "view": 8,
-      "date_update": 1698138345451
-  },
-  {
-      "id": 21,
-      "name": "12312d12",
-      "description": "121111",
-      "category": "14",
-      "branch": "Shein",
-      "avatar": "https://peooshop.top/wp/wp-content/themes/peooshop/images/no_image.png",
-      "sale": 0,
-      "status": 1,
-      "stock_status": 0,
-      "quantity": 123,
-      "color": "015,16,017,111,001",
-      "size": "16",
-      "price_cost": 1,
-      "price": 2,
-      "price_collab": 3,
-      "price_sale": 4,
-      "gallery": "[\"http://peooshop.top/wp/wp-content/themes/peooshop/images/1697863676868LmdQhWCstA.png\"]",
-      "view": 2,
-      "date_update": 1698910894440
-  }
-]
-  dataOrder:any = {}
-  dataSearch:any = []
+export class SalesComponent implements OnInit, OnDestroy {
 
-  isType = 'ADD'
+  dataOrder: any = {};
+  dataSearch: any = [];
 
-  keySearchProduct = ''
+  isType = 'ADD';
 
-  currentData:any = {
+  keySearchProduct = '';
+
+  currentData: any = {
+    userId: '',
     name: '',
     phone: '',
     address: '',
     city: '',
     districts: '',
     wards: '',
-    isSaveAddress: false,
+    // isSaveAddress: false,
     shipping: 'ghtk',
-    note: ''
-  }
+    note: '',
+  };
 
-  currentOrder:any = {
+  currentOrder: any = {
     totalPrice: 0,
     discount: 0,
     shiping: 0,
-    totalOrder: 0
-  }
+    totalOrder: 0,
+  };
 
-  code_discount = ''
-  errCodeDiscount = false
+  code_discount = '';
+  errCodeDiscount = false;
 
   methodShip = [
-    {value: 'ghtk', id:"ghtk"},
-    {value: 'Trong ngày', id:"trong-ngay"}
-  ]
+    { value: 'ghtk', id: 'ghtk' },
+    { value: 'Trong ngày', id: 'trong-ngay' },
+  ];
 
-  listCartOrder:any = []
+  listCartOrder: any = []
 
-  listCity:any
-  listDistricts:any
-  listWards:any
+  listCity: any;
+  listDistricts: any;
+  listWards: any;
 
-  ids:any = []
-  messages:any = []
+  ids: any = [];
+  messages: any = [];
 
- listUser:any = []
- listProductSearch:any = []
- listProduct:any = []
+  listUser: any = [];
+  listProductSearch: any = [];
+  listProduct: any = [];
 
- isSearchFocused = false;
+  isSearchFocused = false;
+  isUserOld = false
 
-  constructor(public salesService:salesService,private productsService: productsService,){}
+  constructor(
+    public salesService: salesService,
+    private productsService: productsService,
+    private managementCollabService: managementCollabService,
+    private DataBroadcastService:DataBroadcastService
+  ) {}
 
   ngOnInit() {
-    this.dataSearch = this.datafake.filter((x:any)=>{
-      x.stock = x.stock_status === 1 ? 'Còn hàng' : 'Hết hàng'
-      return x
-    })
-    this.listCity = tinh
-   
-    this.currentOrder.shiping = 0
-    this.countOrder()
+    this.listCity = tinh;
 
-    this.searchUser(this.currentData.name)
-    this.searchProduct(this.keySearchProduct)
-    this.getListProduct()
-  }
+    // this.currentOrder.shiping = 30000;
+    this.countOrder();
 
-  alert(item:any){
-    alert(item)
-  }
+    // this.searchUser(this.currentData.name)
+    // this.searchProduct(this.keySearchProduct)
+    this.getListProduct();
 
-  getListProduct(){
-    this.productsService.getListProduct().subscribe(
-      res=>{
-        console.log(res)
-        this.listProduct = res.data
+    let container: any = document.getElementById('search_id');
+
+    let list_data: any = document.getElementById('list-data');
+
+    list_data.style.display = 'none';
+
+    document.addEventListener('click', function (event: any) {
+      const clickedInside = container?.contains(event.target);
+      if (!clickedInside) {
+        list_data.style.display = 'none';
       }
-    )
+    });
   }
 
-  searchUser(name:string){
+  showPopupSearchProduct(isShow: string) {
+    let list_data: any = document.getElementById('list-data');
+    list_data.style.display = isShow;
+  }
+
+  addItem(item: any) {
+    if (this.listCartOrder.length > 0) {
+      let foundElement = this.listCartOrder.find((x: any) => {
+        return x.id === item.id;
+      });
+
+      if (foundElement) {
+        this.listCartOrder.map((x: any) => {
+          if (x.id === foundElement.id) {
+            x.quantity += 1;
+          }
+          return x;
+        });
+      } else {
+        this.listCartOrder.push({
+          id: item.id,
+          quantity: 1,
+          avatar: item.avatar,
+          name: item.name,
+          price: item.sale === 1 ? item.price_sale : item.price
+        })
+      }
+    } else {
+      this.listCartOrder.push({
+        id: item.id,
+        quantity: 1,
+        avatar: item.avatar,
+        name: item.name,
+        price: item.sale === 1 ? item.price_sale : item.price
+      })
+    }
+
+    this.countOrder();
+  }
+
+  getListProduct() {
+    this.productsService.getListProduct().subscribe((res) => {
+      this.listProduct = res.data.filter((x: any) => {
+        x.stock = x.stock_status === 1 ? 'Còn hàng' : 'Hết hàng';
+        return x;
+      });
+    });
+
+    this.managementCollabService.getListAllUser().subscribe((res) => {
+      
+      this.listUser = res.data.map((x: any) => {
+        x.label = x.name;
+        x.value = x.id;
+        return x;
+      });
+      this.listUser.unshift({label: '-- Tên khách hàng/CTV --',value: ''})
+    });
+  }
+
+  searchUser(name: string) {
     // this.eventSourceService.disconnect();
     // this.listUser = []
     // this.eventSourceService.connect(name,'user').subscribe(
@@ -194,101 +173,132 @@ datafake= [
     // );
   }
 
-  onChangeUserName(){
+  onChangeUserName(userId:any) {
+    let customer = this.listUser.filter((x:any)=>{
+      return x.id === userId
+    })
+    this.currentData.userId = customer[0].id
+    this.currentData.name = customer[0].name
+    this.currentData.phone = customer[0].phone
+    this.currentData.address = customer[0].address
+    this.currentData.city = customer[0].city
+    this.currentData.districts = customer[0].districts
+    this.currentData.wards = customer[0].wards
+
+    this.changeOptionCity('city', true)
+    this.changeOptionCity('districts', true)
+  }
+
+  countOrder() {
+    this.currentOrder.totalPrice = 0
+    this.listCartOrder.map((x: any) => {
+      x.total = x.quantity * x.price
+      this.currentOrder.totalPrice += x.total;
+      // if (x.sale === 1) {
+      // } else {
+      //   this.currentOrder.totalPrice += x.total;
+      // }
+      return x;
+    });
+
+    this.currentOrder.totalOrder =
+      this.currentOrder.totalPrice +
+      this.currentOrder.shiping -
+      this.currentOrder.discount;
+  }
+
+  onSubmit() {
+    this.DataBroadcastService.changeMessage('showLoadding');
+
+    let payload = {
+      customer: this.currentData,
+      orderDtail: this.listCartOrder,
+      order: this.currentOrder
+    }
+    console.log(payload)
+
+    this.DataBroadcastService.changeAlert({
+      type: 'success',
+      title: 'Thành công',
+      message: "Thêm đơn hành công!",
+    });
+    this.DataBroadcastService.changeMessage('hideLoadding');
 
   }
 
-  
 
-  countOrder(){
-    this.listCartOrder.map((x:any)=>{
-      this.currentOrder.totalPrice += x.total
-      if(x.sale === 1){
-      }else{
-        this.currentOrder.totalPrice += x.total
+  onChangeSearchProduct() {
+    this.listProductSearch = this.listProduct.filter((x: any) => {
+      if (
+        x.name
+          .toLowerCase()
+          .trim()
+          .includes(this.keySearchProduct.toLowerCase().trim())
+      ) {
+        return x;
       }
-      return x
-    })
-
-    this.currentOrder.totalOrder = this.currentOrder.totalPrice + this.currentOrder.shiping - this.currentOrder.discount
+    });
   }
 
-  addItems(){
-    this.dataOrder.order_items.push({
-      id: null,
-      avatar: '',
-      name: '',
-      price: ''
-    })
-  }
-
-  onSubmit(){
-
-  }
-
-  searchProduct(name:string){
-
-  }
-
-  onChangeSearchProduct(){
-    this.listProductSearch = this.listProduct.filter((x:any)=>{
-      if(x.name.toLowerCase().trim().includes(this.keySearchProduct.toLowerCase().trim())){
-        return x
-      }
-    })
-  }
-
-  changeOptionCity(type:string){
+  changeOptionCity(type: string, loaddata?: boolean) {
     switch (type) {
       case 'city':
-        this.listDistricts = []
-        this.listCity.map((x:any)=>{
-          if(x.Id === this.currentData.city){
-            this.listDistricts = x.Districts
+        this.listDistricts = [];
+        this.listCity.map((x: any) => {
+          if (x.Id === this.currentData.city) {
+            this.listDistricts = x.Districts;
           }
-          return x
-        })
-        this.currentData.districts = null
-        this.currentData.wards = null
+          return x;
+        });
+        if(!loaddata){
+          this.currentData.districts = null;
+          this.currentData.wards = null;
+        }
 
         break;
       case 'districts':
-        this.listWards = []
-        this.currentData.wards = null
+        this.listWards = [];
 
-        this.listDistricts.map((x:any)=>{
-          if(x.Id === this.currentData.districts){
-            this.listWards = x.Wards
+        if(!loaddata){
+          this.currentData.wards = null;
+        }
 
+        this.listDistricts.map((x: any) => {
+          if (x.Id === this.currentData.districts) {
+            this.listWards = x.Wards;
           }
-          return x
-        })
-        
-        break;
-      
-      case 'wards':
+          return x;
+        });
 
+        break;
+
+      case 'wards':
         break;
       default:
         break;
     }
   }
 
-  check(){
-    console.log(this.currentData)
-  }
-
-  ApplyDiscount(){
-    if(this.code_discount === '123'){
-      this.currentOrder.discount = 200000
-    this.countOrder()
-    this.errCodeDiscount = false
-    }else{
-      this.errCodeDiscount = true
+  ApplyDiscount() {
+    if (this.code_discount === '123') {
+      this.currentOrder.discount = 200000;
+      this.countOrder();
+      this.errCodeDiscount = false;
+    } else {
+      this.errCodeDiscount = true;
     }
   }
-  
 
-  ngOnDestroy() {
+  changeUserOld(){
+    this.currentData = {}
   }
+
+  removeItemCart(id:string){
+    this.listCartOrder = this.listCartOrder.filter((x:any)=>{
+      return x.id !== id
+    })
+    this.countOrder();
+  }
+
+  ngOnDestroy() {}
 }

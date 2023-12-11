@@ -31,13 +31,15 @@ export class managementCollabService {
   }
 
   getListCustomer(role:string): Observable<any> {
-    return this.http.get(`${environment.BASE_URL_BE}/users?role=${role}`)
+    return this.http.get(`${environment.BASE_URL_BE}/users`)
   }
 
   getDetailCustomer(id:string): Observable<any> {
     return this.http.get(`${environment.BASE_URL_BE}/users/${id}`)
-
   }
 
- 
+  getListAllUser(): Observable<any> {
+    return this.http.get(`${environment.BASE_URL_BE}/users/listalluser`)
+  }
+  
 }

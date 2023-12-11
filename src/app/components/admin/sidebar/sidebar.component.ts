@@ -74,11 +74,11 @@ export class SidebarComponent {
             label: 'Quản lý khách hàng',
             items: [
                 {
-                    label: 'Quản lý CTV', icon: 'pi pi-fw pi-bookmark', routerLink: ['/admin/collab']
+                    label: 'Quản lý khách hàng/CTV', icon: 'pi pi-fw pi-bookmark', routerLink: ['/admin/collab']
                 },
-                {
-                    label: 'Quản lý khách hàng', icon: 'pi pi-fw pi-bookmark', routerLink: ['/admin/customer']
-                }
+                // {
+                //     label: 'Quản lý khách hàng', icon: 'pi pi-fw pi-bookmark', routerLink: ['/admin/customer']
+                // }
             ]
         },
       ];

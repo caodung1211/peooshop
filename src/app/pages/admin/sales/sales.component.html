@@ -1,20 +1,16 @@
-<!-- <div (click)="addItems()" class="cursor-pointer">
-    <i class="pi pi-plus-circle" style="font-size: 2em"></i>
-  </div> -->
-
-<div class="search">
+<div class="search" id="search_id">
   <input
     type="text"
     name="search"
+    id="search_input"
     [(ngModel)]="keySearchProduct"
     (ngModelChange)="onChangeSearchProduct()"
     placeholder="Tìm kiếm sản phẩm..."
-    (focus)="isSearchFocused = true"
-    (blur)="isSearchFocused = false"
+    (focus)="showPopupSearchProduct('block')"
   />
-  <ul class="box-select" id="list-data" *ngIf="isSearchFocused ">
+  <ul class="box-select" id="list-data">
     <li *ngFor="let item of listProductSearch">
-      <div class="row" (click)="alert(item)">
+      <div class="row" (click)="addItem(item)">
         <div class="col-1">
           <img [src]="item?.avatar" />
         </div>
@@ -23,15 +19,17 @@
           <p>{{ item?.stock }}</p>
         </div>
         <div class="col-4 d-flex flex-wrap" style="flex-direction: column">
-          <p class="w-100 m-0" *ngIf="item.sale === 1">{{ item.price_sale }}</p>
-          <p
+          <i class="w-100 m-0" *ngIf="item.sale === 1" style="color: red;font-weight: bold;">{{ item.price_sale | pricePipe}}</i>
+          <i
             class="w-100 m-0"
             [ngStyle]="{
-              'text-decoration': item.sale === 1 ? 'line-through' : ''
+              'text-decoration': item.sale === 1 ? 'line-through' : '',
+              'color': item.sale === 1 ? '' : 'red',
+              'font-weight': item.sale === 1 ? '' : 'bold'
             }"
           >
-            {{ item.price }}
-          </p>
+            {{ item.price | pricePipe }} 
+          </i>
         </div>
       </div>
     </li>
@@ -43,14 +41,29 @@
       <div class="row">
         <div class="col-xl-8 col-lg-8 mb-4">
           <!-- Checkout -->
-          <form #userForm="ngForm">
             <div class="card shadow-0 border">
               <div class="p-4">
                 <div class="row">
+                  <div class="col-12">
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        name="isUserOld"
+                        id="isUserOld"
+                        [(ngModel)]="isUserOld"
+                        (ngModelChange)="changeUserOld()"
+                      />
+                      <label class="form-check-label" for="isUserOld" style="position: relative; top: 2px"
+                        >Khách hàng cũ</label
+                      >
+                    </div>
+                  </div>
                   <div class="col-6 mb-3">
                     <p class="mb-0">Tên khách hàng *</p>
                     <div class="form-outline">
-                      <input
+                      <ng-container *ngIf="!isUserOld">
+                        <input
                         type="text"
                         id="typeText"
                         placeholder="Nguyễn Văn A"
@@ -60,26 +73,35 @@
                         [(ngModel)]="currentData.name"
                         required
                       />
-
-                      <p-dropdown
-                        [options]="listUser"
-                        [(ngModel)]="currentData.name"
-                        name="123"
-                        [filter]="true"
-                        (ngModelChange)="onChangeUserName()"
-                      >
-                        <ng-template let-item pTemplate="selectedItem">
-                          <span>{{ item.label }}</span>
-                        </ng-template>
-                        <ng-template let-item pTemplate="item">
-                          <span>{{ item.label }}</span>
-                        </ng-template>
-                      </p-dropdown>
-
                       <app-errors-message
-                        [control]="name.control"
+                        [control]="name?.control"
                         [name]="'Tên khách hàng'"
                       ></app-errors-message>
+                      </ng-container>
+
+                      <ng-container *ngIf="isUserOld">
+                        <p-dropdown
+                          [options]="listUser"
+                          [(ngModel)]="currentData.userId"
+                          name="name"
+                          [filter]="true"
+                          autoWidth="false" [style]="{'width':'100%'}"
+                          #name="ngModel" [required]="true"
+                          (ngModelChange)="onChangeUserName($event)"
+                        >
+                          <ng-template let-item pTemplate="selectedItem">
+                            <span>{{ item.label }}</span>
+                          </ng-template>
+                          <ng-template let-item pTemplate="item">
+                            <span>{{ item.label }}</span>
+                          </ng-template>
+                        </p-dropdown>
+                        <app-errors-message
+                          [control]="name?.control"
+                          [name]="'Tên khách hàng'"
+                        ></app-errors-message>
+                      </ng-container>
+                      
                     </div>
                   </div>
 
@@ -191,7 +213,7 @@
                     </div>
                   </div>
                 </div>
-
+<!-- 
                 <div class="form-check">
                   <input
                     class="form-check-input"
@@ -205,7 +227,7 @@
                   <label class="form-check-label" for="flexCheckDefault"
                     >Lưu địa chỉ</label
                   >
-                </div>
+                </div> -->
 
                 <hr class="my-4" />
 
@@ -223,7 +245,7 @@
                           id="flexRadioDefault1"
                           [value]="methodShip[0].value"
                           [(ngModel)]="currentData.shipping"
-                          (ngModelChange)="check()"
+                          required
                         />
                         <label class="form-check-label" for="flexRadioDefault1">
                           Giao hàng nhanh <br />
@@ -243,7 +265,7 @@
                           id="flexRadioDefault2"
                           [value]="methodShip[1].value"
                           [(ngModel)]="currentData.shipping"
-                          (ngModelChange)="check()"
+                          required
                         />
                         <label class="form-check-label" for="flexRadioDefault2">
                           Giao ngày trong ngày <br />
@@ -254,6 +276,13 @@
                         </label>
                       </div>
                     </div>
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <p class="mb-0">Phí ship</p>
+                  <div class="form-outline">
+                    <input type="number" name="shipping" class="form-control" [(ngModel)]="currentOrder.shiping" (ngModelChange)="countOrder()" placeholder="30000">
                   </div>
                 </div>
 
@@ -271,7 +300,7 @@
                 <div class="float-end">
                   <button
                     class="btn shadow-0 border"
-                    [disabled]="!userForm.valid"
+                    [disabled]="!userForm.valid || listCartOrder.length === 0"
                     (click)="onSubmit()"
                     style="background: #000; color: #fff"
                   >
@@ -280,7 +309,6 @@
                 </div>
               </div>
             </div>
-          </form>
 
           <!-- Checkout -->
         </div>
@@ -291,7 +319,7 @@
 
               <div class="list-order">
                 <div
-                  class="d-flex align-items-center mb-4"
+                  class="d-flex align-items-center mb-4 position-relative"
                   *ngFor="let item of listCartOrder"
                 >
                   <div class="me-3 position-relative">
@@ -305,13 +333,14 @@
                     />
                   </div>
                   <div class="">
-                    <a [routerLink]="'/san-pham/' + item.id" class="nav-link">
+                    <a [routerLink]="'/san-pham/' + item.id" target="_blank" class="nav-link">
                       {{ item.name }}
                     </a>
                     <div class="price text-muted">
                       Total: {{ item.total | pricePipe }}
                     </div>
                   </div>
+                  <span class="removeItem"><i class="pi pi-times" (click)="removeItemCart(item.id)"></i></span>
                 </div>
               </div>
             </div>
