@@ -17,4 +17,8 @@ export class salesService {
     return this.http.get(`${environment.BASE_URL_BE_Client}/search?name=${name}`)
   }
 
+  creatrOrder(body:any): Observable<any> {
+    return this.http.post(`${environment.BASE_URL_BE}/order`, body)
+  }
+
 }

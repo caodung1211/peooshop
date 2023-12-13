@@ -36,8 +36,9 @@ export class SalesComponent implements OnInit, OnDestroy {
   currentOrder: any = {
     totalPrice: 0,
     discount: 0,
-    shiping: 0,
+    shipping_price: 0,
     totalOrder: 0,
+    note: ''
   };
 
   code_discount = '';
@@ -74,7 +75,7 @@ export class SalesComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.listCity = tinh;
 
-    // this.currentOrder.shiping = 30000;
+    // this.currentOrder.shipping_price = 30000;
     this.countOrder();
 
     // this.searchUser(this.currentData.name)
@@ -203,29 +204,66 @@ export class SalesComponent implements OnInit, OnDestroy {
 
     this.currentOrder.totalOrder =
       this.currentOrder.totalPrice +
-      this.currentOrder.shiping -
+      this.currentOrder.shipping_price -
       this.currentOrder.discount;
   }
 
   onSubmit() {
     this.DataBroadcastService.changeMessage('showLoadding');
 
+    this.currentOrder.discount_code = this.currentOrder.discount > 0 ? this.code_discount : ''
+
     let payload = {
       customer: this.currentData,
-      orderDtail: this.listCartOrder,
-      order: this.currentOrder
+      orderDetail: this.listCartOrder,
+      order: this.currentOrder,
     }
-    console.log(payload)
+    // console.log(payload)
 
-    this.DataBroadcastService.changeAlert({
-      type: 'success',
-      title: 'Thành công',
-      message: "Thêm đơn hành công!",
-    });
-    this.DataBroadcastService.changeMessage('hideLoadding');
-
+    this.salesService.creatrOrder(payload).subscribe(
+      res=>{
+        this.DataBroadcastService.changeAlert({
+          type: 'success',
+          title: 'Thành công',
+          message: "Thêm đơn hành công!",
+        });
+        this.resetForm()
+        this.DataBroadcastService.changeMessage('hideLoadding');
+      },
+      err=>{
+        this.DataBroadcastService.changeAlert({
+          type: 'error',
+          title: 'Thất bại',
+          message: err.error.message,
+        });
+        this.DataBroadcastService.changeMessage('hideLoadding');
+      }
+    )
   }
 
+  resetForm(){
+    this.currentData = {
+      userId: '',
+      name: '',
+      phone: '',
+      address: '',
+      city: '',
+      districts: '',
+      wards: '',
+      // isSaveAddress: false,
+      shipping: 'ghtk',
+      note: '',
+    };
+    this.listCartOrder = []
+    this.code_discount = ''
+    this.currentOrder = {
+      totalPrice: 0,
+      discount: 0,
+      shipping_price: 0,
+      totalOrder: 0,
+      note: ''
+    };
+  }
 
   onChangeSearchProduct() {
     this.listProductSearch = this.listProduct.filter((x: any) => {

@@ -282,7 +282,7 @@
                 <div class="mb-3">
                   <p class="mb-0">Phí ship</p>
                   <div class="form-outline">
-                    <input type="number" name="shipping" class="form-control" [(ngModel)]="currentOrder.shiping" (ngModelChange)="countOrder()" placeholder="30000">
+                    <input type="number" name="shipping" class="form-control" [(ngModel)]="currentOrder.shipping_price" (ngModelChange)="countOrder()" placeholder="30000">
                   </div>
                 </div>
 
@@ -293,6 +293,8 @@
                       class="form-control"
                       id="textAreaExample1"
                       rows="2"
+                      name="note"
+                      [(ngModel)]="currentOrder.note"
                     ></textarea>
                   </div>
                 </div>
@@ -363,7 +365,7 @@
               </div>
               <div class="d-flex justify-content-between">
                 <p class="mb-2">Phí ship:</p>
-                <p class="mb-2">{{ currentOrder.shiping | pricePipe }}</p>
+                <p class="mb-2">{{ currentOrder.shipping_price | pricePipe }}</p>
               </div>
               <hr />
               <div class="d-flex justify-content-between">
