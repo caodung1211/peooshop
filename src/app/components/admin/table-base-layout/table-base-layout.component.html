@@ -93,9 +93,12 @@
                   placeholder="Chọn..."
                 >
                   <ng-template let-option pTemplate="item">
-                    <span [class]="'customer-badge status-' + option.value">{{
+                    <span>{{
                       option.label
                     }}</span>
+                  </ng-template>
+                  <ng-template let-item pTemplate="selectedItem">
+                    <span>{{ item.label }}</span>
                   </ng-template>
                 </p-dropdown>
               </ng-container>
@@ -129,6 +132,7 @@
           <td
             *ngIf="column.visible"
             [style]="{ width: congfigWidthColumns[i] + 'px' }"
+            [ngStyle]="{ 'font-weight': isScreen === 'order' ? 'bold': '', 'color': isScreen === 'order' ? handleColor(data.status_order): ''}"
           >
             <ng-container *ngIf="column.type === 'text'">
               <div
@@ -194,6 +198,39 @@
                 ></p-inputSwitch>
               </div>
             </ng-container>
+
+            <ng-container *ngIf="column.type === 'statusOrder'">
+              <div [ngClass]="{ 'text-center': column.center }">
+                <p-dropdown
+                  [options]="onChangeStatusOrder"
+                  (onChange)="changeStatusOrder($event,data.orderId)"
+                  styleClass="ui-column-filter"
+                  appendTo="body"
+                  [(ngModel)]="data[column.field]"
+                  [style]="{
+                    width: '100%',
+                    'min-width': '30px'
+                  }"
+                  autoWidth="false"
+                  placeholder="Chọn..."
+                >
+                  <ng-template let-option pTemplate="item">
+                    <span class="peoTooltip"
+                    [pTooltip]="data[column.field]" [ngStyle]="{ 'font-weight': isScreen === 'order' ? 'bold': '', 'color': isScreen === 'order' ? handleColor(option.value): ''}">{{
+                      option.label
+                    }}</span>
+                  </ng-template>
+
+                  <ng-template let-option pTemplate="selectedItem">
+                    <span class="peoTooltip"
+                    [pTooltip]="data[column.field]" [ngStyle]="{ 'font-weight': isScreen === 'order' ? 'bold': '', 'color': isScreen === 'order' ? handleColor(option.value): ''}">{{
+                      option.label
+                    }}</span>
+                  </ng-template>
+                </p-dropdown>
+              </div>
+            </ng-container>
+
           </td>
         </ng-container>
 

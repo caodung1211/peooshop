@@ -29,7 +29,7 @@ export class SalesComponent implements OnInit, OnDestroy {
     districts: '',
     wards: '',
     // isSaveAddress: false,
-    shipping: 'ghtk',
+    shipping: 'GHTK',
     note: '',
   };
 
@@ -45,7 +45,7 @@ export class SalesComponent implements OnInit, OnDestroy {
   errCodeDiscount = false;
 
   methodShip = [
-    { value: 'ghtk', id: 'ghtk' },
+    { value: 'GHTK', id: 'GHTK' },
     { value: 'Trong ngày', id: 'trong-ngay' },
   ];
 
@@ -120,7 +120,8 @@ export class SalesComponent implements OnInit, OnDestroy {
           quantity: 1,
           avatar: item.avatar,
           name: item.name,
-          price: item.sale === 1 ? item.price_sale : item.price
+          price: item.sale === 1 ? item.price_sale : item.price,
+          branch: item.branch
         })
       }
     } else {
@@ -129,7 +130,8 @@ export class SalesComponent implements OnInit, OnDestroy {
         quantity: 1,
         avatar: item.avatar,
         name: item.name,
-        price: item.sale === 1 ? item.price_sale : item.price
+        price: item.sale === 1 ? item.price_sale : item.price,
+        branch: item.branch
       })
     }
 
@@ -212,6 +214,8 @@ export class SalesComponent implements OnInit, OnDestroy {
     this.DataBroadcastService.changeMessage('showLoadding');
 
     this.currentOrder.discount_code = this.currentOrder.discount > 0 ? this.code_discount : ''
+    this.listCartOrder.discount_code = this.currentOrder.discount > 0 ? this.code_discount : ''
+
 
     let payload = {
       customer: this.currentData,
@@ -251,7 +255,7 @@ export class SalesComponent implements OnInit, OnDestroy {
       districts: '',
       wards: '',
       // isSaveAddress: false,
-      shipping: 'ghtk',
+      shipping: 'GHTK',
       note: '',
     };
     this.listCartOrder = []

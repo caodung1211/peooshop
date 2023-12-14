@@ -51,6 +51,11 @@ export class AuthInterceptor implements HttpInterceptor {
             localStorage.removeItem("users");
             this.router.navigate([`/admin-login`]); 
           }
+          if(response.status === 405){
+            localStorage.removeItem("token");
+            localStorage.removeItem("users");
+            this.router.navigate([`/admin-login`]); 
+          }
         }
 
         return Observable.throw(response);

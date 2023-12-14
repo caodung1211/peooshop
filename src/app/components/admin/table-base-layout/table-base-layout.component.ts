@@ -24,7 +24,8 @@ export class TableBaseLayoutComponent
   @Input() dataTable!: any[];
   @Input() columns!: any[];
   @Input() optionCustomize!: any;
-
+  @Input() isScreen!: any;
+  
   @Input() config!: IConfigTableBase;
   @Input() showCurrentPageReport = false;
   
@@ -59,8 +60,29 @@ export class TableBaseLayoutComponent
       { label: 'Tất cả', value: null },
       { label: 'CNK', value: 'CNK' },
       { label: 'Shein', value: 'Shein' },
+    ],
+    statusOrder: [
+      { label: 'Tất cả', value: null },
+      { label: 'Chờ xử lý', value: 'Chờ xử lý' },
+      { label: 'Đang xử lý', value: 'Đang xử lý' },
+      { label: 'Đang giao hàng', value: 'Đang giao hàng' },
+      { label: 'Hoàn thành', value: 'Hoàn thành' },
+      { label: 'Hủy', value: 'Hủy' },
+    ],
+    shippingOrder: [
+      { label: 'Tất cả', value: null },
+      { label: 'GHTK', value: 'GHTK' },
+      { label: 'Trong ngày', value: 'Trong ngày' }
     ]
   };
+
+  onChangeStatusOrder = [
+    { label: 'Chờ xử lý', value: 'Chờ xử lý',id: 1 },
+    { label: 'Đang xử lý', value: 'Đang xử lý',id: 2 },
+    { label: 'Đang giao hàng', value: 'Đang giao hàng',id: 3},
+    { label: 'Hoàn thành', value: 'Hoàn thành',id: 4 },
+    { label: 'Hủy', value: 'Hủy',id: 0 },
+  ]
 
   constructor() {}
 
@@ -156,6 +178,30 @@ export class TableBaseLayoutComponent
       type: type,
       id: id,
       data: data,
+    });
+  }
+
+  handleColor(type:string):any{
+    switch (type) {
+      case 'Chờ xử lý':
+        return '#fdc14d'
+      case 'Đang xử lý':
+        return '#36a3f7'
+      case 'Đang giao hàng':
+        return '#36a3f7'
+      case 'Hoàn thành':
+        return '#2bcb98'
+      case 'Hủy':
+        return '#ff0000'
+    }
+  }
+
+  changeStatusOrder($event:any,id:any){
+    if($event.value)
+    this.actionTable.emit({
+      type: 'status_order',
+      id: id,
+      data: this.onChangeStatusOrder.filter((x:any)=>{return x.value === $event.value})[0].id
     });
   }
 }

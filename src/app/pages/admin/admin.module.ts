@@ -27,6 +27,8 @@ const routes: Routes = [
       { path: 'customer', loadChildren: () => import('./customer/management-customer/management-customer.module').then(m => m.ManagementCustomerModule), },
       { path: 'collab', loadChildren: () => import('./customer/management-collab/management-collab.module').then(m => m.ManagementCollabModule), },
       { path: 'sales', loadChildren: () => import('./sales/sales.module').then(m => m.SalesModule), },
+      { path: 'orders', loadChildren: () => import('./orders/orders.module').then(m => m.OrdersModule), },
+      
       
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: '**', loadChildren: () => import('../page404/page404.module').then(m => m.Page404Module) }

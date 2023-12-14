@@ -1,0 +1,30 @@
+<div class="timeline">
+    <div class="line" [ngStyle]="{'color': (listTimeline.length > 1) ? '#bfbfbf' : ''}">
+        <div class="dot"></div>
+    <div class="action">
+        <p>Đơn hàng <b>#{{author.orderId}}</b> được <b>{{author.author}}</b> tạo thành công. Đơn hàng đang ở trạng thái <b [ngStyle]="{'color': (listTimeline.length > 1) ? '' : '#fdc14d'}">Chờ xử lý</b></p>
+    </div>
+    <div class="date">
+        <p>{{ author?.created_at | datePipe }}</p>
+    </div>
+    </div>
+    <ng-container *ngFor="let item of listTimeline; let i = index">
+       <div class="line"  [ngStyle]="{'color': (i < listTimeline.length - 1) || listTimeline[listTimeline.length - 1]?.status_order === 'Hoàn thành' ? '#bfbfbf' : ''}">
+            <div class="dot"></div>
+            <div class="action">
+                <p>Đơn hàng <b>#{{item.orderId}}</b> được <b>{{item.author_update}}</b> đã chuyển trạng thái đơn hàng sang <b [ngStyle]="{'color': handleColor(item?.status_order,i)}">{{item?.status_order}}</b></p>
+            </div>
+            <div class="date">
+                <p>{{ item?.date_update | datePipe }}</p>
+            </div>
+       </div>
+    </ng-container>
+    <div class="line" *ngIf="listTimeline[listTimeline.length - 1]?.status_order === 'Hoàn thành' ">
+        <div class="dot"></div>
+        <div class="action">
+            <p>Đơn hàng <b>#{{author.orderId}}</b> đã được <b style="color:#2bcb98">{{listTimeline[listTimeline.length - 1]?.status_order}}</b></p>
+        </div>
+        <div class="date">
+        </div>
+    </div>
+</div>

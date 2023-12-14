@@ -22,7 +22,7 @@ export class PageCheckoutComponent implements OnInit{
     districts: '',
     wards: '',
     isSaveAddress: false,
-    shipping: 'ghtk',
+    shipping: 'GHTK',
     note: ''
   }
 
@@ -37,7 +37,7 @@ export class PageCheckoutComponent implements OnInit{
   errCodeDiscount = false
 
   methodShip = [
-    {value: 'ghtk', id:"ghtk"},
+    {value: 'GHTK', id:"GHTK"},
     {value: 'Trong ngày', id:"trong-ngay"}
   ]
 

@@ -1,0 +1,135 @@
+<div class="content">
+    <div class="detail">
+        <p class="title-page mb-4">Thông tin chi tiết đơn hàng</p>
+        <div class="row" style="margin-bottom: 20px;">
+            <div class="col-6 col-md-3">
+                <p>Mã đơn hàng</p>
+                <p>#{{currentData?.orderId}}</p>
+            </div>
+            <div class="col-6 col-md-3">
+                <p>Người tạo</p>
+                <p>{{currentData?.created_by}}</p>
+            </div>
+            <div class="col-6 col-md-3">
+                <p>Ngày tạo</p>
+                <p>{{ currentData?.created_at | datePipe }}</p>
+            </div>
+            <div class="col-6 col-md-3">
+                <p>Trạng thái đơn hàng</p>
+                <p [ngStyle]="{ 'color': handleColor(currentData.status_order)}" >{{currentData.status_order}}</p>
+            </div>
+        </div>
+    </div>
+    
+    
+    <div class="list-product">
+        <p class="title-box">
+            Danh sách sản phẩm
+        </p>
+        <div class="box-item">
+            <table>
+                <thead>
+                    <tr>
+                        <td>Ảnh sản phẩm</td>
+                        <td>Tên sản phẩm</td>
+                        <td>Hãng</td>
+                        <td>Số lượng</td>
+                        <td>Đơn giá</td>
+                        <td>Thành tiền</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of currentData?.orderDetail">
+                        <td><img [src]="item.avatar" style="max-width: 200px;" alt=""></td>
+                        <td>{{item.name}}</td>
+                        <td>{{item.branch}}</td>
+                        <td>{{item.quantity}}</td>
+                        <td><i style="color: red;">{{item.price | pricePipe}}</i></td>
+                        <td><i style="color: red;">{{item.total | pricePipe}}</i></td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" style="text-align: left;">
+                            <b>Tổng tiền</b>
+                        </td>
+                        <td colspan="2" style="text-align: right;">
+                            <b><i style="color: red;">{{currentData.totalPrice | pricePipe}}</i></b>
+                        </td>
+                    </tr>
+                    <tr *ngIf="currentData.shipping_price > 0">
+                        <td colspan="4" style="text-align: left;">
+                            <b>Hình thức giao hàng: <i>{{currentData.shipping}}</i></b> 
+                        </td>
+                        <td colspan="2" style="text-align: right;">
+                            <b><i style="color: red;">{{currentData.shipping_price | pricePipe}}</i></b>
+                        </td>
+                    </tr>
+                    <tr *ngIf="currentData.discount > 0">
+                        <td colspan="4" style="text-align: left;">
+                            <b>Giảm giá ( Mã đã sử dụng - <i>{{currentData.discount_code}}</i> ) :</b> 
+                        </td>
+                        <td colspan="2" style="text-align: right;">
+                            <b><i style="color: red;">{{currentData.discount | pricePipe}}</i></b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" style="text-align: left;">
+                            <b>Tổng đơn hàng</b>
+                        </td>
+                        <td colspan="2" style="text-align: right;">
+                            <b><i style="color: red;">{{currentData.totalOrder | pricePipe}}</i></b>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="customer">
+        <p class="title-box">
+            Thông tin khách hàng
+        </p>
+        <table>
+            <tr>
+                <td>
+                    Khách hàng
+                </td>
+                <td>
+                    {{currentData?.name}}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Số điện thoại
+                </td>
+                <td>
+                    {{currentData?.phone}}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Địa chỉ
+                </td>
+                <td>
+                    {{currentData?.address}}, {{listAddress[2]?.name}}, {{listAddress[1]?.name}}, {{listAddress[0]?.name}}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Ghi chú đơn hàng
+                </td>
+                <td>
+                    {{currentData?.note}}
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="time-line">
+        <p class="title-box">
+            Lịch sử đơn hàng
+        </p>
+        <div class="timeline">
+            <app-timeline [listTimeline]="listTimeline" [author]="listAuthor"></app-timeline>
+        </div>
+    </div>
+</div>

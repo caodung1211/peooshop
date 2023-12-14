@@ -24,9 +24,11 @@ export class SidebarComponent {
             ]
         },
         {
-            label: 'Bán hàng',
+            label: 'Đơn hàng',
             items: [
-                { label: 'Tạo đơn hàng mới', icon: 'pi pi-fw pi-home', routerLink: ['/admin/sales'] }
+                { label: 'Tạo đơn hàng mới', icon: 'pi pi-fw pi-home', routerLink: ['/admin/orders/create'] },
+                { label: 'Danh sách đơn hàng', icon: 'pi pi-fw pi-home', routerLink: ['/admin/orders/list'] }
+
             ]
         },
         {
