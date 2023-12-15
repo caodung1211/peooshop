@@ -1,0 +1,12 @@
+<div class="box-item">
+    <div class="item" *ngFor="let item of listData">
+        <div class="box-icon" [ngStyle]="{'background' : item.color}">
+            <i class="pi" [ngClass]="item.icon"></i>
+        </div>
+        <div class="box-text">
+            <p>{{item.name}}</p>
+            <p *ngIf="item.type === 'price'">{{item.number | pricePipe }}</p>
+            <p *ngIf="item.type === 'text'">{{item.number }}</p>
+        </div>
+    </div>
+</div>

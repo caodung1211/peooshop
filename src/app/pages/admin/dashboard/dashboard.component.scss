@@ -1,0 +1,16 @@
+.content{
+    min-height: calc(100vh - 9rem);
+    transition: transform 0.2s, left 0.2s;
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 0.5rem 1.5rem;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.0196078431), 0 0 2px rgba(0, 0, 0, 0.0509803922), 0 1px 4px rgba(0, 0, 0, 0.0784313725);
+    transition: all 0.5s;
+
+    p.title{
+        text-align: center;
+        font-size: 25px;
+        margin: 40px 0;
+    }
+
+}

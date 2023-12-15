@@ -1,1 +1,17 @@
-<p>dashboard works!</p>
+<div class="content">
+    <app-box-card [listData]="dataCount"></app-box-card>
+    
+    <div class="row">
+        <div class="col-12 col-md-5 order">
+            <p class="title">Tổng trạng thái đơn hàng</p>
+            <p-chart type="pie" [data]="data_order"></p-chart>
+        </div>
+    
+        <div class="col-12 col-md-7 doanhthu">
+            <p class="title">Tổng doanh thu trong năm</p>
+            <p-chart type="bar" [data]="data_doanhthu" base="100"></p-chart>
+        </div>
+    </div>
+
+
+</div>

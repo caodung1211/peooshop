@@ -139,11 +139,15 @@ export class SalesComponent implements OnInit, OnDestroy {
   }
 
   getListProduct() {
+    this.DataBroadcastService.changeMessage('showLoadding');
+
     this.productsService.getListProduct().subscribe((res) => {
       this.listProduct = res.data.filter((x: any) => {
         x.stock = x.stock_status === 1 ? 'Còn hàng' : 'Hết hàng';
         return x;
       });
+    this.DataBroadcastService.changeMessage('hideLoadding');
+
     });
 
     this.managementCollabService.getListAllUser().subscribe((res) => {
@@ -232,14 +236,25 @@ export class SalesComponent implements OnInit, OnDestroy {
           message: "Thêm đơn hành công!",
         });
         this.resetForm()
-        this.DataBroadcastService.changeMessage('hideLoadding');
+        this.getListProduct()
+        // this.DataBroadcastService.changeMessage('hideLoadding');
       },
       err=>{
-        this.DataBroadcastService.changeAlert({
-          type: 'error',
-          title: 'Thất bại',
-          message: err.error.message,
-        });
+        if(err.status === 401){
+          err.error.map((x:any)=>{
+            this.DataBroadcastService.changeAlert({
+              type: 'error',
+              title: 'Thất bại',
+              message: x + ' đang hết hàng. Vui lòng kiểm tra lại!',
+            });
+          })
+        }else{
+          this.DataBroadcastService.changeAlert({
+            type: 'error',
+            title: 'Thất bại',
+            message: err.error.message,
+          });
+        }
         this.DataBroadcastService.changeMessage('hideLoadding');
       }
     )
