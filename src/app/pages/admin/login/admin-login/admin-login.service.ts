@@ -14,8 +14,8 @@ export class AdminLoginService {
     return this.http.post(`${environment.BASE_URL_BE}/login`,body)
   }
 
-  getUserDetail(id:string): Observable<any> {
-    return this.http.get(`${environment.BASE_URL_BE}/users/${id}`)
+  getUserDetail(): Observable<any> {
+    return this.http.get(`${environment.BASE_URL_BE}/users/author`)
   }
 
 }

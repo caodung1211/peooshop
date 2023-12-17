@@ -26,20 +26,20 @@ export class TopbarComponent implements OnInit{
         }
       }
     })
-
-    let id = localStorage.getItem('user_id');
+    this.loadUserDetail()
+    // let id = localStorage.getItem('user_id');
    
-    if (id) {
-      this.loadUserDetail(id);
-    } else {
-    console.log("--")
-    }
+    // if (id) {
+    //   this.loadUserDetail(id);
+    // } else {
+    // console.log("--")
+    // }
     
   }
 
 
-  loadUserDetail(id: string) {
-    this.AdminLoginService.getUserDetail(id).subscribe((res) => {
+  loadUserDetail() {
+    this.AdminLoginService.getUserDetail().subscribe((res) => {
       this.currentUser = res?.data;
     });
   }

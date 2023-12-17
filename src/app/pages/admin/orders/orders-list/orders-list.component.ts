@@ -131,6 +131,7 @@ export class OrdersListComponent {
             message: res.message
           });
           this.DataBroadcastService.changeMessage('hideLoadding');
+          this.loadData()
 
         }, err=> {
           this.DataBroadcastService.changeMessage('hideLoadding');

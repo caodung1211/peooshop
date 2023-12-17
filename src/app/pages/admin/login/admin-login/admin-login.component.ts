@@ -46,11 +46,10 @@ export class AdminLoginComponent {
     }).subscribe(
       res=>{
           localStorage.setItem('token',res?.data?.token)
-          // this.router.navigate(['path/to']).then(() => {
-          //   window.location.reload();
-          // });
-          // console.log(window.location.href)
-          this.isShowLoadding = false
+          localStorage.setItem('_token',res?.data?._token)
+        
+
+          // localStorage.setItem('user_id',resUser.data.id)
 
           this.alertMessage({
             type: "success",
@@ -58,16 +57,17 @@ export class AdminLoginComponent {
             message: res.message
           });
 
-          this.AdminLoginService.getUserDetail(res?.data?.id).subscribe(
-            resUser=>{
-            localStorage.setItem('user_id',resUser.data.id)
-            //  setTimeout(() => {
-            this.router.navigate([`admin/dashboard`]);
+          setTimeout(() => {
             this.isShowLoadding = false
-          // }, 1000);
+            this.router.navigate([`admin/dashboard`]);
+          }, 500);
 
-            }
-          )
+          // this.AdminLoginService.getUserDetail(res?.data?.id).subscribe(
+          //   resUser=>{
+           
+
+          //   }
+          // )
         },
       err=>{
         this.isShowLoadding = false

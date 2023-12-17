@@ -4,6 +4,7 @@
     color="primary"
     (click)="addNew('', 'add')"
     class="mb-4"
+    *ngIf="isAdmin"
   >
     <i class="material-icons">add</i>Thêm mới
   </button>

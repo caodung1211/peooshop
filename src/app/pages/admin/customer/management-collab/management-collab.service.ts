@@ -35,7 +35,7 @@ export class managementCollabService {
   }
 
   getDetailCustomer(id:string): Observable<any> {
-    return this.http.get(`${environment.BASE_URL_BE}/users/${id}`)
+    return this.http.get(`${environment.BASE_URL_BE}/users/detail/${id}`)
   }
 
   getListAllUser(): Observable<any> {

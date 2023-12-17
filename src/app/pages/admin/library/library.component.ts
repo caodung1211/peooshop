@@ -55,7 +55,16 @@ export class LibraryComponent implements OnInit {
 
 
       this.DataBroadcastService.changeMessage('hideLoadding');
-    });
+    },err=>{
+        this.DataBroadcastService.changeMessage('hideLoadding');
+
+        this.DataBroadcastService.changeAlert({
+          type: "error",
+          title:"Thất bại",
+          message: err.error.message
+        });
+      }
+    );
   }
 
   addNew() {}
@@ -147,7 +156,16 @@ export class LibraryComponent implements OnInit {
         formdataImgGalleryUpload.delete('image[]')
         this.loadData();
         this.DataBroadcastService.changeMessage('hideLoadding');
-      });
+      },err=>{
+        this.DataBroadcastService.changeMessage('hideLoadding');
+
+        this.DataBroadcastService.changeAlert({
+          type: "error",
+          title:"Thất bại",
+          message: err.error.message
+        });
+      }
+      );
   }
 }
 

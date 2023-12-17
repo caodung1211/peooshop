@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddOrEditCollabComponent } from './add-or-edit-collab/add-or-edit-collab.component';
 import { DialogConfirmCollabComponent } from './dialog-confirm-collab/dialog-confirm-collab.component';
 import tinh from '../../../../shared/JSON/tinh.json';
+import * as CryptoJS from "crypto-js";
 
 @Component({
   selector: 'app-management-collab',
@@ -28,12 +29,20 @@ export class ManagementCollabComponent implements OnInit {
   tableName = 'TABLE_CUSTOMERS'
   listCity:any = []
 
+  isAdmin = false
+
   constructor(
     public dialog: MatDialog,
     private managementCollabService: managementCollabService,
     private DataBroadcastService: DataBroadcastService
-  ) {}
+  ) {
+    this.isAdmin = this.logMd5('administrator') === localStorage.getItem('_token') ? true : false
+  }
 
+  private logMd5(data:string) {
+    const hash = CryptoJS.MD5(CryptoJS.enc.Latin1.parse(data));
+    return(hash.toString(CryptoJS.enc.Hex))
+  }
   
 
   ngOnInit() {
