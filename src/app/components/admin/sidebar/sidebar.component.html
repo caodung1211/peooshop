@@ -1,4 +1,4 @@
-<ul class="layout-menu">
+<ul class="layout-menu" [ngClass]="{'close': toggleShow}">
     <ng-container *ngFor="let item of menu; let i = index;">
         <li class="item-menu">
             <div class="title">{{item.label}}</div>

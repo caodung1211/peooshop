@@ -4,7 +4,7 @@
         <div class="row" style="margin-bottom: 20px;">
             <div class="col-6 col-md-3">
                 <p>Mã đơn hàng</p>
-                <p>#{{currentData?.orderId}}</p>
+                <p style="font-size: 40px;padding: 7px 0;line-height: 40px;">#{{currentData?.orderId}}</p>
             </div>
             <div class="col-6 col-md-3">
                 <p>Người tạo</p>
@@ -17,6 +17,10 @@
             <div class="col-6 col-md-3">
                 <p>Trạng thái đơn hàng</p>
                 <p [ngStyle]="{ 'color': handleColor(currentData.status_order)}" >{{currentData.status_order}}</p>
+            </div>
+            <div class="col-6 col-md-3">
+                <p>Kênh bán hàng</p>
+                <p>{{currentData.created_by_channel}}</p>
             </div>
         </div>
     </div>

@@ -11,11 +11,15 @@ export class ordersService {
   constructor(private http: HttpClient) { }
   
   getDetailOrder(id:string): Observable<any> {
-    return this.http.get(`${environment.BASE_URL_BE}/order/${id}`)
+    return this.http.get(`${environment.BASE_URL_BE}/order/detail/${id}`)
   }
- 
+  
   getListOrder(): Observable<any> {
     return this.http.get(`${environment.BASE_URL_BE}/order`)
+  }
+
+  getListChannels(): Observable<any> {
+    return this.http.get(`${environment.BASE_URL_BE}/order/channels`)
   }
 
   getListLogOrder(id:any): Observable<any> {

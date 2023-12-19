@@ -6,6 +6,7 @@ import { MessageService } from 'primeng';
 import { IConfigTableBase } from 'src/app/components/admin/table-base-layout/table-base-layout.model';
 import { AddOrEditProductComponent } from './add-or-edit-product/add-or-edit-product.component';
 import { DialogConfirmProductComponent } from './dialog-confirm-product/dialog-confirm-product.component';
+import { sharedFunctitonService } from 'src/app/service/admin/sharedFunction.service';
 
 @Component({
   selector: 'app-products',
@@ -22,8 +23,10 @@ export class ProductsComponent implements OnInit {
   config: IConfigTableBase = {
     checkbox: true,
     stt: true,
-    actions: ['edit', 'view', 'delete'],
+    // actions: ['edit', 'view', 'delete'],
   };
+
+  isAdmin = false
 
   listCategory: any = [];
   listSize: any = [];
@@ -41,8 +44,17 @@ export class ProductsComponent implements OnInit {
     public dialog: MatDialog,
     private productsService: productsService,
     private DataBroadcastService: DataBroadcastService,
-    private messageService: MessageService
-  ) {}
+    private messageService: MessageService,
+    private sharedFunctitonService: sharedFunctitonService
+  ) {
+    if(this.sharedFunctitonService.isAdmin()){
+      this.isAdmin = true
+      this.config.actions = ['edit', 'view', 'delete']
+    }else{
+      this.isAdmin = false
+      this.config.actions = ['view']
+    }
+  }
 
   ngOnInit() {
     this.loadData();

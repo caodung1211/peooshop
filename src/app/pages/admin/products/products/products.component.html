@@ -1,9 +1,10 @@
-<div class="d-flex justify-content-between align-items-center">
+<div class="d-flex align-items-center" [ngClass]="isAdmin ? 'justify-content-between' : 'justify-content-end' ">
   <button
     mat-raised-button
     color="primary"
     (click)="addNew('', 'add')"
     class="mb-4"
+    *ngIf="isAdmin"
   >
     <i class="material-icons">add</i>Thêm mới
   </button>
@@ -11,7 +12,6 @@
     <i class="pi pi-cog" style="font-size: 2em"></i>
   </div>
 </div>
-
 <app-table-base-layout
   [columns]="columns"
   [dataTable]="dataTable"

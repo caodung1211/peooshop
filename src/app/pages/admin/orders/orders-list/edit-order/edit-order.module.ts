@@ -16,7 +16,10 @@ import { TimelineModule } from 'src/app/components/admin/timeline/timeline.modul
     RouterModule.forChild([
       {
         path: '',
-        component: EditOrderComponent
+        component: EditOrderComponent,
+        data: {
+          breadcrumb: 'Chi tiết đơn hàng',
+        },
       }
     ]),
     SharedPipeModule,

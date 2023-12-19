@@ -1,9 +1,9 @@
-<div class="d-flex justify-content-between align-items-center">
+<div class="d-flex align-items-center" [ngClass]="isAdmin ? 'justify-content-between' : 'justify-content-end' ">
     <button
       mat-raised-button
       color="primary"
       [routerLink]="'/admin/orders/create'"
-      
+      *ngIf="isAdmin"
       class="mb-4"
     >
       <i class="material-icons">add</i>Thêm mới
@@ -12,7 +12,6 @@
       <i class="pi pi-cog" style="font-size: 2em"></i>
     </div>
   </div>
-  
   <app-table-base-layout
     [columns]="columns"
     [dataTable]="dataTable"

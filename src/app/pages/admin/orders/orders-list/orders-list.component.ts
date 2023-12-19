@@ -6,6 +6,7 @@ import { DataBroadcastService } from 'src/app/service/data-broadcast.service';
 import { MessageService } from 'primeng';
 import { DialogConfirmOrderComponent } from './dialog-confirm-order/dialog-confirm-order.component';
 import { Router } from '@angular/router';
+import { sharedFunctitonService } from 'src/app/service/admin/sharedFunction.service';
 
 @Component({
   selector: 'app-orders-list',
@@ -23,8 +24,9 @@ export class OrdersListComponent {
   config: IConfigTableBase = {
     checkbox: false,
     stt: true,
-    actions: ['edit', 'view', 'delete'],
+    // actions: ['edit', 'view', 'delete'],
   };
+  isAdmin = false
 
   listCategory: any = [];
   listSize: any = [];
@@ -43,8 +45,18 @@ export class OrdersListComponent {
     private ordersService: ordersService,
     private DataBroadcastService: DataBroadcastService,
     private messageService: MessageService,
-    private router: Router
-  ) {}
+    private router: Router,
+    private sharedFunctitonService: sharedFunctitonService
+  ) {
+    if(this.sharedFunctitonService.isAdmin()){
+      this.isAdmin = true
+      this.config.actions = ['edit', 'view', 'delete']
+    }else{
+      this.isAdmin = false
+      this.config.actions = ['view']
+    }
+  }
+
 
   ngOnInit() {
     this.loadData()

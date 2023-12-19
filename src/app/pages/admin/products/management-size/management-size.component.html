@@ -1,16 +1,17 @@
-<div class="d-flex justify-content-between align-items-center">
-    <button
-      mat-raised-button
-      color="primary"
-      (click)="addNew('', 'add')"
-      class="mb-4"
-    >
-      <i class="material-icons">add</i>Thêm mới
-    </button>
-    <div (click)="showColumns = true" class="cursor-pointer">
-      <i class="pi pi-cog" style="font-size: 2em"></i>
-    </div>
+<div class="d-flex align-items-center" [ngClass]="isAdmin ? 'justify-content-between' : 'justify-content-end' ">
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="addNew('', 'add')"
+    class="mb-4"
+    *ngIf="isAdmin"
+  >
+    <i class="material-icons">add</i>Thêm mới
+  </button>
+  <div (click)="showColumns = true" class="cursor-pointer">
+    <i class="pi pi-cog" style="font-size: 2em"></i>
   </div>
+</div>
 <app-table-base-layout [columns]="columns" [dataTable]="dataTable" [config]="config" (actionTable)="handleActionTable($event)"></app-table-base-layout>
 
 <app-table-name-config

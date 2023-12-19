@@ -6,6 +6,7 @@ import { IConfigTableBase } from 'src/app/components/admin/table-base-layout/tab
 import { managementColorService } from './management-color.service';
 import { AddOrEditColorComponent } from './add-or-edit-color/add-or-edit-color.component';
 import { DialogConfirmColorComponent } from './dialog-confirm-color/dialog-confirm-color.component';
+import { sharedFunctitonService } from 'src/app/service/admin/sharedFunction.service';
 
 @Component({
   selector: 'app-management-color',
@@ -20,9 +21,9 @@ export class ManagementColorComponent implements OnInit {
   config: IConfigTableBase = {
     checkbox: true,
     stt: true,
-    actions: ['edit', 'view', 'delete'],
+    // actions: ['edit', 'view', 'delete'],
   };
-
+  isAdmin = false
   showColumns = false;
   tableName = 'TABLE_COLORS'
 
@@ -31,7 +32,16 @@ export class ManagementColorComponent implements OnInit {
     private managementColorService: managementColorService,
     private DataBroadcastService: DataBroadcastService,
     private messageService: MessageService,
-  ) {}
+    private sharedFunctitonService: sharedFunctitonService
+  ) {
+    if(this.sharedFunctitonService.isAdmin()){
+      this.isAdmin = true
+      this.config.actions = ['edit', 'view', 'delete']
+    }else{
+      this.isAdmin = false
+      this.config.actions = ['view']
+    }
+  }
 
   alertSuccess(title: string, detail: string) {
     this.messageService.add({

@@ -7,7 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddOrEditCollabComponent } from './add-or-edit-collab/add-or-edit-collab.component';
 import { DialogConfirmCollabComponent } from './dialog-confirm-collab/dialog-confirm-collab.component';
 import tinh from '../../../../shared/JSON/tinh.json';
-import * as CryptoJS from "crypto-js";
+import { sharedFunctitonService } from 'src/app/service/admin/sharedFunction.service';
 
 @Component({
   selector: 'app-management-collab',
@@ -22,7 +22,7 @@ export class ManagementCollabComponent implements OnInit {
   config: IConfigTableBase = {
     checkbox: true,
     stt: true,
-    actions: ['edit', 'view', 'delete'],
+    // actions: ['edit', 'view', 'delete'],
   };
 
   showColumns = false;
@@ -34,16 +34,17 @@ export class ManagementCollabComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private managementCollabService: managementCollabService,
-    private DataBroadcastService: DataBroadcastService
+    private DataBroadcastService: DataBroadcastService,
+    private sharedFunctitonService: sharedFunctitonService
   ) {
-    this.isAdmin = this.logMd5('administrator') === localStorage.getItem('_token') ? true : false
+    if(this.sharedFunctitonService.isAdmin()){
+      this.isAdmin = true
+      this.config.actions = ['edit', 'view', 'delete']
+    }else{
+      this.isAdmin = false
+      this.config.actions = ['edit','view']
+    }
   }
-
-  private logMd5(data:string) {
-    const hash = CryptoJS.MD5(CryptoJS.enc.Latin1.parse(data));
-    return(hash.toString(CryptoJS.enc.Hex))
-  }
-  
 
   ngOnInit() {
     this.loadData();

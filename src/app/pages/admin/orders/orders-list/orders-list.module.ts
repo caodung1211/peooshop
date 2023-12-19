@@ -22,7 +22,10 @@ import { FormsModule } from '@angular/forms';
     RouterModule.forChild([
       {
         path: '',
-        component: OrdersListComponent
+        component: OrdersListComponent,
+        data: {
+          breadcrumb: 'Danh sách đơn hàng',
+        },
       }
     ]),
     TableBaseLayoutModule,

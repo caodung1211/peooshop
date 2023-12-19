@@ -109,6 +109,12 @@ export class EditOrderComponent implements OnInit {
   
   }
 
+  getListChannels(){
+    this.ordersService.getListChannels().subscribe(res=>{
+      
+    })
+  }
+
   handleColor(type:string):any{
     switch (type) {
       case 'Chờ xử lý':

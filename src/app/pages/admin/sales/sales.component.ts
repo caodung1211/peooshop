@@ -5,6 +5,7 @@ import { EventSourceService } from 'src/app/service/admin/event-source.service';
 import { productsService } from '../products/products/products.service';
 import { managementCollabService } from '../customer/management-collab/management-collab.service';
 import { DataBroadcastService } from 'src/app/service/data-broadcast.service';
+import { ordersService } from '../orders/orders-list/orders-list.service';
 
 @Component({
   selector: 'app-sales',
@@ -61,6 +62,8 @@ export class SalesComponent implements OnInit, OnDestroy {
   listUser: any = [];
   listProductSearch: any = [];
   listProduct: any = [];
+  listChannels: any = [];
+
 
   isSearchFocused = false;
   isUserOld = false
@@ -69,7 +72,8 @@ export class SalesComponent implements OnInit, OnDestroy {
     public salesService: salesService,
     private productsService: productsService,
     private managementCollabService: managementCollabService,
-    private DataBroadcastService:DataBroadcastService
+    private DataBroadcastService:DataBroadcastService,
+    private ordersService:ordersService
   ) {}
 
   ngOnInit() {
@@ -81,6 +85,7 @@ export class SalesComponent implements OnInit, OnDestroy {
     // this.searchUser(this.currentData.name)
     // this.searchProduct(this.keySearchProduct)
     this.getListProduct();
+    this.getListChannels()
 
     let container: any = document.getElementById('search_id');
 
@@ -161,6 +166,13 @@ export class SalesComponent implements OnInit, OnDestroy {
     });
   }
 
+  getListChannels(){
+    this.ordersService.getListChannels().subscribe(res=>{
+      this.listChannels = res.data
+      console.log(this.listChannels)
+    })
+  }
+
   searchUser(name: string) {
     // this.eventSourceService.disconnect();
     // this.listUser = []
@@ -218,6 +230,9 @@ export class SalesComponent implements OnInit, OnDestroy {
     this.DataBroadcastService.changeMessage('showLoadding');
 
     this.currentOrder.discount_code = this.currentOrder.discount > 0 ? this.code_discount : ''
+    this.currentOrder.created_by_channel = this.currentData.created_by_channel 
+
+    
     this.listCartOrder.discount_code = this.currentOrder.discount > 0 ? this.code_discount : ''
 
 

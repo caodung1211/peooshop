@@ -1,4 +1,4 @@
-<div class="d-flex justify-content-between align-items-center">
+<div class="d-flex align-items-center" [ngClass]="isAdmin ? 'justify-content-between' : 'justify-content-end' ">
   <button
     mat-raised-button
     color="primary"

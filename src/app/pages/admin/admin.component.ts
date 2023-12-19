@@ -45,7 +45,7 @@ export class AdminComponent implements OnInit,AfterViewInit {
           break;  
         case 'toggle':
           if(this.widthSideBar === 300){
-            this.widthSideBar = 40
+            this.widthSideBar = 60
           }else{
             this.widthSideBar = 300
           }

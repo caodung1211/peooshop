@@ -213,6 +213,20 @@
                     </div>
                   </div>
                 </div>
+
+                <div class="col-6">
+                  <p class="mb-0">Kênh bán hàng *</p>
+                  <select
+                    class="form-select"
+                    name="channels"
+                    #channels="ngModel"
+                    [(ngModel)]="currentData.created_by_channel"
+                  >
+                    <option *ngFor="let item of listChannels" [value]="item.code">
+                      {{ item.name }}
+                    </option>
+                  </select>
+                </div>
 <!-- 
                 <div class="form-check">
                   <input

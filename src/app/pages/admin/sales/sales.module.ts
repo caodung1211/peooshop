@@ -23,7 +23,10 @@ import { DropdownModule } from 'primeng';
     RouterModule.forChild([
       {
         path: '',
-        component: SalesComponent
+        component: SalesComponent,
+        data: {
+          breadcrumb: 'Thêm mới đơn hàng',
+        },
       }
     ]),
     FormsModule,

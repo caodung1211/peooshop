@@ -6,6 +6,7 @@ import { ConfirmationService, MessageService } from 'primeng';
 import { IConfigTableBase } from 'src/app/components/admin/table-base-layout/table-base-layout.model';
 import { DialogConfirmSizeComponent } from './dialog-confirm-size/dialog-confirm-size.component';
 import { AddOrEditSizeComponent } from './add-or-edit-size/add-or-edit-size.component';
+import { sharedFunctitonService } from 'src/app/service/admin/sharedFunction.service';
 
 @Component({
   selector: 'app-management-size',
@@ -22,16 +23,26 @@ export class ManagementSizeComponent implements OnInit {
   config: IConfigTableBase = {
     checkbox: true,
     stt: true,
-    actions: ['edit', 'view', 'delete'],
+    // actions: ['edit', 'view', 'delete'],
   };
+  isAdmin = false
 
   constructor(
     public dialog: MatDialog,
     private managementSizeService: managementSizeService,
     private DataBroadcastService: DataBroadcastService,
     private messageService: MessageService,
-    private confirmationService: ConfirmationService
-  ) {}
+    private confirmationService: ConfirmationService,
+    private sharedFunctitonService: sharedFunctitonService
+  ) {
+    if(this.sharedFunctitonService.isAdmin()){
+      this.isAdmin = true
+      this.config.actions = ['edit', 'view', 'delete']
+    }else{
+      this.isAdmin = false
+      this.config.actions = ['view']
+    }
+  }
 
   alertSuccess(title: string, detail: string) {
     this.messageService.add({

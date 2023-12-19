@@ -28,7 +28,7 @@ export class DashboardComponent implements OnInit {
       icon: 'pi-money-bill',
     },
     {
-      name: 'Số lượng sản phẩm tồn kho',
+      name: 'Sản phẩm',
       number: 0,
       type: 'text',
       color: '#00c0ef',

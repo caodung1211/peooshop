@@ -7,6 +7,7 @@ import { DialogConfirmCategoryComponent } from './dialog-confirm-category/dialog
 import { CategoriesService } from './categories.service';
 import { DataBroadcastService } from 'src/app/service/data-broadcast.service';
 import { ConfirmationService, MessageService } from 'primeng';
+import { sharedFunctitonService } from 'src/app/service/admin/sharedFunction.service';
 
 @Component({
   selector: 'app-categories',
@@ -21,9 +22,9 @@ export class CategoriesComponent implements OnInit {
   config: IConfigTableBase = {
     checkbox: true,
     stt: true,
-    actions: ['edit', 'view', 'delete'],
+    // actions: ['edit', 'view', 'delete'],
   };
-
+  isAdmin = false
   showColumns = false;
   tableName = 'TABLE_CATEGORIES'
 
@@ -32,7 +33,16 @@ export class CategoriesComponent implements OnInit {
     private CategoriesService: CategoriesService,
     private DataBroadcastService: DataBroadcastService,
     private messageService: MessageService,
-  ) {}
+    private sharedFunctitonService: sharedFunctitonService
+  ) {
+    if(this.sharedFunctitonService.isAdmin()){
+      this.isAdmin = true
+      this.config.actions = ['edit', 'view', 'delete']
+    }else{
+      this.isAdmin = false
+      this.config.actions = ['view']
+    }
+  }
 
   alertSuccess(title: string, detail: string) {
     this.messageService.add({
