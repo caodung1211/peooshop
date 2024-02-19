@@ -15,7 +15,7 @@ const routes: Routes = [
     component: ClientLayoutComponent,
     children: [
       { path: '', loadChildren: () => import('./../../pages/client/page-home/page-home.module').then(m => m.PageHomeModule) },
-      { path: 'gioi-thieu', loadChildren: () => import('./../../pages/client/page-about/page-about.module').then(m => m.PageAboutModule) },
+      // { path: 'gioi-thieu', loadChildren: () => import('./../../pages/client/page-about/page-about.module').then(m => m.PageAboutModule) },
       { path: 'charles-keith', loadChildren: () => import('./../../pages/client/page-products/page-products.module').then(m => m.PageProductsModule) },
       { path: 'local-brand', loadChildren: () => import('./../../pages/client/page-local-brand/page-local-brand.module').then(m => m.PageLocalBrandModule) },
       { path: 'bo-suu-tap', loadChildren: () => import('./../../pages/client/page-collection/page-collection.module').then(m => m.PageCollectionModule) },

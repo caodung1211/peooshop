@@ -21,7 +21,7 @@ export class HeaderMainComponent implements OnInit {
 
   menus: any = [
     { label: 'Trang chủ', routerLink: ['/'] },
-    { label: 'Giới thiệu', routerLink: ['/gioi-thieu'] },
+    // { label: 'Giới thiệu', routerLink: ['/gioi-thieu'] },
     { label: 'Charles & Keith', routerLink: ['/charles-keith'] },
     { label: 'Local brand', routerLink: ['/local-brand'] },
 
