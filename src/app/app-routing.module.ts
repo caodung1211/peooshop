@@ -9,6 +9,7 @@ const routes: Routes = [
   { path: 'admin-login', loadChildren: () => import('../app/pages/admin/login/admin-login/admin-login.module').then(m => m.AdminLoginModule) },
   { path: 'auth', component: AuthLayoutComponent },
   { path: 'gioi-thieu', loadChildren: () => import('./pages/client/page-about/page-about.module').then(m => m.PageAboutModule) },
+  { path: '',loadChildren: () => import('./pages/client/page-about/page-about.module').then(m => m.PageAboutModule) },
   { path: '', loadChildren: () => import('./../app/layouts/client-layout/client-layout.module').then(m => m.ClientLayoutModule) },
   // { path: '', loadChildren: () => import('./../app/layouts/client-layout/client-layout.module').then(m => m.ClientLayoutModule) },
 
