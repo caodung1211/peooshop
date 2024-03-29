@@ -129,7 +129,7 @@ export class AddOrEditProductComponent {
     this.imgGalleryUpload = []
 
     this.DataBroadcastService.changeMessage('showLoadding');
-console.log(this.optionDropdow)
+// console.log(this.optionDropdow)
     this.productsService.getDetailProduct(id).subscribe((res) => {
       this.currentData = res.data;
       res.data.gallery.map((x:any,index:number)=>{

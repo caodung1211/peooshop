@@ -7,6 +7,7 @@ import { IConfigTableBase } from 'src/app/components/admin/table-base-layout/tab
 import { AddOrEditProductComponent } from './add-or-edit-product/add-or-edit-product.component';
 import { DialogConfirmProductComponent } from './dialog-confirm-product/dialog-confirm-product.component';
 import { sharedFunctitonService } from 'src/app/service/admin/sharedFunction.service';
+import { ImportProductComponent } from './import-product/import-product.component';
 
 @Component({
   selector: 'app-products',
@@ -34,7 +35,7 @@ export class ProductsComponent implements OnInit {
 
   showColumns = false;
 
-  optionCustomize:any = {
+  optionCustomize: any = {
     dropdownCategory: [],
     dropdownSize: [],
     dropdownColor: []
@@ -47,10 +48,10 @@ export class ProductsComponent implements OnInit {
     private messageService: MessageService,
     private sharedFunctitonService: sharedFunctitonService
   ) {
-    if(this.sharedFunctitonService.isAdmin()){
+    if (this.sharedFunctitonService.isAdmin()) {
       this.isAdmin = true
       this.config.actions = ['edit', 'view', 'delete']
-    }else{
+    } else {
       this.isAdmin = false
       this.config.actions = ['view']
     }
@@ -74,23 +75,23 @@ export class ProductsComponent implements OnInit {
 
     this.productsService.getListCategory().subscribe((resCategory) => {
       this.optionCustomize.dropdownCategory = []
-      this.optionCustomize.dropdownCategory.push({label: "Tất cả", value: null})
-      resCategory.data.map((x:any)=>{
-        this.optionCustomize.dropdownCategory.push({label: x.name, value: x.name, id: x.id})
+      this.optionCustomize.dropdownCategory.push({ label: "Tất cả", value: null })
+      resCategory.data.map((x: any) => {
+        this.optionCustomize.dropdownCategory.push({ label: x.name, value: x.name, id: x.id })
       })
 
       this.productsService.getListSize().subscribe((resSize) => {
         this.optionCustomize.dropdownSize = []
-        this.optionCustomize.dropdownSize.push({label: "Tất cả", value: null})
-        resSize.data.map((x:any)=>{
-          this.optionCustomize.dropdownSize.push({label: x.name, value: x.name, id: x.id})
+        this.optionCustomize.dropdownSize.push({ label: "Tất cả", value: null })
+        resSize.data.map((x: any) => {
+          this.optionCustomize.dropdownSize.push({ label: x.name, value: x.name, id: x.id })
         })
 
         this.productsService.getListColor().subscribe((resColor) => {
           this.optionCustomize.dropdownColor = []
-          this.optionCustomize.dropdownColor.push({label: "Tất cả", value: null})
-          resColor.data.map((x:any)=>{
-            this.optionCustomize.dropdownColor.push({label: x.name, value: x.name, id: x.id})
+          this.optionCustomize.dropdownColor.push({ label: "Tất cả", value: null })
+          resColor.data.map((x: any) => {
+            this.optionCustomize.dropdownColor.push({ label: x.name, value: x.name, id: x.id })
           })
 
           this.productsService.getListProduct().subscribe((res) => {
@@ -147,16 +148,16 @@ export class ProductsComponent implements OnInit {
 
 
             this.dataTable = this.dataTable.filter((x: any) => {
-                x.status = x.status === 1 ? true : false;
-                x.sale = x.sale === 1 ? true : false;
-                return x;
+              x.status = x.status === 1 ? true : false;
+              x.sale = x.sale === 1 ? true : false;
+              return x;
             });
 
             this.DataBroadcastService.changeMessage('hideLoadding');
           });
         });
       });
-    },errCate=>{
+    }, errCate => {
       this.DataBroadcastService.changeMessage('hideLoadding');
     });
   }
@@ -181,7 +182,7 @@ export class ProductsComponent implements OnInit {
     }
   }
 
-  changeStatus(type:string, id: string, data: any) {
+  changeStatus(type: string, id: string, data: any) {
     this.DataBroadcastService.changeMessage('showLoadding');
 
     let payload = {
@@ -194,49 +195,65 @@ export class ProductsComponent implements OnInit {
       .subscribe((res: any) => {
         this.DataBroadcastService.changeMessage('hideLoadding');
 
-          this.DataBroadcastService.changeAlert({
-            type: "success",
-            title:"Thành công",
-            message: res.message
-          });
-        }, err=> {
-          this.DataBroadcastService.changeMessage('hideLoadding');
+        this.DataBroadcastService.changeAlert({
+          type: "success",
+          title: "Thành công",
+          message: res.message
+        });
+      }, err => {
+        this.DataBroadcastService.changeMessage('hideLoadding');
 
-          this.DataBroadcastService.changeAlert({
-            type: "error",
-            title:"Thất bại",
-            message: err.error.message
-          });
-        }
+        this.DataBroadcastService.changeAlert({
+          type: "error",
+          title: "Thất bại",
+          message: err.error.message
+        });
+      }
       );
   }
 
   addNew(data: any, type: string): void {
-    const dialogRef = this.dialog.open(AddOrEditProductComponent, {
-      width: '70%',
-      height: '90vh',
-      data: {
-        type: type,
-        header:
-          type === 'add'
-            ? 'Thêm mới'
-            : type === 'view'
-            ? 'Xem chi tiết'
-            : 'Chỉnh sửa',
+    if (type === 'add' || type === 'view' || type === 'edit') {
+      const dialogRef = this.dialog.open(AddOrEditProductComponent, {
+        width: '70%',
+        height: '90vh',
         data: {
-          id: data.id,
-          listSize: this.optionCustomize.dropdownSize,
-          listCategory: this.optionCustomize.dropdownCategory,
-          listColor: this.optionCustomize.dropdownColor,
+          type: type,
+          header:
+            type === 'add'
+              ? 'Thêm mới'
+              : type === 'view'
+                ? 'Xem chi tiết'
+                : 'Chỉnh sửa',
+          data: {
+            id: data.id,
+            listSize: this.optionCustomize.dropdownSize,
+            listCategory: this.optionCustomize.dropdownCategory,
+            listColor: this.optionCustomize.dropdownColor,
+          },
         },
-      },
-    });
+      });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.loadData();
-      }
-    });
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result) {
+          this.loadData();
+        }
+      });
+    } else {
+
+      const dialogRef = this.dialog.open(ImportProductComponent, {
+        width: '70%',
+        height: '500px',
+      });
+
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result) {
+          this.loadData();
+        }
+      });
+
+    }
+
   }
 
   removeItems(id: string): void {

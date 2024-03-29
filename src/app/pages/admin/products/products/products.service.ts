@@ -53,4 +53,8 @@ export class productsService {
     return this.http.get(`${environment.BASE_URL_BE}/products/${id}`)
   }
  
+  importProduct(body:any): Observable<any> {
+    return this.http.post(`${environment.BASE_URL_BE}/import-data`,body)
+  }
+
 }

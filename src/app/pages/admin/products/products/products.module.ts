@@ -11,7 +11,7 @@ import { TableNameConfigModule } from 'src/app/components/admin/table-name-confi
 @NgModule({
   declarations: [
     ProductsComponent,
-    DialogConfirmProductComponent
+    DialogConfirmProductComponent,
   ],
   imports: [
     CommonModule,
