@@ -2,24 +2,41 @@
     <h2 mat-dialog-title class="text-center mb-4">
         Import sản phẩm
     </h2>
-    <form #userForm="ngForm">
+    <form [formGroup]="userForm">
         <div class="row">
             <div class="col-12 mb-3">
-                <mat-form-field class="example-full-width">
-                    <mat-label>Link sản phẩm</mat-label>
-                    <input matInput type="text" name="url" required #url="ngModel" [(ngModel)]="data.url"
-                        placeholder="Link sản phẩm" required />
-                </mat-form-field>
-                <app-errors-message [control]="url.control" [name]="'Link sản phẩm'"></app-errors-message>
+                <div class="col-12 mb-3">
+                    <button mat-icon-button color="primary" (click)="addLink()">
+                        <i class="material-icons">add</i>
+                    </button>
+                </div>
             </div>
+
+            <div class="col-12 " formArrayName="urls">
+                <div class="row mb-3" *ngFor="let link of linkForms.controls; let i = index" [formGroupName]="i">
+                    <div class="col-11">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Link sản phẩm {{ i + 1 }}</mat-label>
+                            <input matInput type="text" formControlName="link" placeholder="Link sản phẩm" required />
+                        </mat-form-field>
+                        <app-errors-message [control]="link.get('link')" [name]="'Link sản phẩm'"></app-errors-message>
+                    </div>
+                    <div class="col-1">
+                        <button mat-icon-button color="warn" (click)="removeLink(i)">
+                            <i class="material-icons">remove_circle_outline</i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
             <div class="col-12 mb-3">
                 <mat-form-field class="example-full-width">
                     <mat-label>Tỉ giá</mat-label>
-                    <input matInput type="number" name="rate" required #rate="ngModel" [(ngModel)]="data.rate"
-                        placeholder="1 SDG = ... VNĐ" required />
+                    <input matInput type="number" formControlName="rate" placeholder="1 SDG = ... VNĐ" required />
                 </mat-form-field>
-                <app-errors-message [control]="rate.control" [name]="'Tỉ giá'"></app-errors-message>
+                <app-errors-message [control]="userForm.get('rate')" [name]="'Tỉ giá'"></app-errors-message>
             </div>
+
             <div class="col-12 d-flex justify-content-center">
                 <button mat-raised-button color="primary" [disabled]="!userForm.valid" (click)="onSubmit()">
                     Import
@@ -27,6 +44,4 @@
             </div>
         </div>
     </form>
-
-
-</div> 
+</div>

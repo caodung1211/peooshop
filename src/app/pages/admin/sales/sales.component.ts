@@ -39,7 +39,8 @@ export class SalesComponent implements OnInit, OnDestroy {
     discount: 0,
     shipping_price: 0,
     totalOrder: 0,
-    note: ''
+    note: '',
+    isOrder: false
   };
 
   code_discount = '';
@@ -72,9 +73,9 @@ export class SalesComponent implements OnInit, OnDestroy {
     public salesService: salesService,
     private productsService: productsService,
     private managementCollabService: managementCollabService,
-    private DataBroadcastService:DataBroadcastService,
-    private ordersService:ordersService
-  ) {}
+    private DataBroadcastService: DataBroadcastService,
+    private ordersService: ordersService
+  ) { }
 
   ngOnInit() {
     this.listCity = tinh;
@@ -151,23 +152,23 @@ export class SalesComponent implements OnInit, OnDestroy {
         x.stock = x.stock_status === 1 ? 'Còn hàng' : 'Hết hàng';
         return x;
       });
-    this.DataBroadcastService.changeMessage('hideLoadding');
+      this.DataBroadcastService.changeMessage('hideLoadding');
 
     });
 
     this.managementCollabService.getListAllUser().subscribe((res) => {
-      
+
       this.listUser = res.data.map((x: any) => {
         x.label = x.name;
         x.value = x.id;
         return x;
       });
-      this.listUser.unshift({label: '-- Tên khách hàng/CTV --',value: ''})
+      this.listUser.unshift({ label: '-- Tên khách hàng/CTV --', value: '' })
     });
   }
 
-  getListChannels(){
-    this.ordersService.getListChannels().subscribe(res=>{
+  getListChannels() {
+    this.ordersService.getListChannels().subscribe(res => {
       this.listChannels = res.data
       console.log(this.listChannels)
     })
@@ -192,8 +193,8 @@ export class SalesComponent implements OnInit, OnDestroy {
     // );
   }
 
-  onChangeUserName(userId:any) {
-    let customer = this.listUser.filter((x:any)=>{
+  onChangeUserName(userId: any) {
+    let customer = this.listUser.filter((x: any) => {
       return x.id === userId
     })
     this.currentData.userId = customer[0].id
@@ -230,9 +231,9 @@ export class SalesComponent implements OnInit, OnDestroy {
     this.DataBroadcastService.changeMessage('showLoadding');
 
     this.currentOrder.discount_code = this.currentOrder.discount > 0 ? this.code_discount : ''
-    this.currentOrder.created_by_channel = this.currentData.created_by_channel 
+    this.currentOrder.created_by_channel = this.currentData.created_by_channel
 
-    
+
     this.listCartOrder.discount_code = this.currentOrder.discount > 0 ? this.code_discount : ''
 
 
@@ -244,7 +245,7 @@ export class SalesComponent implements OnInit, OnDestroy {
     // console.log(payload)
 
     this.salesService.creatrOrder(payload).subscribe(
-      res=>{
+      res => {
         this.DataBroadcastService.changeAlert({
           type: 'success',
           title: 'Thành công',
@@ -254,16 +255,16 @@ export class SalesComponent implements OnInit, OnDestroy {
         this.getListProduct()
         // this.DataBroadcastService.changeMessage('hideLoadding');
       },
-      err=>{
-        if(err.status === 401){
-          err.error.map((x:any)=>{
+      err => {
+        if (err.status === 401) {
+          err.error.map((x: any) => {
             this.DataBroadcastService.changeAlert({
               type: 'error',
               title: 'Thất bại',
               message: x + ' đang hết hàng. Vui lòng kiểm tra lại!',
             });
           })
-        }else{
+        } else {
           this.DataBroadcastService.changeAlert({
             type: 'error',
             title: 'Thất bại',
@@ -275,7 +276,7 @@ export class SalesComponent implements OnInit, OnDestroy {
     )
   }
 
-  resetForm(){
+  resetForm() {
     this.currentData = {
       userId: '',
       name: '',
@@ -295,7 +296,8 @@ export class SalesComponent implements OnInit, OnDestroy {
       discount: 0,
       shipping_price: 0,
       totalOrder: 0,
-      note: ''
+      note: '',
+      isOrder: false
     };
   }
 
@@ -322,7 +324,7 @@ export class SalesComponent implements OnInit, OnDestroy {
           }
           return x;
         });
-        if(!loaddata){
+        if (!loaddata) {
           this.currentData.districts = null;
           this.currentData.wards = null;
         }
@@ -331,7 +333,7 @@ export class SalesComponent implements OnInit, OnDestroy {
       case 'districts':
         this.listWards = [];
 
-        if(!loaddata){
+        if (!loaddata) {
           this.currentData.wards = null;
         }
 
@@ -361,16 +363,16 @@ export class SalesComponent implements OnInit, OnDestroy {
     }
   }
 
-  changeUserOld(){
+  changeUserOld() {
     this.currentData = {}
   }
 
-  removeItemCart(id:string){
-    this.listCartOrder = this.listCartOrder.filter((x:any)=>{
+  removeItemCart(id: string) {
+    this.listCartOrder = this.listCartOrder.filter((x: any) => {
       return x.id !== id
     })
     this.countOrder();
   }
 
-  ngOnDestroy() {}
+  ngOnDestroy() { }
 }
