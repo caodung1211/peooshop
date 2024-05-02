@@ -62,9 +62,9 @@ export class AddOrEditProductComponent {
     color: [],
   };
 
-  tempCategory: any = []
-  tempSize: any = []
-  tempColor: any = []
+  tempCategory: any = ''
+  tempSize: any = ''
+  tempColor: any = ''
   tempGallery: any = []
 
   lightBoxImg = false
@@ -143,18 +143,10 @@ export class AddOrEditProductComponent {
       res.data.gallery.map((x: any, index: number) => {
         this.tempGallery.push({ img: x, id: index })
       })
-      // this.tempCategory = [12,13,14]
-      this.tempCategory = this.currentData.category.split(',').map((x: any) => {
-        return parseInt(x, 10)
-      });
 
-      this.tempSize = this.currentData.size.split(',').map((x: any) => {
-        return parseInt(x, 10)
-      });;
-
-      this.tempColor = this.currentData.color.split(',').map((x: any) => {
-        return parseInt(x, 10)
-      });;
+      this.currentData.category = Number(this.currentData.category);
+      this.currentData.size = Number(this.currentData.size);
+      this.currentData.color = Number(this.currentData.color);
 
       this.currentData.status = this.currentData.status === 1 ? true : false;
       this.currentData.sale = this.currentData.sale === 1 ? true : false;
@@ -167,15 +159,6 @@ export class AddOrEditProductComponent {
 
   onSubmit(type: string) {
     this.DataBroadcastService.changeMessage('showLoadding');
-    this.currentData.category = this.tempCategory.map((x: any) => {
-      return x = x = x > 10 ? (x > 100 ? x : '0' + x) : '00' + x
-    }).toString();
-    this.currentData.size = this.tempSize.map((x: any) => {
-      return x = x > 10 ? (x > 100 ? x : '0' + x) : '00' + x
-    }).toString();
-    this.currentData.color = this.tempColor.map((x: any) => {
-      return x = x = x > 10 ? (x > 100 ? x : '0' + x) : '00' + x
-    }).toString();
 
     if (this.imgFile) {
       const formdata = new FormData();
@@ -437,10 +420,10 @@ export class AddOrEditProductComponent {
     this.editorData = event;
   }
 
-   onChange( { editor }:any ) {
+  onChange({ editor }: any) {
     const data = editor.getData();
 
     this.currentData.description = JSON.stringify(data);
 
-}
+  }
 }
