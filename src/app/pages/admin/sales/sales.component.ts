@@ -127,7 +127,8 @@ export class SalesComponent implements OnInit, OnDestroy {
           avatar: item.avatar,
           name: item.name,
           price: item.sale === 1 ? item.price_sale : item.price,
-          branch: item.branch
+          branch: item.branch,
+          isEdit: false
         })
       }
     } else {
@@ -137,7 +138,8 @@ export class SalesComponent implements OnInit, OnDestroy {
         avatar: item.avatar,
         name: item.name,
         price: item.sale === 1 ? item.price_sale : item.price,
-        branch: item.branch
+        branch: item.branch,
+        isEdit: false
       })
     }
 
@@ -370,6 +372,28 @@ export class SalesComponent implements OnInit, OnDestroy {
   removeItemCart(id: string) {
     this.listCartOrder = this.listCartOrder.filter((x: any) => {
       return x.id !== id
+    })
+    this.countOrder();
+  }
+
+  editPrice(id: string) {
+    this.listCartOrder.map((x: any) => {
+      if (x.id === id) {
+        x.isEdit = true
+      }
+
+      return x
+    })
+    this.countOrder();
+  }
+
+  onBlur(id: String, new_price: any) {
+    this.listCartOrder.map((x: any) => {
+      if (x.id === id) {
+        x.isEdit = false
+        x.price = new_price
+      }
+      return x
     })
     this.countOrder();
   }

@@ -235,10 +235,16 @@
                     <a [routerLink]="'/san-pham/' + item.id" target="_blank" class="nav-link">
                       {{ item.name }}
                     </a>
-                    <div class="price text-muted">
-                      Total: {{ item.total | pricePipe }}
+                    <div class="price text-muted d-flex">
+                      <span style="padding-right: 10px;">Total:</span>
+                      <div *ngIf="!item.isEdit">{{ item.total | pricePipe }}</div><br>
+                      <input type="number" [value]="item.total" [(ngModel)]="item.total" class="form-control" required
+                        (blur)="onBlur(item.id,$event.target.value)" *ngIf="item.isEdit">
                     </div>
                   </div>
+                  <span class="removeItem" style="right: 32px;font-size: 10px;"><i class="pi pi-pencil"
+                      (click)="editPrice(item.id)"></i></span>
+
                   <span class="removeItem"><i class="pi pi-times" (click)="removeItemCart(item.id)"></i></span>
                 </div>
               </div>
