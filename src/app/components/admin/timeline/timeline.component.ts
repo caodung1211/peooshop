@@ -26,6 +26,8 @@ export class TimelineComponent implements OnInit,OnChanges {
         x.status_order = "Hoàn thành";
       }else if(x.status_order === 0){
         x.status_order = "Hủy";
+      }  else if(x.status_order === 5){
+        x.status_order = "Order";
       }
       return x;
     });  

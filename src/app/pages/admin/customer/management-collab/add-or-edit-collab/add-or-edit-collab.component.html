@@ -5,80 +5,41 @@
   <form #userForm="ngForm">
     <div class="row">
       <div class="col-12">
-        <label
-          for="avatar"
-          class="img cursor-pointer"
-          *ngIf="data.type !== 'view'"
-        >
-          <img
-            [src]="
+        <label for="avatar" class="img cursor-pointer" *ngIf="data.type !== 'view'">
+          <img [src]="
               currentData.avatar
                 ? currentData.avatar
                 : '../../../../../assets/images/no_image.png'
-            "
-          />
+            " />
         </label>
-        <input
-          name="imageUrl"
-          type="file"
-          accept="image/*"
-          id="avatar"
-          (change)="handleInputChange($event)"
-          style="display: none"
-          *ngIf="data.type !== 'view'"
-        />
+        <input name="imageUrl" type="file" accept="image/*" id="avatar" (change)="handleInputChange($event)"
+          style="display: none" *ngIf="data.type !== 'view'" />
 
-        <img
-          [src]="
+        <img [src]="
             currentData.avatar
               ? currentData.avatar
               : '../../../../../assets/images/no_image.png'
-          "
-          *ngIf="data.type === 'view'"
-          class="img"
-        />
+          " *ngIf="data.type === 'view'" class="img" />
       </div>
 
       <div class="col-12 d-flex mb-3">
         <div class="col-6" style="padding-right: 10px">
           <mat-form-field class="example-full-width">
             <mat-label>Tên CTV</mat-label>
-            <input
-              matInput
-              type="text"
-              name="name"
-              #name="ngModel"
-              [readonly]="data.type === 'view'"
-              [(ngModel)]="currentData.name"
-              placeholder="Tên CTV" required
-            />
+            <input matInput type="text" name="name" #name="ngModel" [readonly]="data.type === 'view'"
+              [(ngModel)]="currentData.name" placeholder="Tên CTV" required />
           </mat-form-field>
-          <app-errors-message
-            [control]="name.control"
-            [name]="'Tên CTV'"
-          ></app-errors-message>
+          <app-errors-message [control]="name.control" [name]="'Tên CTV'"></app-errors-message>
         </div>
         <div class="col-6" style="padding-left: 10px">
           <mat-form-field>
             <mat-label>Role</mat-label>
-            <mat-select
-              name="role"
-              [(ngModel)]="currentData.role"
-              #role="ngModel"
-              required
-              [disabled]="data.type === 'view'" required
-            >
-              <mat-option
-                *ngFor="let item of optionRole"
-                [value]="item.value"
-                >{{ item.label }}</mat-option
-              >
+            <mat-select name="role" [(ngModel)]="currentData.role" #role="ngModel" required
+              [disabled]="data.type === 'view'" required>
+              <mat-option *ngFor="let item of optionRole" [value]="item.value">{{ item.label }}</mat-option>
             </mat-select>
           </mat-form-field>
-          <app-errors-message
-            [control]="role.control"
-            [name]="'Role'"
-          ></app-errors-message>
+          <app-errors-message [control]="role.control" [name]="'Role'"></app-errors-message>
         </div>
       </div>
 
@@ -86,76 +47,48 @@
         <div class="col-6" style="padding-right: 10px">
           <mat-form-field class="example-full-width">
             <mat-label>Tên đăng nhập</mat-label>
-            <input
-              matInput
-              type="text"
-              name="username"
-              #username="ngModel"
-              [readonly]="data.type !== 'add'"
-              [(ngModel)]="currentData.username"
-              placeholder="Tên đăng nhập" required
-            />
+            <input matInput type="text" name="username" #username="ngModel" [readonly]="data.type !== 'add'"
+              [(ngModel)]="currentData.username" placeholder="Tên đăng nhập" required />
           </mat-form-field>
-          <app-errors-message
-            [control]="username.control"
-            [name]="'Tên đăng nhập'"
-          ></app-errors-message>
+          <app-errors-message [control]="username.control" [name]="'Tên đăng nhập'"></app-errors-message>
         </div>
         <div class="col-6" style="padding-left: 10px">
-          <!-- <mat-form-field class="example-full-width">
-            <mat-label>Mật khẩu</mat-label>
-            <input
-              matInput
-              type="text"
-              name="password"
-              #password="ngModel"
-              [readonly]="data.type !== 'add'"
-              [(ngModel)]="currentData.password"
-              placeholder="Mật khẩu" required
-            />
-          </mat-form-field> -->
           <mat-form-field>
             <mat-label>Tỉnh/Thành phố</mat-label>
-            <mat-select name="city" #city="ngModel" [disabled]="data.type === 'view'" [(ngModel)]="currentData.city" (ngModelChange)="changeOptionCity('city')" required>
+            <mat-select name="city" #city="ngModel" [disabled]="data.type === 'view'" [(ngModel)]="currentData.city"
+              (ngModelChange)="changeOptionCity('city')" required>
               <mat-option *ngFor="let item of listCity" [value]="item.Id">
                 {{ item.Name }}
               </mat-option>
             </mat-select>
           </mat-form-field>
-          <app-errors-message
-            [control]="city.control"
-            [name]="'Tỉnh/Thành phố'"
-          ></app-errors-message>
+          <app-errors-message [control]="city.control" [name]="'Tỉnh/Thành phố'"></app-errors-message>
         </div>
       </div>
       <div class="col-12 d-flex mb-3">
         <div class="col-6" style="padding-right: 10px">
           <mat-form-field>
             <mat-label>Quận/Huyện</mat-label>
-            <mat-select name="districts" #districts="ngModel" [disabled]="data.type === 'view'" [(ngModel)]="currentData.districts" (ngModelChange)="changeOptionCity('districts')" required>
+            <mat-select name="districts" #districts="ngModel" [disabled]="data.type === 'view'"
+              [(ngModel)]="currentData.districts" (ngModelChange)="changeOptionCity('districts')" required>
               <mat-option *ngFor="let item of listDistricts" [value]="item.Id">
                 {{ item.Name }}
               </mat-option>
             </mat-select>
           </mat-form-field>
-          <app-errors-message
-            [control]="districts.control"
-            [name]="'Quận/Huyện'"
-          ></app-errors-message>
+          <app-errors-message [control]="districts.control" [name]="'Quận/Huyện'"></app-errors-message>
         </div>
         <div class="col-6" style="padding-left: 10px">
           <mat-form-field>
             <mat-label>Phường</mat-label>
-            <mat-select name="wards" #wards="ngModel" [disabled]="data.type === 'view'" [(ngModel)]="currentData.wards" required>
+            <mat-select name="wards" #wards="ngModel" [disabled]="data.type === 'view'" [(ngModel)]="currentData.wards"
+              required>
               <mat-option *ngFor="let item of listWards" [value]="item.Id">
                 {{ item.Name }}
               </mat-option>
             </mat-select>
           </mat-form-field>
-          <app-errors-message
-            [control]="wards.control"
-            [name]="'Phường '"
-          ></app-errors-message>
+          <app-errors-message [control]="wards.control" [name]="'Phường '"></app-errors-message>
         </div>
       </div>
 
@@ -163,34 +96,17 @@
         <div class="col-6" style="padding-right: 10px">
           <mat-form-field class="example-full-width">
             <mat-label>Tổng đơn hàng</mat-label>
-            <input
-              matInput
-              type="number"
-              name="totalOrder"
-              #totalOrder="ngModel"
-              [readonly]="data.type === 'view'"
-              [(ngModel)]="currentData.total_order"
-              placeholder="Tổng đơn hàng" required
-            />
+            <input matInput type="number" name="totalOrder" #totalOrder="ngModel" [readonly]="data.type === 'view'"
+              [(ngModel)]="currentData.total_order" placeholder="Tổng đơn hàng" required />
           </mat-form-field>
-          <app-errors-message
-            [control]="totalOrder.control"
-            [name]="'Tổng đơn hàng'"
-          ></app-errors-message>
+          <app-errors-message [control]="totalOrder.control" [name]="'Tổng đơn hàng'"></app-errors-message>
         </div>
         <div class="col-6" style="padding-left: 10px">
-            <mat-form-field class="example-full-width">
-                <mat-label>Tổng doanh thu</mat-label>
-                <input
-                  matInput
-                  type="number"
-                  name="totalSales"
-                  #totalSales="ngModel"
-                  [readonly]="data.type === 'view'"
-                  [(ngModel)]="currentData.total_sales"
-                  placeholder="Tổng doanh thu" required
-                />
-              </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <mat-label>Tổng doanh thu</mat-label>
+            <input matInput type="number" name="totalSales" #totalSales="ngModel" [readonly]="data.type === 'view'"
+              [(ngModel)]="currentData.total_sales" placeholder="Tổng doanh thu" required />
+          </mat-form-field>
         </div>
       </div>
 
@@ -198,72 +114,61 @@
         <div class="col-6" style="padding-right: 10px">
           <mat-form-field class="example-full-width">
             <mat-label>Địa chỉ</mat-label>
-            <input
-              matInput
-              type="text"
-              name="address"
-              #address="ngModel"
-              [readonly]="data.type === 'view'"
-              [(ngModel)]="currentData.address"
-              placeholder="Địa chỉ" required
-            />
+            <input matInput type="text" name="address" #address="ngModel" [readonly]="data.type === 'view'"
+              [(ngModel)]="currentData.address" placeholder="Địa chỉ" required />
           </mat-form-field>
-          <app-errors-message
-            [control]="address.control"
-            [name]="'Địa chỉ'"
-          ></app-errors-message>
+          <app-errors-message [control]="address.control" [name]="'Địa chỉ'"></app-errors-message>
         </div>
         <div class="col-6" style="padding-left: 10px">
-            <mat-form-field>
-                <mat-label>Ngày sinh</mat-label>
-                <input matInput [matDatepicker]="picker" name="birthday_date" [disabled]="data.type === 'view'" #birthday_date="ngModel" [(ngModel)]="currentData.birthday_date" required>
-                <mat-datepicker-toggle matIconSuffix [for]="picker" [disabled]="data.type === 'view'"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-              </mat-form-field>
-              <app-errors-message
-            [control]="birthday_date.control"
-            [name]="'Ngày sinh'"
-          ></app-errors-message>
+          <mat-form-field>
+            <mat-label>Ngày sinh</mat-label>
+            <input matInput [matDatepicker]="picker" name="birthday_date" [disabled]="data.type === 'view'"
+              #birthday_date="ngModel" [(ngModel)]="currentData.birthday_date" required>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"
+              [disabled]="data.type === 'view'"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+          <app-errors-message [control]="birthday_date.control" [name]="'Ngày sinh'"></app-errors-message>
         </div>
       </div>
 
       <div class="col-12 d-flex mb-3">
 
         <div class="col-6" style="padding-right: 10px">
-            <mat-form-field>
-                <mat-label>Ngày tạo</mat-label>
-                <input matInput readonly name="created_date" #created_date="ngModel" [(ngModel)]="currentData.created_date">
-            </mat-form-field>
+          <mat-form-field>
+            <mat-label>Ngày tạo</mat-label>
+            <input matInput readonly name="created_date" #created_date="ngModel" [(ngModel)]="currentData.created_date">
+          </mat-form-field>
         </div>
 
         <div class="col-6 d-flex" style="padding-left: 10px">
-            <mat-form-field class="example-full-width">
-              <mat-label>Số điện thoại</mat-label>
-              <input
-                matInput
-                type="text"
-                name="phone"
-                #phone="ngModel"
-                [readonly]="data.type === 'view'"
-                [(ngModel)]="currentData.phone"
-                placeholder="Số điện thoại" required
-              />
-            </mat-form-field>
-            <app-errors-message
-              [control]="phone.control"
-              [name]="'Số điện thoại'"
-            ></app-errors-message>
+          <mat-form-field class="example-full-width">
+            <mat-label>Số điện thoại</mat-label>
+            <input matInput type="text" name="phone" #phone="ngModel" [readonly]="data.type === 'view'"
+              [(ngModel)]="currentData.phone" placeholder="Số điện thoại" required />
+          </mat-form-field>
+          <app-errors-message [control]="phone.control" [name]="'Số điện thoại'"></app-errors-message>
         </div>
       </div>
 
       <div class="col-12 d-flex mb-3">
+        <div class="col-6 d-flex" style="padding-right: 10px">
+          <mat-form-field class="example-full-width">
+            <mat-label>Mật khẩu</mat-label>
+            <input matInput type="text" name="password" #password="ngModel" [readonly]="data.type !== 'add'"
+              [(ngModel)]="currentData.password" placeholder="Mật khẩu" required />
+          </mat-form-field>
+          <app-errors-message [control]="password.control" [name]="'Mật khẩu'"></app-errors-message>
+        </div>
+      </div>
+
+
+
+      <div class="col-12 d-flex mb-3">
         <div class="col-6  d-flex gap-3" style="padding-right: 10px">
           <mat-label>Trạng thái</mat-label>
-          <p-inputSwitch
-            name="status"
-            [(ngModel)]="currentData.status" 
-            [disabled]="data.type === 'view'"
-          ></p-inputSwitch>
+          <p-inputSwitch name="status" [(ngModel)]="currentData.status"
+            [disabled]="data.type === 'view'"></p-inputSwitch>
         </div>
 
         <div class="col-6" style="padding-left: 10px">
@@ -272,7 +177,7 @@
             <span>{{currentData?.last_active | dateActivePipe}}</span>
           </div>
         </div>
-        
+
         <!-- <mat-slide-toggle
           [checked]="currentData.status"
           name="status"
@@ -280,19 +185,11 @@
           
         ></mat-slide-toggle> -->
 
-        
+
       </div>
-      <div
-        class="col-12 d-flex gap-3 mt-4 justify-content-center"
-        *ngIf="data.type !== 'view'"
-      >
+      <div class="col-12 d-flex gap-3 mt-4 justify-content-center" *ngIf="data.type !== 'view'">
         <button mat-flat-button color="primary" (click)="cancel()">Hủy</button>
-        <button
-          mat-raised-button
-          color="primary"
-          [disabled]="!userForm.valid"
-          (click)="onSubmit(data.type)"
-        >
+        <button mat-raised-button color="primary" [disabled]="!userForm.valid" (click)="onSubmit(data.type)">
           Lưu
         </button>
       </div>

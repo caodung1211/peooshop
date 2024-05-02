@@ -20,6 +20,8 @@ export class EditOrderComponent implements OnInit {
 
   listAddress:any = []
 
+  isEdit: boolean = false;
+
   constructor(
     private DataBroadcastService: DataBroadcastService,
     private route: ActivatedRoute,
@@ -84,7 +86,10 @@ export class EditOrderComponent implements OnInit {
           this.currentData.status_order = "Hoàn thành";
         }else if(this.currentData.status_order === 0){
           this.currentData.status_order = "Hủy";
+        }else if(this.currentData.status_order === 5){
+          this.currentData.status_order = "Order";
         }
+
         this.currentData.created_by = this.currentData.author;
         this.currentData.update_by = this.currentData.author_update;
 
@@ -113,6 +118,10 @@ export class EditOrderComponent implements OnInit {
     this.ordersService.getListChannels().subscribe(res=>{
       
     })
+  }
+
+  changeEdit(){
+    this.isEdit = !this.isEdit;
   }
 
   handleColor(type:string):any{

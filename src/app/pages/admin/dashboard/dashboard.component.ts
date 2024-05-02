@@ -46,7 +46,7 @@ export class DashboardComponent implements OnInit {
   constructor(
     private dashboardService: dashboardService,
     private DataBroadcastService: DataBroadcastService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.loadData(moment().format('YYYY-MM-DD'));
@@ -64,16 +64,17 @@ export class DashboardComponent implements OnInit {
         this.dataCount[3].number = res.totalCollab;
 
         this.data_order = {
-          labels: ['Chờ xử lý', 'Đang xử lý', 'Đang giao hàng'],
+          labels: ['Order', 'Chờ xử lý', 'Đang xử lý', 'Đang giao hàng'],
           datasets: [
             {
               data: [
+                res.pre_order,
                 res.order_waiting,
                 res.order_processing,
                 res.order_delivering,
               ],
-              backgroundColor: ['#fdc14d', '#36a3f7', '#2bcb98'],
-              hoverBackgroundColor: ['#fdc14d', '#36a3f7', '#2bcb98'],
+              backgroundColor: ['#000000', '#fdc14d', '#36a3f7', '#2bcb98'],
+              hoverBackgroundColor: ['#000000', '#fdc14d', '#36a3f7', '#2bcb98'],
             },
           ],
         };

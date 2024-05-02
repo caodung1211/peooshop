@@ -63,6 +63,7 @@ export class TableBaseLayoutComponent
     ],
     statusOrder: [
       { label: 'Tất cả', value: null },
+      { label: 'Order', value: 'Order' },
       { label: 'Chờ xử lý', value: 'Chờ xử lý' },
       { label: 'Đang xử lý', value: 'Đang xử lý' },
       { label: 'Đang giao hàng', value: 'Đang giao hàng' },
@@ -77,6 +78,7 @@ export class TableBaseLayoutComponent
   };
 
   onChangeStatusOrder = [
+    { label: 'Order', value: 'Order',id: 5 },
     { label: 'Chờ xử lý', value: 'Chờ xử lý',id: 1 },
     { label: 'Đang xử lý', value: 'Đang xử lý',id: 2 },
     { label: 'Đang giao hàng', value: 'Đang giao hàng',id: 3},
