@@ -6,6 +6,7 @@ import { SharedPipeModule } from 'src/app/shared/sharedPipe.module';
 import { FormsModule } from '@angular/forms';
 import { DateCustomPipePipesModule } from 'src/app/pipes/dataPipe.pipe';
 import { TimelineModule } from 'src/app/components/admin/timeline/timeline.module';
+import { ErrorsMessageModule } from 'src/app/components/admin/errors-message/errors-message.module';
 
 
 
@@ -25,7 +26,8 @@ import { TimelineModule } from 'src/app/components/admin/timeline/timeline.modul
     SharedPipeModule,
     FormsModule,
     DateCustomPipePipesModule,
-    TimelineModule
+    TimelineModule,
+    ErrorsMessageModule
   ],
   exports: [EditOrderComponent]
 })

@@ -16,16 +16,20 @@
             </div>
             <div class="col-6 col-md-3">
                 <p>Trạng thái đơn hàng</p>
-                <p [ngStyle]="{ 'color': handleColor(currentData.status_order)}" >{{currentData.status_order}}</p>
+                <p [ngStyle]="{ 'color': handleColor(currentData.status_order)}">{{currentData.status_order}}</p>
             </div>
             <div class="col-6 col-md-3">
                 <p>Kênh bán hàng</p>
                 <p>{{currentData.created_by_channel}}</p>
             </div>
+            <div class="col-6 col-md-3">
+                <p>Nguồn hàng</p>
+                <p>{{currentData.product_source}}</p>
+            </div>
         </div>
     </div>
-    
-    
+
+
     <div class="list-product">
         <p class="title-box">
             Danh sách sản phẩm
@@ -61,7 +65,7 @@
                     </tr>
                     <tr *ngIf="currentData.shipping_price > 0">
                         <td colspan="4" style="text-align: left;">
-                            <b>Hình thức giao hàng: <i>{{currentData.shipping}}</i></b> 
+                            <b>Hình thức giao hàng: <i>{{currentData.shipping}}</i></b>
                         </td>
                         <td colspan="2" style="text-align: right;">
                             <b><i style="color: red;">{{currentData.shipping_price | pricePipe}}</i></b>
@@ -69,7 +73,7 @@
                     </tr>
                     <tr *ngIf="currentData.discount > 0">
                         <td colspan="4" style="text-align: left;">
-                            <b>Giảm giá ( Mã đã sử dụng - <i>{{currentData.discount_code}}</i> ) :</b> 
+                            <b>Giảm giá ( Mã đã sử dụng - <i>{{currentData.discount_code}}</i> ) :</b>
                         </td>
                         <td colspan="2" style="text-align: right;">
                             <b><i style="color: red;">{{currentData.discount | pricePipe}}</i></b>
@@ -89,16 +93,25 @@
     </div>
 
     <div class="customer">
-        <p class="title-box">
-            Thông tin khách hàng
-        </p>
+        <div class="d-flex" style="gap: 20px">
+            <p class="title-box">
+                Thông tin khách hàng
+            </p>
+            <div class="cursor-pointer" (click)="changeEdit()" *ngIf="!isEdit">
+                <i class="pi pi-pencil" style="font-size: 18px"></i>
+                <!-- <i class="pi pi-check-circle" *ngIf="isEdit" style="font-size: 18px"></i> -->
+            </div>
+        </div>
+
         <table>
             <tr>
                 <td>
                     Khách hàng
                 </td>
                 <td>
-                    {{currentData?.name}}
+                    <span *ngIf="!isEdit">{{currentData?.name}}</span>
+                    <input type="text" [value]="currentData.name" *ngIf="isEdit" [(ngModel)]="currentData.name"
+                        class="form-control" required (blur)="onBlur(currentData.id,$event.target.value)">
                 </td>
             </tr>
             <tr>
@@ -106,7 +119,9 @@
                     Số điện thoại
                 </td>
                 <td>
-                    {{currentData?.phone}}
+                    <span *ngIf="!isEdit">{{currentData?.phone}}</span>
+                    <input type="tel" [value]="currentData.phone" *ngIf="isEdit" [(ngModel)]="currentData.phone"
+                        class="form-control" required (blur)="onBlur(currentData.id,$event.target.value)">
                 </td>
             </tr>
             <tr>
@@ -114,7 +129,55 @@
                     Địa chỉ
                 </td>
                 <td>
-                    {{currentData?.address}}, {{listAddress[2]?.name}}, {{listAddress[1]?.name}}, {{listAddress[0]?.name}}
+                    <ng-container *ngIf="!isEdit">
+                        {{currentData?.address}}, {{listAddress[2]?.name}}, {{listAddress[1]?.name}},
+                        {{listAddress[0]?.name}}
+                    </ng-container>
+                    <div class="row" *ngIf="isEdit">
+                        <div class="col-4">
+                            <p class="mb-0">Tỉnh/Thành phố</p>
+                            <select class="form-select" name="city" #city="ngModel" [(ngModel)]="currentData.city"
+                                (ngModelChange)="changeOptionCity('city')" required>
+                                <option value="">-- Tỉnh/Thành phố --</option>
+                                <option *ngFor="let item of listCity" [value]="item.Id">
+                                    {{ item.Name }}
+                                </option>
+                            </select>
+                            <app-errors-message [control]="city.control" [name]="'Tỉnh/Thành phố'"></app-errors-message>
+                        </div>
+
+                        <div class="col-4">
+                            <p class="mb-0">Quận/Huyện </p>
+                            <select class="form-select" name="districts" #districts="ngModel"
+                                [(ngModel)]="currentData.districts" [disabled]="!currentData.city"
+                                (ngModelChange)="changeOptionCity('districts')" required>
+                                <option value="">-- Chọn Quận/Huyện --</option>
+                                <option *ngFor="let item of listDistricts" [value]="item.Id">
+                                    {{ item.Name }}
+                                </option>
+                            </select>
+                            <app-errors-message [control]="districts.control"
+                                [name]="'Quận/Huyện'"></app-errors-message>
+                        </div>
+
+                        <div class="col-4">
+                            <p class="mb-0">Phường </p>
+                            <select class="form-select" name="wards" #wards="ngModel" [(ngModel)]="currentData.wards"
+                                [disabled]="!currentData.districts" (ngModelChange)="changeOptionCity('wards')"
+                                required>
+                                <option value="">-- Chọn Phường --</option>
+                                <option *ngFor="let item of listWards" [value]="item.Id">
+                                    {{ item.Name }}
+                                </option>
+                            </select>
+                            <app-errors-message [control]="wards.control" [name]="'Phường'"></app-errors-message>
+                        </div>
+
+                        <div class="col-12 mt-2">
+                            <textarea type="tel" [value]="currentData.address" *ngIf="isEdit"
+                                [(ngModel)]="currentData.address" class="form-control" required></textarea>
+                        </div>
+                    </div>
                 </td>
             </tr>
             <tr>
@@ -122,10 +185,20 @@
                     Ghi chú đơn hàng
                 </td>
                 <td>
-                    {{currentData?.note}}
+                    <span *ngIf="!isEdit">{{currentData?.note}}</span>
+                    <textarea type="tel" [value]="currentData.note" *ngIf="isEdit" [(ngModel)]="currentData.note"
+                        class="form-control" required></textarea>
                 </td>
             </tr>
         </table>
+        <div class="d-flex">
+            <button class="btn border mt-2" style="background: #fff; color: #000;min-width: 100px;margin-right: 10px;" *ngIf="isEdit" (click)="changeEdit()">
+                Hủy
+            </button>
+            <button class="btn border mt-2" style="background: #000; color: #fff;min-width: 100px" *ngIf="isEdit" (click)="saveAddress()">
+                Lưu
+            </button>
+        </div>
     </div>
 
     <div class="time-line">

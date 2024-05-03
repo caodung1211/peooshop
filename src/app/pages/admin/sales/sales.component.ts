@@ -32,6 +32,7 @@ export class SalesComponent implements OnInit, OnDestroy {
     // isSaveAddress: false,
     shipping: 'GHTK',
     note: '',
+    product_source: ''
   };
 
   currentOrder: any = {
@@ -234,8 +235,8 @@ export class SalesComponent implements OnInit, OnDestroy {
 
     this.currentOrder.discount_code = this.currentOrder.discount > 0 ? this.code_discount : ''
     this.currentOrder.created_by_channel = this.currentData.created_by_channel
-
-
+    this.currentOrder.product_source = this.currentData.product_source
+    
     this.listCartOrder.discount_code = this.currentOrder.discount > 0 ? this.code_discount : ''
 
 
@@ -290,6 +291,7 @@ export class SalesComponent implements OnInit, OnDestroy {
       // isSaveAddress: false,
       shipping: 'GHTK',
       note: '',
+      product_source: ''
     };
     this.listCartOrder = []
     this.code_discount = ''

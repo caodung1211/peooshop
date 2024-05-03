@@ -34,6 +34,8 @@ export class ordersService {
     return this.http.post(`${environment.BASE_URL_BE}/products/${id}`,'')
   }
 
-  
+  updateOrder(id:any,body:any): Observable<any> {
+    return this.http.post(`${environment.BASE_URL_BE}/order/update/${id}` ,body)
+  }
 
 }
